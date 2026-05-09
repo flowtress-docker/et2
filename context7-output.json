@@ -1,0 +1,159 @@
+{
+  "resolved": [
+    {
+      "library": "KiCad",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Input validation error: Invalid arguments for tool resolve-library-id: [\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"query\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"
+          }
+        ],
+        "isError": true
+      }
+    },
+    {
+      "library": "PySpice",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Input validation error: Invalid arguments for tool resolve-library-id: [\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"query\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"
+          }
+        ],
+        "isError": true
+      }
+    },
+    {
+      "library": "skidl",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Input validation error: Invalid arguments for tool resolve-library-id: [\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"query\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"
+          }
+        ],
+        "isError": true
+      }
+    },
+    {
+      "library": "lcapy",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Input validation error: Invalid arguments for tool resolve-library-id: [\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"query\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"
+          }
+        ],
+        "isError": true
+      }
+    },
+    {
+      "library": "Qucs",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Input validation error: Invalid arguments for tool resolve-library-id: [\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"query\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"
+          }
+        ],
+        "isError": true
+      }
+    },
+    {
+      "library": "ngspice",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Input validation error: Invalid arguments for tool resolve-library-id: [\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"query\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"
+          }
+        ],
+        "isError": true
+      }
+    },
+    {
+      "library": "Xyce",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Input validation error: Invalid arguments for tool resolve-library-id: [\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"query\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"
+          }
+        ],
+        "isError": true
+      }
+    },
+    {
+      "library": "LTspice",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Input validation error: Invalid arguments for tool resolve-library-id: [\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"query\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"
+          }
+        ],
+        "isError": true
+      }
+    },
+    {
+      "library": "CircuitLab",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "MCP error -32602: Input validation error: Invalid arguments for tool resolve-library-id: [\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"query\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"
+          }
+        ],
+        "isError": true
+      }
+    }
+  ],
+  "docsResults": [
+    {
+      "library": "KiCad",
+      "skipped": true,
+      "reason": "No libraryId"
+    },
+    {
+      "library": "PySpice",
+      "skipped": true,
+      "reason": "No libraryId"
+    },
+    {
+      "library": "skidl",
+      "skipped": true,
+      "reason": "No libraryId"
+    },
+    {
+      "library": "lcapy",
+      "skipped": true,
+      "reason": "No libraryId"
+    },
+    {
+      "library": "Qucs",
+      "skipped": true,
+      "reason": "No libraryId"
+    },
+    {
+      "library": "ngspice",
+      "skipped": true,
+      "reason": "No libraryId"
+    },
+    {
+      "library": "Xyce",
+      "skipped": true,
+      "reason": "No libraryId"
+    },
+    {
+      "library": "LTspice",
+      "skipped": true,
+      "reason": "No libraryId"
+    },
+    {
+      "library": "CircuitLab",
+      "skipped": true,
+      "reason": "No libraryId"
+    }
+  ]
+}

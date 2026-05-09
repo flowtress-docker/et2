@@ -1,0 +1,8 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Available Libraries:\n\n- Title: spicelib\n- Context7-compatible library ID: /nunobrum/spicelib\n- Description: spicelib is a Python toolchain for interacting with SPICE simulators like LTspice, Ngspice, QSPICE, and Xyce, providing tools for editing netlists, running simulations in batch, and analyzing results.\n- Code Snippets: 576\n- Source Reputation: High\n- Benchmark Score: 85.2"
+    }
+  ]
+}
