@@ -11,7 +11,7 @@
     },
     {
       "id": "ldr",
-      "type": "wokwi-photoresistor",
+      "type": "wokwi-photoresistor-sensor",
       "top": -100,
       "left": -80,
       "attrs": {
@@ -28,16 +28,16 @@
   "connections": [
     ["uno:5V", "ldr:VCC", "red", ["v0"]],
     ["uno:GND.1", "ldr:GND", "black", ["v0"]],
-    ["ldr:SIG", "uno:A0", "orange", ["v0"]],
+    ["ldr:AO", "uno:A0", "orange", ["v0"]],
     ["uno:5V", "lcd:VDD", "red", ["v0"]],
     ["uno:GND.2", "lcd:VSS", "black", ["v0"]],
     ["uno:12", "lcd:RS", "blue", ["v0"]],
-    ["uno:11", "lcd:EN", "green", ["v0"]],
+    ["uno:11", "lcd:E", "green", ["v0"]],
     ["uno:10", "lcd:D4", "yellow", ["v0"]],
     ["uno:9", "lcd:D5", "yellow", ["v0"]],
     ["uno:8", "lcd:D6", "yellow", ["v0"]],
     ["uno:7", "lcd:D7", "yellow", ["v0"]],
-    ["uno:TX", "$serialMonitor:RX", "", []],
-    ["uno:RX", "$serialMonitor:TX", "", []]
+    ["uno:1", "$serialMonitor:RX", "", []],
+    ["uno:0", "$serialMonitor:TX", "", []]
   ]
 }

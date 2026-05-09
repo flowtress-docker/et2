@@ -15,6 +15,9 @@ from pathlib import Path
 
 from flask import Flask, jsonify, request, send_from_directory
 
+# Ensure wokwi-cli is discoverable regardless of shell PATH
+os.environ["PATH"] = "/Users/lab/bin:" + os.environ.get("PATH", "")
+
 app = Flask(__name__)
 
 # Paths
@@ -51,8 +54,7 @@ steps:
       part-id: ldr
       control: lux
       value: {lux_value}
-  - delay: 500ms
-  - wait-serial: 'LUX:'
+  - delay: 1500ms
 """
 
     with tempfile.NamedTemporaryFile(
