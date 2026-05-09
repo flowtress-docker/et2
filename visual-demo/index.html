@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wokwi CLI Demo Platform — Visual Overview</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --fg: #c9d1d9;
+      --accent: #58a6ff;
+      --border: #30363d;
+      --card: #161b22;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+    }
+    header {
+      padding: 3rem 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 { margin: 0; font-size: 2.5rem; color: var(--accent); }
+    header p { max-width: 600px; margin: 1rem auto 0; opacity: 0.8; }
+    main { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    .demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+    .demo-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.15s ease;
+    }
+    .demo-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .demo-card h3 { margin-top: 0; color: var(--accent); }
+    .demo-card code {
+      background: var(--bg);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+    .demo-card pre {
+      background: var(--bg);
+      padding: 0.75rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.8em;
+    }
+    .screenshots {
+      margin-top: 3rem;
+    }
+    .screenshots h2 { border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    .screenshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .screenshot-grid img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 0.4rem;
+      background: #238636;
+      color: #fff;
+    }
+    .badge.branch { background: #8957e5; }
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      opacity: 0.6;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔧 Wokwi CLI Demo Platform</h1>
+    <p>Automated, scriptable microcontroller simulations with real sensor emulation. Built with isolated git worktrees, TDD scenarios, and CI-ready artifacts.</p>
+  </header>
+
+  <main>
+    <section class="demo-grid">
+      <article class="demo-card">
+        <h3>🌡️ Smart Thermostat</h3>
+        <p><span class="badge">ESP32</span><span class="badge branch">demo/smart-thermostat</span></p>
+        <p>DHT22 temperature sensor drives an alarm LED when threshold exceeded. Demonstrates hysteresis and GPIO control.</p>
+        <pre><code>wokwi-cli . --scenario scenarios/demo.yaml</code></pre>
+      </article>
+
+      <article class="demo-card">
+        <h3>🚨 Motion Alarm</h3>
+        <p><span class="badge">ESP32</span><span class="badge branch">demo/motion-alarm</span></p>
+        <p>MPU6050 IMU detects shake events. Triggers buzzer + LED alarm with I2C communication.</p>
+        <pre><code>wokwi-cli . --scenario scenarios/demo.yaml</code></pre>
+      </article>
+
+      <article class="demo-card">
+        <h3>🪟 Auto-Blinds</h3>
+        <p><span class="badge">Arduino Uno</span><span class="badge branch">demo/auto-blinds</span></p>
+        <p>Photoresistor measures ambient light. Servo opens/closes blinds based on lux thresholds.</p>
+        <pre><code>wokwi-cli . --scenario scenarios/demo.yaml</code></pre>
+      </article>
+
+      <article class="demo-card">
+        <h3>🌤️ Weather Station</h3>
+        <p><span class="badge">RP2040 Pico</span><span class="badge branch">demo/weather-station</span></p>
+        <p>DHT22 + TM1637 7-segment display cycles temperature and humidity readings.</p>
+        <pre><code>wokwi-cli . --scenario scenarios/demo.yaml</code></pre>
+      </article>
+
+      <article class="demo-card">
+        <h3>👆 Touch UI</h3>
+        <p><span class="badge">ESP32-S3</span><span class="badge branch">demo/touch-ui</span></p>
+        <p>ILI9341 display with touch buttons controls RGB LED color. Serial fallback for automated testing.</p>
+        <pre><code>wokwi-cli . --scenario scenarios/demo.yaml</code></pre>
+      </article>
+    </section>
+
+    <section class="screenshots">
+      <h2>📸 Visual Evidence</h2>
+      <p>Screenshots captured from live Wokwi simulations using Puppeteer MCP.</p>
+      <div class="screenshot-grid">
+        <div>
+          <img src="screenshot-1-esp32-project.png" alt="ESP32 Hello World on Wokwi">
+          <p><small>ESP32 DevKit running in Wokwi browser simulator</small></p>
+        </div>
+        <div>
+          <img src="screenshot-2-esp32-sensor-mqtt.png" alt="ESP32 Sensor + MQTT">
+          <p><small>ESP32 with HC-SR04 ultrasonic sensor and MQTT IoT demo</small></p>
+        </div>
+        <div>
+          <img src="screenshot-3-wokwi-cli-docs.png" alt="Wokwi CLI Documentation">
+          <p><small>Official Wokwi CLI documentation — CI-driven simulation</small></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Generated by automated swarm agents • Isolated component branches • No staged integrations</p>
+  </footer>
+</body>
+</html>
