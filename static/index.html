@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Wokwi Light Sensor Demo</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --fg: #c9d1d9;
+      --accent: #58a6ff;
+      --border: #30363d;
+      --card: #161b22;
+      --lcd-bg: #5a6e3a;
+      --lcd-fg: #1a2e0a;
+      --slider-track: #30363d;
+      --slider-fill: #58a6ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    header {
+      padding: 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 { margin: 0; font-size: 2rem; color: var(--accent); }
+    header p { max-width: 600px; margin: 0.5rem auto 0; opacity: 0.8; }
+    main { max-width: 800px; margin: 0 auto; padding: 2rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .card h2 { margin-top: 0; font-size: 1.2rem; color: var(--accent); }
+
+    /* Light Source Controls */
+    .control-group { margin-bottom: 1.5rem; }
+    .control-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    input[type=range] {
+      flex: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 8px;
+      background: var(--slider-track);
+      border-radius: 4px;
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      background: var(--slider-fill);
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid var(--bg);
+    }
+    input[type=range]::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      background: var(--slider-fill);
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid var(--bg);
+    }
+    .value-badge {
+      min-width: 60px;
+      text-align: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+      font-weight: 600;
+      font-family: monospace;
+    }
+
+    /* LCD Display */
+    .lcd-container {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+    .lcd {
+      background: var(--lcd-bg);
+      color: var(--lcd-fg);
+      font-family: "Courier New", Courier, monospace;
+      font-size: 1.5rem;
+      width: 320px;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 12px solid #2a2a2a;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      line-height: 1.4;
+      min-height: 80px;
+    }
+    .lcd-line {
+      white-space: pre;
+      letter-spacing: 2px;
+    }
+
+    /* Button */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-row { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; }
+
+    /* Results */
+    .results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .result-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .result-box .label { font-size: 0.8rem; opacity: 0.7; margin-bottom: 0.25rem; }
+    .result-box .value { font-size: 1.5rem; font-weight: 700; color: var(--accent); font-family: monospace; }
+
+    /* Output log */
+    .output-log {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      margin-top: 1rem;
+    }
+    .output-log:empty::before {
+      content: "Wokwi CLI output will appear here...";
+      opacity: 0.4;
+    }
+
+    .error { color: #f85149; }
+    .success { color: #3fb950; }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      opacity: 0.6;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>💡 Interactive Light Sensor Demo</h1>
+    <p>Control a virtual light source and watch a real Wokwi-simulated microcontroller read it via an LDR and display the result on an LCD.</p>
+  </header>
+
+  <main>
+    <!-- Light Source Controls -->
+    <section class="card">
+      <h2>Light Source</h2>
+      <div class="control-group">
+        <label for="lux-slider">Intensity (lux)</label>
+        <div class="slider-container">
+          <input type="range" id="lux-slider" min="0" max="100" value="50">
+          <span class="value-badge" id="lux-value">50</span>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn" id="run-btn" onclick="runSimulation()">
+          ▶ Run Wokwi Simulation
+        </button>
+      </div>
+    </section>
+
+    <!-- LCD Display -->
+    <section class="card">
+      <h2>LCD1602 Display (Simulated)</h2>
+      <div class="lcd-container">
+        <div class="lcd">
+          <div class="lcd-line" id="lcd-line1">Lux: --          </div>
+          <div class="lcd-line" id="lcd-line2">ADC: --          </div>
+        </div>
+      </div>
+      <div class="results">
+        <div class="result-box">
+          <div class="label">Input Lux</div>
+          <div class="value" id="result-input">--</div>
+        </div>
+        <div class="result-box">
+          <div class="label">Reading Lux</div>
+          <div class="value" id="result-lux">--</div>
+        </div>
+        <div class="result-box">
+          <div class="label">Raw ADC</div>
+          <div class="value" id="result-adc">--</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wokwi Output -->
+    <section class="card">
+      <h2>Wokwi CLI Output</h2>
+      <div class="output-log" id="output-log"></div>
+    </section>
+  </main>
+
+  <footer>
+    Powered by Wokwi CLI · Real microcontroller simulation · No JavaScript approximations
+  </footer>
+
+  <script>
+    const luxSlider = document.getElementById('lux-slider');
+    const luxValue = document.getElementById('lux-value');
+    const runBtn = document.getElementById('run-btn');
+    const outputLog = document.getElementById('output-log');
+
+    luxSlider.addEventListener('input', (e) => {
+      luxValue.textContent = e.target.value;
+    });
+
+    async function runSimulation() {
+      const lux = parseInt(luxSlider.value, 10);
+      runBtn.disabled = true;
+      runBtn.textContent = '⏳ Running Wokwi...';
+      outputLog.textContent = `Sending lux=${lux} to Wokwi CLI...\n`;
+
+      try {
+        const response = await fetch('/api/simulate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lux })
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          outputLog.textContent += `\n❌ ERROR: ${data.error}\n`;
+          outputLog.classList.add('error');
+        } else {
+          document.getElementById('result-input').textContent = data.input_lux;
+          document.getElementById('result-lux').textContent = data.reading_lux ?? '--';
+          document.getElementById('result-adc').textContent = data.reading_adc ?? '--';
+
+          document.getElementById('lcd-line1').textContent =
+            `Lux: ${String(data.reading_lux ?? '--').padEnd(5)}          `.slice(0, 16);
+          document.getElementById('lcd-line2').textContent =
+            `ADC: ${String(data.reading_adc ?? '--').padEnd(5)}          `.slice(0, 16);
+
+          outputLog.textContent += `\n✅ Simulation complete (exit code: ${data.cli_exit_code})\n`;
+          outputLog.textContent += `→ Input: ${data.input_lux} lux\n`;
+          outputLog.textContent += `→ Reading: ${data.reading_lux} lux, ADC: ${data.reading_adc}\n`;
+          if (data.raw_output) {
+            outputLog.textContent += `\n--- Raw Wokwi Output ---\n${data.raw_output}\n`;
+          }
+          outputLog.classList.remove('error');
+        }
+      } catch (err) {
+        outputLog.textContent += `\n❌ Network error: ${err.message}\n`;
+        outputLog.classList.add('error');
+      } finally {
+        runBtn.disabled = false;
+        runBtn.textContent = '▶ Run Wokwi Simulation';
+      }
+    }
+
+    // Health check on load
+    fetch('/api/health')
+      .then(r => r.json())
+      .then(data => {
+        console.log('Health:', data);
+        if (!data.wokwi_cli_installed) {
+          outputLog.textContent = '⚠️ wokwi-cli not found on server. Simulations will fail.\n';
+        }
+      })
+      .catch(() => {
+        outputLog.textContent = '⚠️ Cannot reach backend API.\n';
+      });
+  </script>
+</body>
+</html>

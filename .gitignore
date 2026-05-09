@@ -5,3 +5,7 @@ build/
 superpowers-integration/
 .gitnexus
 .gitnexus/
+.venv/
+__pycache__/
+server.pid
+server.log
