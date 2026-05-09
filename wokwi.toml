@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = 'build/touch-ui.ino.bin'
+elf = 'build/touch-ui.ino.elf'
