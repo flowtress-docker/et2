@@ -1,4 +1,4 @@
 [wokwi]
 version = 1
-firmware = 'build/weather-station.ino.uf2'
-elf = 'build/weather-station.ino.elf'
+firmware = 'build/firmware.uf2'
+elf = 'build/firmware.elf'
