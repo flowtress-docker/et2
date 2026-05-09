@@ -1,4 +1,4 @@
 [wokwi]
 version = 1
-firmware = 'build/motion-alarm.ino.bin'
-elf = 'build/motion-alarm.ino.elf'
+firmware = 'build/firmware.bin'
+elf = 'build/firmware.elf'
