@@ -1,0 +1,2591 @@
+=== KiCad | how to create circuits programmatically ===
+### Create an Empty PCB Board
+
+Source: https://docs.kicad.org/doxygen-python-9.0/namespacepcbnew.html
+
+Initializes and returns a new, empty PCB board object. This is the starting point for creating new board designs programmatically.
+
+```python
+CreateEmptyBoard() -> BOARD
+```
+
+--------------------------------
+
+### pcbnew.NewBoard()
+
+Source: https://docs.kicad.org/doxygen-python-9.0/namespacepcbnew.html
+
+Creates a new PCB board from a specified file name.
+
+```APIDOC
+## pcbnew.NewBoard()
+
+### Description
+Creates a new PCB board from a specified file name.
+
+### Method
+N/A (Python function)
+
+### Endpoint
+N/A (Python function)
+
+### Parameters
+#### Path Parameters
+None
+
+#### Query Parameters
+None
+
+#### Request Body
+None
+
+### Request Example
+```python
+# Example usage:
+# new_board = pcbnew.NewBoard("my_new_board.kicad_pcb")
+```
+
+### Response
+#### Success Response (200)
+- **BOARD** (BOARD) - The newly created BOARD object.
+
+#### Response Example
+```json
+{
+  "example": "BOARD object"
+}
+```
+```
+
+--------------------------------
+
+### Create Footprint Library
+
+Source: https://docs.kicad.org/doxygen-python-9.0/namespacepcbnew.html
+
+Creates a new, empty footprint library. Requires a name for the new library.
+
+```python
+FootprintLibCreate(libname)
+```
+
+--------------------------------
+
+### SMDPad() - Create Surface-Mount Pad
+
+Source: https://docs.kicad.org/doxygen-python-9.0/classplugins_1_1PadArray_1_1PadMaker.html
+
+Creates a surface-mount pad with specified size and shape.
+
+```APIDOC
+## SMDPad()
+
+### Description
+Create a surface-mount pad of the given size and shape.
+
+### Method
+Python Function
+
+### Endpoint
+plugins.PadArray.PadMaker.SMDPad
+
+### Parameters
+#### Path Parameters
+None
+
+#### Query Parameters
+None
+
+#### Request Body
+- **_self_** (object) - Required - Instance of the PadMaker class.
+- **_Vsize_** (float) - Required - The vertical size of the pad.
+- **_Hsize_** (float) - Required - The horizontal size of the pad.
+- **_shape_** (enum, optional) - The shape of the pad. De
+
+=== KiCad | how to run simulation from command line ===
+### pcbnew.EXCELLON_WRITER Methods
+
+Source: https://docs.kicad.org/doxygen-python-9.0/classpcbnew_1_1EXCELLON__WRITER-members.html
+
+Methods for initializing and configuring the EXCELLON_WRITER to generate drill and map files.
+
+```APIDOC
+## EXCELLON_WRITER Methods
+
+### Description
+Methods for managing Excellon drill file generation, including setting formats, options, and creating output files.
+
+### Methods
+- **__init__(self, aPcb)**: Initializes the writer with a PCB object.
+- **CreateDrillandMapFilesSet(self, aPlotDirectory, aGenDrill, aGenMap, aReporter=None)**: Generates drill and map files in the specified directory.
+- **GetOffset(self)**: Returns the current offset.
+- **SetFormat(self, *args)**: Sets the drill file format.
+- **SetOptions(self, aMirror, aMinimalHeader, aOffset, aMerge_PTH_NPTH)**: Configures generation options like mirroring, headers, offsets, and merging PTH/NPTH holes.
+- **SetRouteModeForOvalHoles(self, aUseRouteModeForOvalHoles)**: Configures whether to use route mode for oval holes.
+```
+
+--------------------------------
+
+### CreateDrillandMapFilesSet
+
+Source: https://docs.kicad.org/doxygen-python-9.0/classpcbnew_1_1EXCELLON__WRITER.html
+
+Generates a set of drill and map files in the specified directory.
+
+```APIDOC
+## CreateDrillandMapFilesSet
+
+### Description
+Generates drill and map files based on the provided configuration.
+
+### Parameters
+- **aPlotDirectory** (wxString) - Required - The directory where files will be saved.
+- **aGenDrill** (bool) - Required - Whether to generate drill files.
+- **aGenMap** (bool) - Required - Whether to generate map files.
+- **aReporter** (REPORTER) - Optional - Reporter object for status updates.
+
+### Response
+- **bool** - Returns true if successful.
+```
+
+--------------------------------
+
+### pcbnew.PLOT_CONTROLLER API
+
+Source: https://docs.kicad.org/doxygen-python-9.0/classpcbnew_1_1PLOT__CONTROLLER-members.html
+
+Methods for controlling PCB plot output in KiCad.
+
+```APIDOC
+## pcbnew.PLOT_CONTROLLER
+
+### De
+
+=== KiCad | python API for circuit netlist generation ===
+### pcbnew Python API Methods (G)
+
+Source: https://docs.kicad.org/doxygen-python-9.0/functions_func_g.html
+
+A collection of getter and generator methods available in the pcbnew Python module for interacting with PCB design elements.
+
+```APIDOC
+## pcbnew Python API Methods
+
+### Description
+This reference lists methods starting with 'G' available in the `pcbnew` Python module. These methods are used to retrieve properties, generate reports, or calculate geometric data for PCB components, boards, and settings.
+
+### Methods Overview
+- **GenDrillReportFile()**: Generates a drill report file.
+- **GenerateBBoxCache()**: Generates a bounding box cache for shapes.
+- **GetBoundingBox()**: Retrieves the bounding box for items like EDA_ITEM, FOOTPRINT, or PAD.
+- **GetArea()**: Calculates the area for BOARD, BOX2I, or FOOTPRINT.
+- **GetCenter()**: Retrieves the center coordinates for various shapes and items.
+- **GetClearance()**: Retrieves clearance settings for NETCLASS or SHAPE.
+- **GetColorSettings()**: Accesses color configuration via SETTINGS_MANAGER.
+
+### Usage
+These methods are typically called on instances of classes within the `pcbnew` module. For example:
+
+```python
+import pcbnew
+board = pcbnew.GetBoard()
+bbox = board.GetBoundingBox()
+```
+```
+
+--------------------------------
+
+### SetGenerator
+
+Source: https://docs.kicad.org/doxygen-python-9.0/classpcbnew_1_1BOARD.html
+
+Sets the generator string for the board.
+
+```python
+SetGenerator(BOARD self, wxString aGenerator)
+```
+
+--------------------------------
+
+### KiCad Pcbnew Python API - 'n' Namespace Methods
+
+Source: https://docs.kicad.org/doxygen-python-9.0/functions_func_n.html
+
+A collection of methods and functions available in the KiCad Pcbnew Python API starting with the letter 'n'.
+
+```APIDOC
+## KiCad Pcbnew Python API - 'n' Namespace
+
+### Description
+This section lists various methods and functions available within the KiCad Pcbnew Python scripting environment that start with the letter 'n'. These include geometry
+
+=== KiCad | SPICE simulation python wrapper ===
+### Remove BOARD_ITEM from Container
+
+Source: https://docs.kicad.org/doxygen-python-9.0/classpcbnew_1_1BOARD__ITEM__CONTAINER.html
+
+Removes a BOARD_ITEM and sets the thisdown flag so the Python wrapper owns the C++ object.
+
+```python
+Remove(self, BOARD_ITEM)
+```
+
+--------------------------------
+
+### UTILS_STEP_MODEL Class Description
+
+Source: https://docs.kicad.org/doxygen-python-9.0/classpcbnew_1_1UTILS__STEP__MODEL.html
+
+Proxy of C++ UTILS_STEP_MODEL class.
+
+```python
+Proxy of C++ UTILS_STEP_MODEL class.
+```
+
+--------------------------------
+
+### CLIPPER_Z_VALUE thisown Property
+
+Source: https://docs.kicad.org/doxygen-python-9.0/classpcbnew_1_1CLIPPER__Z__VALUE.html
+
+This property, defined as a static property, manages the ownership of the C++ object underlying the Python wrapper. It's typically used internally for memory management.
+
+```python
+property pcbnew.CLIPPER_Z_VALUE.thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+```
+
+--------------------------------
+
+### PADS_VEC Property Definition
+
+Source: https://docs.kicad.org/doxygen-python-9.0/classpcbnew_1_1PADS__VEC.html
+
+Defines the 'thisown' property used for managing C++ object ownership in the SWIG-generated wrapper.
+
+```python
+property | thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+```
+
+--------------------------------
+
+### Initialize UTILS_STEP_MODEL
+
+Source: https://docs.kicad.org/doxygen-python-9.0/classpcbnew_1_1UTILS__STEP__MODEL.html
+
+Constructor for the UTILS_STEP_MODEL class.
+
+```python
+__init__(UTILS_STEP_MODEL self) -> UTILS_STEP_MODEL
+```
+
+=== KiCad | how to export circuit to schematic or PCB ===
+### Save PCB File
+
+Source: https://docs.kicad.org/doxygen-python-9.0/classpcbnew_1_1PCB__IO__MGR.html
+
+Saves the current board to a file with the specified type, name, and properties. Use this for exporting PCB data in various formats.
+
+```python
+Save(PCB_IO_MGR::PCB_FILE_T aFileType, wxString aFileName, BOARD aBoard, str_utf8_Map aProperties=None)
+```
+
+--------------------------------
+
+### PCB_IO_MGR Save Method
+
+Source: https://docs.kicad.org/doxygen-python-9.0/classpcbnew_1_1PCB__IO__MGR-members.html
+
+Saves a PCB board object to a file using the specified format.
+
+```APIDOC
+## static pcbnew.PCB_IO_MGR.Save
+
+### Description
+Saves the provided board object to a file.
+
+### Parameters
+- **aFileType** (int) - Required - The format to save as.
+- **aFileName** (string) - Required - The destination file path.
+- **aBoard** (object) - Required - The board object to save.
+- **aProperties** (object) - Optional - Additional save properties.
+```
+
+--------------------------------
+
+### SaveBoard()
+
+Source: https://docs.kicad.org/doxygen-python-9.0/classpcbnew_1_1PCB__IO.html
+
+Saves the current PCB board to a file. This method is reimplemented in pcbnew.PCB_IO_KICAD_SEXPR.
+
+```APIDOC
+## POST /pcbnew/PCB_IO/SaveBoard
+
+### Description
+Saves the provided PCB board object to the specified file name.
+
+### Method
+POST
+
+### Endpoint
+/pcbnew/PCB_IO/SaveBoard
+
+### Parameters
+#### Path Parameters
+- **_self_** (PCB_IO) - Required - The PCB_IO object instance.
+- **_aFileName_** (wxString) - Required - The name of the file to save to.
+- **_aBoard_** (BOARD) - Required - The board object to save.
+- **_aProperties_** (str_utf8_Map) - Optional - Additional properties for saving.
+
+### Request Body
+```json
+{
+  "aFileName": "board.kicad_pcb",
+  "aBoard": "<board_object_representation>",
+  "aProperties": {}
+}
+```
+
+### Response
+#### Success Response (200)
+- **None** - Indicates successful save.
+
+#### Response Example
+```json
+{
+  "status": "success"
+}
+```
+```
+
+--------------------------------
+
+### Exp
+
+=== PySpice | how to create circuits programmatically ===
+### SKiDL: Python Module for Electronic Circuit Interconnection
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/related-projects.rst
+
+SKiDL is a powerful Python module designed for compactly describing the interconnection of electronic circuits and components. It includes features for electrical rules checking to identify common design mistakes and generates netlists compatible with PCB layout tools like KiCad. Notably, SKiDL can also generate circuits directly using the PySpice API.
+
+```Python
+Project: SKiDL
+URL: https://xesscorp.github.io/skidl/docs/_site
+Description: Python module for compact description of electronic circuit interconnections. Performs electrical rules checking and outputs netlists for PCB layout tools. Can generate circuits using PySpice API.
+Example: https://github.com/xesscorp/skidl/blob/master/examples/spice-sim-intro/spice-sim-intro.ipynb
+```
+
+--------------------------------
+
+### Lcapy: Python Package for Linear Circuit Analysis
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/related-projects.rst
+
+Lcapy is a Python package dedicated to linear circuit analysis. It leverages the SymPy library for symbolic analysis, enabling complex mathematical operations on circuit equations. Additionally, Lcapy can semi-automate the drawing of schematics from a netlist using Circuitikz, streamlining the visualization process.
+
+```Python
+Project: Lcapy
+URL: http://lcapy.elec.canterbury.ac.nz
+Description: Python package for linear circuit analysis using SymPy for symbolic analysis. Can semi-automate schematic drawing from netlists using Circuitikz.
+Source: https://github.com/mph-/lcapy
+```
+
+--------------------------------
+
+### Ahkab: SPICE-like Electronic Circuit Simulator in Python
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/related-projects.rst
+
+Ahkab is an electronic circuit simulator written entirely in Python, designed to function similarly to traditional SPICE
+
+=== PySpice | how to run simulation from command line ===
+### Run PySpice Examples in Various Environments
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/example-introduction.rst
+
+This section provides commands to execute PySpice examples using different methods: directly from the console, within the IPython interactive environment, and via IPython Notebook. Choose the method that best suits your workflow for editing or interactive experimentation.
+
+```sh
+python examples/.../foo.py
+```
+
+```sh
+ipython --matplotlib       # enable matplotlib integration
+ipython --matplotlib-qt    # enable matplotlib integration with qt4 backend
+ipython qtconsole          # start the qtconsole GUI application
+```
+
+```py
+%run examples/../foo.py
+```
+
+```sh
+ipython notebook
+```
+
+```py
+%matplotlib inline
+```
+
+--------------------------------
+
+### Execute Dynamically Linked ngspice C Application
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/examples/c-examples/ngspice_cb/compile-linux.txt
+
+This command executes the C application previously compiled for dynamic linking to the ngspice shared library. For successful execution, the ngspice shared library must be discoverable at runtime, typically by being in a standard library path or by setting the LD_LIBRARY_PATH environment variable. Ensure you are in the correct directory (e.g., ng_shared_test) before running.
+
+```Shell
+./bin/Debug/ng_sh
+```
+
+--------------------------------
+
+### Statically Link ngspice Shared Library to C Application
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/examples/c-examples/ngspice_cb/compile-linux.txt
+
+This command compiles a C source file (main.c) and statically links it against the ngspice shared library (-lngspice) and the OpenMP runtime library (-lgomp). The output is an executable named ng_sh in the ./bin/Debug directory. This method embeds the library code directly into the executable, making it self-contained.
+
+```C
+gcc -g -Wall -lgomp -lngspice -o ./bin/Debug/ng_sh main.c
+```
+
+-----------------------------
+
+=== PySpice | python API for circuit netlist generation ===
+### SKiDL: Python Module for Electronic Circuit Interconnection
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/related-projects.rst
+
+SKiDL is a powerful Python module designed for compactly describing the interconnection of electronic circuits and components. It includes features for electrical rules checking to identify common design mistakes and generates netlists compatible with PCB layout tools like KiCad. Notably, SKiDL can also generate circuits directly using the PySpice API.
+
+```Python
+Project: SKiDL
+URL: https://xesscorp.github.io/skidl/docs/_site
+Description: Python module for compact description of electronic circuit interconnections. Performs electrical rules checking and outputs netlists for PCB layout tools. Can generate circuits using PySpice API.
+Example: https://github.com/xesscorp/skidl/blob/master/examples/spice-sim-intro/spice-sim-intro.ipynb
+```
+
+--------------------------------
+
+### Ahkab: SPICE-like Electronic Circuit Simulator in Python
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/related-projects.rst
+
+Ahkab is an electronic circuit simulator written entirely in Python, designed to function similarly to traditional SPICE simulators. It provides capabilities for analyzing and simulating electronic circuits within a Python environment.
+
+```Python
+Project: Ahkab
+URL: https://ahkab.github.io/ahkab
+Description: SPICE-like electronic circuit simulator written in Python.
+```
+
+--------------------------------
+
+### Other Related SPICE and Simulation Projects
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/related-projects.rst
+
+This section lists additional projects that are related to SPICE-based simulations and electronic design. These include various simulators and Python interfaces that can be relevant for advanced circuit analysis and design workflows.
+
+```APIDOC
+Project: eispice
+URL: http://www.thedigitalmachine.net/eispice.html
+```
+
+```APIDOC
+Project: S
+
+=== PySpice | SPICE simulation python wrapper ===
+### Pass Raw SPICE Commands in PySpice
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/faq.rst
+
+Illustrates how to pass raw SPICE commands and parameters directly to the simulator when the PySpice API does not yet implement a specific command. It is crucial that the API remains aware of the nodes for data retrieval from the simulation output.
+
+```Python
+circuit.raw_spice  = '...'
+circuit.raw_spice += '...'
+
+r1 = circuit.R('1', 1, 0, raw_spice='...')
+r1.raw_spice  = '...'
+r1.raw_spice += '...'
+```
+
+--------------------------------
+
+### Ahkab: SPICE-like Electronic Circuit Simulator in Python
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/related-projects.rst
+
+Ahkab is an electronic circuit simulator written entirely in Python, designed to function similarly to traditional SPICE simulators. It provides capabilities for analyzing and simulating electronic circuits within a Python environment.
+
+```Python
+Project: Ahkab
+URL: https://ahkab.github.io/ahkab
+Description: SPICE-like electronic circuit simulator written in Python.
+```
+
+--------------------------------
+
+### Set Simulator in PySpice
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/faq.rst
+
+Explains how to configure the simulator globally using the DEFAULT_SIMULATOR attribute or per simulation using the 'simulator' option. This allows users to specify which SPICE engine PySpice should use.
+
+```Python
+simulator = circuit.simulator(simulator='...')
+```
+
+--------------------------------
+
+### Set Ngspice Executable Path in PySpice
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/faq.rst
+
+Explains how to globally set the Ngspice executable path using SpiceServer.SPICE_COMMAND or specify it per simulation via the 'spice_command' option. This ensures PySpice can locate and execute the Ngspice simulator.
+
+```Python
+from PySpice.Spice.NgSpice.Server import SpiceServer
+SpiceServer.SPICE_COMMAND = '/path/to
+
+=== PySpice | how to export circuit to schematic or PCB ===
+### KiCad: Open Source Schematic Editor and PCB Layout Suite
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/related-projects.rst
+
+KiCad is a comprehensive open-source software suite for Electronic Design Automation (EDA). It facilitates schematic capture and PCB layout, providing Gerber output for manufacturing. The suite is cross-platform, running on Windows, Linux, and macOS, and is licensed under GNU GPL v3.
+
+```APIDOC
+Project: KiCad
+URL: https://kicad-pcb.org
+Description: Open source software suite for Electronic Design Automation (EDA) handling Schematic Capture and PCB Layout with Gerber output. Runs on Windows, Linux, macOS. Licensed under GNU GPL v3.
+```
+
+--------------------------------
+
+### SKiDL: Python Module for Electronic Circuit Interconnection
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/related-projects.rst
+
+SKiDL is a powerful Python module designed for compactly describing the interconnection of electronic circuits and components. It includes features for electrical rules checking to identify common design mistakes and generates netlists compatible with PCB layout tools like KiCad. Notably, SKiDL can also generate circuits directly using the PySpice API.
+
+```Python
+Project: SKiDL
+URL: https://xesscorp.github.io/skidl/docs/_site
+Description: Python module for compact description of electronic circuit interconnections. Performs electrical rules checking and outputs netlists for PCB layout tools. Can generate circuits using PySpice API.
+Example: https://github.com/xesscorp/skidl/blob/master/examples/spice-sim-intro/spice-sim-intro.ipynb
+```
+
+--------------------------------
+
+### Lcapy: Python Package for Linear Circuit Analysis
+
+Source: https://github.com/pyspice-org/pyspice/blob/master/doc/sphinx/source/related-projects.rst
+
+Lcapy is a Python package dedicated to linear circuit analysis. It leverages the SymPy library for symbolic analysis, enabling complex mathematical operations on ci
+
+=== skidl | how to create circuits programmatically ===
+### Instantiate Subcircuits and Create Circuit Instances in SKiDL
+
+Source: https://context7.com/devbisme/skidl/llms.txt
+
+This snippet shows how to instantiate predefined subcircuits like 'voltage_divider' and 'led_driver' within a main design. It also demonstrates creating a named circuit instance 'PowerSupply' with internal components and connections, followed by netlist generation.
+
+```python
+from skidl import Net, Part, Circuit, generate_netlist
+
+vcc = Net('VCC')
+gnd = Net('GND')
+v_sense = Net('V_SENSE')
+
+# Instantiate subcircuits
+voltage_divider(vcc, v_sense, gnd, r1_value='10K', r2_value='5K')
+led_driver(vcc, gnd, led_count=5)
+
+# Create multiple circuit instances
+with Circuit(name='PowerSupply') as psu:
+    vin = Net('VIN')
+    vout = Net('VOUT')
+    gnd = Net('GND')
+    vreg = Part('Regulator_Linear', 'LM7805_TO220')
+    cin = Part('Device', 'CP', value='100uF')
+    cout = Part('Device', 'C', value='100nF')
+
+    vin & cin & gnd
+    vin & vreg['VI']
+    vreg['VO'] & vout & cout & gnd
+    vreg['GND'] & gnd
+
+    generate_netlist()
+```
+
+--------------------------------
+
+### Create a New Circuit Object in SKiDL
+
+Source: https://github.com/devbisme/skidl/blob/master/docs/index.html
+
+Instantiates a new, independent Circuit object in SKiDL. This allows for the creation of separate circuit designs or netlists, distinct from the default global circuit. It's useful for managing complex or modular designs.
+
+```python
+my_circuit = Circuit()
+
+```
+
+--------------------------------
+
+### Create and Populate a SKiDL Circuit Object
+
+Source: https://github.com/devbisme/skidl/blob/master/docsrc/pelicansite/content/pages/landing.md
+
+Demonstrates the creation of a new Circuit object and the addition of parts, nets, and buses using the '+=' operator. This is a fundamental way to build custom circuit structures independent of the default circuit.
+
+```terminal
+>>> my_circuit = Circuit()
+>>> my_circuit += Part("Device",'R')  # Add a resistor to the circuit.
+>>> my_circuit += Net('GND') 
+
+=== skidl | how to run simulation from command line ===
+### Simulate Transmission Line Voltages in SKIDL
+
+Source: https://github.com/devbisme/skidl/blob/master/tests/examples/spice-sim-intro/spice-sim-intro.ipynb
+
+Demonstrates simulating an ideal transmission line driven by a sine wave source and terminated with a resistor. It defines a voltage source, transmission line, and load resistor, then simulates the circuit and plots the input and output voltage waveforms. This example highlights the time delay and voltage mismatch effects. Dependencies include SKIDL libraries and matplotlib.
+
+```python
+reset()  # Clear out the existing circuitry from the previous example.
+
+# Create a 1 GHz sine wave source, drive it through a 70 ohm ideal transmission line, and terminate it with a 140 ohm resistor.
+vs = SINEV(amplitude=1@u_V, frequency=1@u_GHz)
+t1 = T(impedance=70@u_Ohm, frequency=1@u_GHz, normalized_length=10.0) # Trans. line is 10 wavelengths long.
+rload = R(value=140@u_Ohm)
+vs['p'] += t1['ip']  # Connect source to positive input terminal of trans. line.
+rload[1] += t1['op'] # Connect resistor to positive output terminal of trans. line.
+gnd += vs['n'], t1['in','on'], rload[2] # Connect remaining terminals to ground.
+
+# Simulate the transmission line.
+circ = generate_netlist()
+sim = Simulator.factory().simulation(circ)
+waveforms = sim.transient(step_time=0.01@u_ns, end_time=20@u_ns)
+
+# Get the waveforms at the beginning and end of the trans. line.
+time = waveforms.time * 10**9
+vin = waveforms[node(vs['p'])]      # Input voltage at the beginning of the trans. line.
+vout = waveforms[node(rload['1'])]  # Output voltage at the terminating resistor of the trans. line.
+
+# Plot the input and output waveforms. Note that it takes 10 nsec for the input to reach the end of the
+# transmission line, and there is a 33% "bump" in the output voltage due to the mismatch between the
+# 140 ohm load resistor and the 70 ohm transmission line impedances.
+figure = plt.figure(1)
+plt.title('Output Voltage vs. Input Voltage')
+plt.xlabel('Time (ns)')
+pl
+
+=== skidl | python API for circuit netlist generation ===
+### Generate Netlist for Circuit (Python)
+
+Source: https://github.com/devbisme/skidl/blob/master/docs/api/html/rst_output/skidl.circuit.html
+
+Generates a netlist for the circuit, which can be formatted for various EDA tools. Supports writing to a file or returning as a string. Accepts additional tool-specific arguments.
+
+```python
+from skidl import Circuit, generate_netlist
+
+# Assume 'my_circuit' is a defined SKiDL Circuit object
+# my_circuit = Circuit()
+# ... add parts and nets to my_circuit ...
+
+# Generate a netlist for a generic tool, output to console
+netlist_string = generate_netlist(my_circuit, tool='generic')
+print(netlist_string)
+
+# Generate a netlist for KiCad and write to a file
+with open('kicad_netlist.net', 'w') as f:
+    generate_netlist(my_circuit, tool='kicad', file=f)
+
+# Generate a netlist with backup option enabled
+with open('backup_netlist.xml', 'w') as f:
+    generate_netlist(my_circuit, tool='altium', file=f, do_backup=True)
+
+```
+
+--------------------------------
+
+### Describe Circuit and Generate Netlist in Python
+
+Source: https://github.com/devbisme/skidl/blob/master/docs/index.html
+
+This Python snippet demonstrates how to define electronic components (resistors, nets) and connect them to form a circuit. It then generates a netlist compatible with the KiCad PCB layout tool. Dependencies include the 'skidl' library. Inputs are component definitions and connections; outputs are netlist data.
+
+```python
+from skidl import *
+
+# Create input & output voltages and ground reference.
+vin, vout, gnd = Net('VI'), Net('VO'), Net('GND')
+
+# Create two resistors.
+r1, r2 = 2 * Part("Device", 'R', TEMPLATE, footprint='Resistor_SMD.pretty:R_0805_2012Metric')
+r1.value = '1K'   # Set upper resistor value.
+r2.value = '500'  # Set lower resistor value.
+
+# Connect the nets and resistors.
+vin += r1[1]      # Connect the input to the upper resistor.
+gnd += r2[2]      # Connect the lower resistor to ground.
+vout += r1[2], r2[1] # Output comes from the connection of the 
+
+=== skidl | SPICE simulation python wrapper ===
+### Generate SPICE Netlists for Simulation in SKiDL
+
+Source: https://context7.com/devbisme/skidl/llms.txt
+
+Demonstrates how to integrate circuit simulation by generating SPICE netlists and running simulations directly from SKiDL. This allows for pre-layout circuit verification. Parts used in these circuits must have SPICE models defined.
+
+```python
+from skidl import Part, Net, generate_netlist, SPICE
+from skidl.pyspice import *
+
+# Create circuit with SPICE-compatible parts
+# Note: Parts must have SPICE models defined
+
+# Simple voltage divider for SPICE simulation
+v_source = Part('pspice', 'VSRC', value='5V')
+r1 = Part('Device', 'R', value='10k')
+r2 = Part('Device', 'R', value='10k')
+
+vin = Net('VIN')
+vout = Net('VOUT')
+gnd = Net('GND')
+
+vin += v_source['+']
+gnd += v_source['-']
+vin & r1 & vout & r2 & gnd
+
+# Generate SPICE netlist
+generate_netlist(tool=SPICE, file='divider.cir')
+
+# More complex RC circuit example
+vsrc = Part('pspice', 'VSRC', value='5V')
+res = Part('Device', 'R', value='1k', spice_model='R')
+cap = Part('Device', 'C', value='1u', spice_model='C')
+
+v_in = Net('V_IN')
+v_cap = Net('V_CAP')
+gnd = Net('0')  # SPICE ground must be '0'
+
+v_in += vsrc['+']
+gnd += vsrc['-']
+v_in & res & v_cap & cap & gnd
+
+generate_netlist(tool=SPICE, file='rc_circuit.cir')
+
+# Circuit can then be simulated with:
+# ngspice rc_circuit.cir
+# or integrated with PySpice for Python-based simulation
+```
+
+--------------------------------
+
+### Simulate Transistor Amplifier with SPICE Model (SKiDL)
+
+Source: https://github.com/devbisme/skidl/blob/master/tests/examples/spice-sim-intro/spice-sim-intro.ipynb
+
+This Python snippet demonstrates simulating a common-emitter transistor amplifier using a SPICE model. It sets up the circuit components (BJT, resistors, power supply, sine wave source), generates a netlist referencing a SPICE library for the transistor model, runs a transient simulation, and plots input vs. output voltage waveforms. It requires a SPICE library file (e.g., 2N2222A.lib) i
+
+=== skidl | how to export circuit to schematic or PCB ===
+### generate_schematic
+
+Source: https://github.com/devbisme/skidl/blob/master/docsrc/sphinx/rst_output/skidl.circuit.md
+
+Creates a schematic file from the circuit.
+
+```APIDOC
+## generate_schematic
+
+### Description
+Create a schematic file from the circuit. This generates a visual representation of the circuit that can be opened in an EDA tool like KiCad’s Eeschema.
+
+### Method
+GET (or internal function call)
+
+### Endpoint
+N/A (This is a function call within the SKiDL library)
+
+### Parameters
+#### Query Parameters
+- ****kwargs** (dict) - Arguments for the schematic generator including:
+  - empty_footprint_handler (function, optional): Custom handler for parts without footprints.
+  - tool (str, optional): The EDA tool to generate the schematic for.
+
+### Request Example
+```json
+{
+  "tool": "kicad",
+  "empty_footprint_handler": "handle_missing_footprint"
+}
+```
+
+### Response
+#### Success Response (200)
+- **N/A** - This function typically writes to a file and does not return a value directly.
+
+#### Response Example
+```json
+{
+  "message": "Schematic file generated successfully."
+}
+```
+```
+
+--------------------------------
+
+### generate_pcb
+
+Source: https://github.com/devbisme/skidl/blob/master/docsrc/sphinx/rst_output/skidl.circuit.md
+
+Creates a PCB file from the circuit.
+
+```APIDOC
+## generate_pcb
+
+### Description
+Create a PCB file from the circuit. This function is used to generate the board layout data.
+
+### Method
+GET (or internal function call)
+
+### Endpoint
+N/A (This is a function call within the SKiDL library)
+
+### Parameters
+#### Query Parameters
+- **file** (str or file object) - Optional - File to write PCB data to.
+- **tool** (str) - Optional - The EDA tool to generate the PCB for.
+- **do_backup** (bool) - Optional - If True, create a library with all parts in the circuit.
+- **fp_libs** (list) - Optional - List of directories containing footprint libraries.
+- ****kwargs** (dict) - Additional arguments passed to the tool-specific PCB generator.
+
+### Request Example
+
+=== lcapy | how to create circuits programmatically ===
+### Create Circuit from Netlist
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/overview.rst
+
+Demonstrates creating a circuit using a netlist string, defining components like resistors and capacitors connected to nodes.
+
+```python
+from lcapy import Circuit
+cct = Circuit("""
+R 1 2
+C 2 0""")
+```
+
+--------------------------------
+
+### Create Circuit Object
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/netlists.rst
+
+Demonstrates creating a Circuit object in Lcapy, either by loading from a file or by dynamically adding components.
+
+```python
+cct = Circuit('circuit.sch')
+```
+
+```python
+cct = Circuit()
+cct.add('R1 1 2')
+cct.add('L1 2 3')
+```
+
+```python
+cct = Circuit(
+"""
+R1 1 2
+L1 2 3
+""")
+```
+
+--------------------------------
+
+### Create and Analyze Circuit with Lcapy
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/netlists.rst
+
+Demonstrates how to create a circuit using the Circuit class and calculate its admittance. This involves defining circuit components and their connections.
+
+```python
+>>> a = Circuit("""
+k 1 2; right
+ r 2 3; right
+ m 3 4; right""")
+>>> Zm = a.admittance(1, 4)
+>>> Zm
+    k⋅s
+────────────
+k⋅s   k    2
+─── + ─ + s
+ r    m
+
+```
+
+--------------------------------
+
+### Create Circuit from Netlist
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/examples/notebooks/RL-lpf1.ipynb
+
+Defines an electronic circuit using a netlist format and initializes a Circuit object. This is the foundational step for all subsequent analyses.
+
+```python
+from lcapy import Circuit, j, omega, s
+cct = Circuit("""
+Vi 1 0_1 step; down
+L 1 2; right=1.5
+R 2 0; down
+W 0_1 0; right
+W 0 0_2; right=0.5
+P1 2_2 0_2; down
+W 2 2_2;right=0.5")
+```
+
+--------------------------------
+
+### Circuit Creation Examples
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/circuits.rst
+
+Demonstrates two methods for creating the same circuit: using component combinations and using a netlist specification. Both methods result in circuits with common attributes and methods.
+
+
+=== lcapy | how to run simulation from command line ===
+### Backward-Euler Integration Method
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/circuits.rst
+
+Example of using the backward-Euler integration method for numerical simulation in Lcapy.
+
+```python
+>>> results = cct.sim(tv, integrator='backward-euler')
+```
+
+--------------------------------
+
+### Lcapy Circuit with Transmission Lines
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/advanced.rst
+
+Shows how to load a circuit netlist that correctly uses transmission line components for accurate simulation in Lcapy.
+
+```python
+from lcapy import Circuit
+a = Circuit('KLM3.sch')
+a.draw()
+```
+
+--------------------------------
+
+### Load Netlist from File and Save Schematic
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/schematics.rst
+
+Loads a circuit netlist from a specified file and saves the generated schematic as a PDF file. This is useful for managing complex circuit definitions.
+
+```python
+from lcapy import Circuit
+cct = Circuit('voltage-divider.sch')
+cct.draw('voltage-divider.pdf')
+```
+
+--------------------------------
+
+### Circuit Analysis and Manipulation Methods
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/releases.rst
+
+Provides methods for circuit analysis, manipulation, and simulation. Includes functionalities like adding test currents/voltages, performing loop and nodal analysis, and handling transmission lines.
+
+```python
+circuit.apply_test_current()
+circuit.apply_test_voltage()
+circuit.loop_analysis()
+circuit.nodal_analysis()
+circuit.short()
+circuit.in_series(component1, component2)
+circuit.in_parallel(component1, component2)
+```
+
+--------------------------------
+
+### Start Jupyter Notebook Server
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/overview.rst
+
+Command to start a Jupyter notebook server from the terminal. Used for viewing and interacting with Lcapy examples in notebooks.
+
+```console
+$ cd lcapy/doc/examples/notebooks
+$ jupyter notebook
+```
+
+=== lcapy | python API for circuit netlist generation ===
+### Generate Netlist
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/overview.rst
+
+Generates and prints the netlist representation of an electrical network. Requires R, C, and L components from lcapy.
+
+```python
+from lcapy import R, C, L
+print(((R(1) + L(2)) | C(3)).netlist())
+```
+
+--------------------------------
+
+### Generate Schematic from Netlist String
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/schematics.rst
+
+Creates a circuit schematic from a netlist defined as a string. Orientation hints and drawing attributes can be specified within the netlist string.
+
+```python
+from lcapy import Circuit
+cct = Circuit("""
+V 1 0 {v(t)}; down
+R 1 2; right=2, i=i(t)
+C 2 0_2; down, v=v_C(t)
+W 0 0_2; right
+; draw_nodes=connections, label_ids=false, label_nodes=none")
+cct.draw()
+```
+
+--------------------------------
+
+### Create Circuit from Netlist
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/overview.rst
+
+Demonstrates creating a circuit using a netlist string, defining components like resistors and capacitors connected to nodes.
+
+```python
+from lcapy import Circuit
+cct = Circuit("""
+R 1 2
+C 2 0""")
+```
+
+--------------------------------
+
+### Create Circuit from Netlist
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/examples/notebooks/RL-lpf1.ipynb
+
+Defines an electronic circuit using a netlist format and initializes a Circuit object. This is the foundational step for all subsequent analyses.
+
+```python
+from lcapy import Circuit, j, omega, s
+cct = Circuit("""
+Vi 1 0_1 step; down
+L 1 2; right=1.5
+R 2 0; down
+W 0_1 0; right
+W 0 0_2; right=0.5
+P1 2_2 0_2; down
+W 2 2_2;right=0.5")
+```
+
+--------------------------------
+
+### Create Circuit from Netlist
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/examples/notebooks/state-space1.ipynb
+
+Initializes an lcapy Circuit object from a provided netlist string. The netlist defines the components and connections of the electrical circuit. Dependencies: lcapy library.
+
+```python
+from lcapy import Circ
+
+=== lcapy | SPICE simulation python wrapper ===
+### Numerical Simulation of R-L Circuit
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/circuits.rst
+
+Compares analytic and numerical simulation results for an R-L circuit using Lcapy's sim method.
+
+```python
+>>> from lcapy import Circuit
+>>> from numpy import linspace
+>>> from matplotlib.pyplot import savefig
+>>> 
+>>> cct = Circuit("""
+V1 1 0 step 10; down
+R1 1 2 5; right
+L1 2 0_2 2; down
+W 0 0_2; right""")
+>>> 
+>>> tv = linspace(0, 1, 100)
+>>> 
+>>> results = cct.sim(tv)
+>>> 
+>>> ax = cct.R1.v.plot(tv, label='analytic')
+>>> ax.plot(tv, results.R1.v, label='simulated')
+>>> ax.legend()
+>>> 
+>>> savefig('sim1.png')
+```
+
+--------------------------------
+
+### Circuit Definition and Analysis with Netlist
+
+Source: https://github.com/mph-/lcapy/blob/master/README.md
+
+Demonstrates how to define a circuit using a SPICE-like netlist and perform basic analysis to get node voltages and branch currents in both time and s-domains.
+
+```python
+from lcapy import Circuit, s, t
+cct = Circuit("""
+Vs 2 0 {5 * u(t)}
+Ra 2 1
+Rb 1 0
+""")
+
+# Get node voltage at node 1
+print(cct[1].V(t))
+
+# Get current through Ra
+print(cct.Ra.I(t))
+
+# Get voltage across Ra in s-domain
+print(cct.Ra.V(s))
+```
+
+--------------------------------
+
+### Circuit Analysis and Modeling
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/netlists.rst
+
+Functions for analyzing circuit behavior, including calculating impedance, modeling noise, and creating resistive equivalents for simulation.
+
+```python
+evidence_matrix()
+# Returns the evidence matrix. This has a size `NxM` where `N` is the number of nodes and `M` is the number of branches. An element is 1 for currents entering a node from a branch, -1 for currents leaving a node from a branch, and zero otherwise. Note, each column sums to zero.
+
+impedance(Np, Nm)
+# Returns the driving-point impedance between nodes `Np` and `Nm` and `impedance(cpt)` returns the driving-point impedance between the nodes of the specified component
+
+noise_model()
+# Replaces resistors
+
+=== lcapy | how to export circuit to schematic or PCB ===
+### Load Netlist from File and Save Schematic
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/schematics.rst
+
+Loads a circuit netlist from a specified file and saves the generated schematic as a PDF file. This is useful for managing complex circuit definitions.
+
+```python
+from lcapy import Circuit
+cct = Circuit('voltage-divider.sch')
+cct.draw('voltage-divider.pdf')
+```
+
+--------------------------------
+
+### Drawing Netlist Schematics
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/overview.rst
+
+Shows how to create circuit schematics from a netlist definition using the `Circuit` class and its `draw()` method. Supports saving to PDF.
+
+```python
+from lcapy import Circuit
+
+cct = Circuit("""
+V1 1 0 {V(s)}; down
+R1 1 2; right
+C1 2 0_2; down
+W1 0 0_2; right""")
+cct.draw('schematic.pdf')
+```
+
+--------------------------------
+
+### Generate Schematic from Netlist String
+
+Source: https://github.com/mph-/lcapy/blob/master/doc/schematics.rst
+
+Creates a circuit schematic from a netlist defined as a string. Orientation hints and drawing attributes can be specified within the netlist string.
+
+```python
+from lcapy import Circuit
+cct = Circuit("""
+V 1 0 {v(t)}; down
+R 1 2; right=2, i=i(t)
+C 2 0_2; down, v=v_C(t)
+W 0 0_2; right
+; draw_nodes=connections, label_ids=false, label_nodes=none")
+cct.draw()
+```
+
+--------------------------------
+
+### Schematic Generation with Drawing Hints
+
+Source: https://github.com/mph-/lcapy/blob/master/README.md
+
+Demonstrates how to generate LaTeX schematics using circuitikz from a netlist. It includes examples of adding drawing hints for component placement, direction, and labeling.
+
+```python
+from lcapy import Circuit
+cct = Circuit("""
+Vs 2 0 {5 * u(t)}
+Ra 2 1
+Rb 1 0
+""")
+cct.draw(filename='pic.tex')
+```
+
+```python
+from lcapy import Circuit
+cct = Circuit("""
+P1 1 0; down
+R1 1 3; right
+L1 3 2; right
+C1 3 0_1; down
+P2 2 0_2; down
+W 0 0_1; right
+W 0_1 0_2; right""")
+cct.draw(filename='pic.tex')
+```
+
+```python
+from lcapy import Circuit
+cct = Ci
+
+=== Qucs | how to create circuits programmatically ===
+### createQueryController()
+
+Source: https://github.com/tanstack/query/blob/main/docs/framework/lit/reference/functions/createQueryController.md
+
+Creates a Lit reactive controller that subscribes the host to a single query. Returns an accessor for the latest query result with query helper methods including refetch, suspense, and destroy.
+
+```APIDOC
+## createQueryController()
+
+### Description
+Creates a Lit reactive controller that subscribes the host to a single query. The returned accessor is callable and also exposes `current`, `refetch`, `suspense`, and `destroy`. When `options` is a function, it is re-read during host updates so query keys and options can follow reactive host state. If `queryClient` is omitted, the controller resolves the client from the nearest connected `QueryClientProvider`.
+
+### Function Signature
+```ts
+function createQueryController<TQueryFnData, TError, TData, TQueryData, TQueryKey>(
+  host: ReactiveControllerHost,
+  options: Accessor<CreateQueryOptions<TQueryFnData, TError, TData, TQueryData, TQueryKey>>,
+  queryClient?: QueryClient
+): QueryResultAccessor<TData, TError>
+```
+
+### Type Parameters
+- **TQueryFnData** (default: `unknown`) - The type of data returned by the query function
+- **TError** (default: `Error`) - The type of error that can be thrown by the query
+- **TData** (default: `TQueryFnData`) - The type of the final query data after transformation
+- **TQueryData** (default: `TQueryFnData`) - The type of data stored in the query cache
+- **TQueryKey** (extends `readonly unknown[]`, default: `readonly unknown[]`) - The type of the query key
+
+### Parameters
+- **host** (`ReactiveControllerHost`) - Required - The Lit reactive controller host that owns the query subscription
+- **options** (`Accessor<CreateQueryOptions<...>>`) - Required - Query observer options, or a getter that returns options
+- **queryClient** (`QueryClient`) - Optional - Optional explicit query client. Provide this for controllers that should not resolve a client fro
+
+=== Qucs | how to run simulation from command line ===
+### Start development server
+
+Source: https://github.com/tanstack/query/blob/main/examples/svelte/playground/README.md
+
+Run this command to start the local development environment.
+
+```bash
+npm run dev
+```
+
+--------------------------------
+
+### Run the development server
+
+Source: https://github.com/tanstack/query/blob/main/examples/react/nextjs-app-prefetching/README.md
+
+Start the local development environment using npm, yarn, or pnpm.
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+```
+
+--------------------------------
+
+### Start development server
+
+Source: https://github.com/tanstack/query/blob/main/examples/vue/2.6-basic/README.md
+
+Execute the development script using your preferred package manager.
+
+```bash
+npm run dev
+```
+
+```bash
+yarn dev
+```
+
+```bash
+pnpm dev
+```
+
+```bash
+bun dev
+```
+
+--------------------------------
+
+### Run Lit Examples with pnpm
+
+Source: https://github.com/tanstack/query/blob/main/packages/lit-query/README.md
+
+Commands to run various Lit examples (basic, pagination, SSR) from the repository root using pnpm.
+
+```bash
+pnpm --dir examples/lit/basic run dev
+pnpm --dir examples/lit/pagination run dev
+pnpm --dir examples/lit/ssr run dev
+```
+
+--------------------------------
+
+### Run a specific example in development mode
+
+Source: https://github.com/tanstack/query/blob/main/CONTRIBUTING.md
+
+This command executes the development script for a selected example within its directory using pnpm. It starts the example application, allowing developers to test and interact with it locally.
+
+```bash
+pnpm run dev
+```
+
+=== Qucs | python API for circuit netlist generation ===
+### Using createMutationController in a LitElement
+
+Source: https://github.com/tanstack/query/blob/main/docs/framework/lit/reference/functions/createMutationController.md
+
+This example demonstrates how to integrate `createMutationController` into a LitElement to manage a mutation for adding a todo. It shows defining a `mutationFn` and using the returned accessor to trigger the mutation and react to its state in the `render` method.
+
+```typescript
+import { LitElement, html } from 'lit'
+import { createMutationController } from '@tanstack/lit-query'
+
+class AddTodoForm extends LitElement {
+  private readonly addTodo = createMutationController(this, {
+    mutationFn: (title: string) =>
+      fetch('/api/todos', { method: 'POST', body: JSON.stringify({ title }) }),
+  })
+
+  render() {
+    const mutation = this.addTodo()
+
+    return html`
+      <button ?disabled=${mutation.isPending} @click=${() => this.addTodo.mutate('Ship docs')}>
+        Add todo
+      </button>
+    `
+  }
+}
+```
+
+--------------------------------
+
+### Inferring Mutation Data Types in Lit Query
+
+Source: https://github.com/tanstack/query/blob/main/docs/framework/lit/typescript.md
+
+Implements a Lit element with `createMutationController` for adding a todo. The mutation's input and return types are inferred from the `addTodo` function.
+
+```ts
+import { LitElement } from 'lit'
+import { createMutationController } from '@tanstack/lit-query'
+
+type CreateTodoInput = {
+  title: string
+}
+
+type Todo = {
+  id: number
+  title: string
+}
+
+async function addTodo(input: CreateTodoInput): Promise<Todo> {
+  const response = await fetch('/api/todos', {
+    method: 'POST',
+    body: JSON.stringify(input),
+  })
+  if (!response.ok) throw new Error('Failed to create todo')
+  return response.json() as Promise<Todo>
+}
+
+class AddTodoButton extends LitElement {
+  private readonly mutation = createMutationController(this, {
+    mutationFn: addTodo,
+  })
+
+  private add() {
+    this.mutation.mutate({ title: 'Learn Lit Query' })
+  }
+}
+```
+
+
+=== Qucs | SPICE simulation python wrapper ===
+### Custom Hook for Data Fetching with useQuery
+
+Source: https://github.com/tanstack/query/blob/main/examples/react/nextjs/src/hooks/usePosts.ts
+
+A reusable custom hook pattern that wraps useQuery with a typed fetch function and parameterized query key. Demonstrates the standard pattern for encapsulating data fetching logic into a custom hook with co-located queryKey and queryFn.
+
+```typescript
+import { useQuery } from '@tanstack/react-query'
+
+type Post = {
+  id: number
+  title: string
+  body: string
+}
+
+const fetchPosts = async (limit = 10): Promise<Array<Post>> => {
+  const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+  const data = await response.json()
+  return data.filter((x: Post) => x.id <= limit)
+}
+
+const usePosts = (limit: number) => {
+  return useQuery({
+    queryKey: ['posts', limit],
+    queryFn: () => fetchPosts(limit),
+  })
+}
+
+export { usePosts, fetchPosts }
+```
+
+--------------------------------
+
+### Basic TanStack Query Setup with useQuery Hook
+
+Source: https://github.com/tanstack/query/blob/main/docs/framework/react/overview.md
+
+Demonstrates the fundamental setup of TanStack Query including QueryClient initialization, QueryClientProvider wrapper, and useQuery hook for fetching GitHub repository data. The example shows handling loading states, errors, and displaying fetched data with proper TypeScript support.
+
+```typescript
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
+
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Example />
+    </QueryClientProvider>
+  )
+}
+
+function Example() {
+  const { isPending, error, data } = useQuery({
+    queryKey: ['repoData'],
+    queryFn: () =>
+      fetch('https://api.github.com/repos/TanStack/query').then((res) =>
+        res.json(),
+      ),
+  })
+
+  if (isPending) return 'Loading...'
+
+  if (error) return 'An error has occurred: ' + error.message
+
+  return (
+    <di
+
+=== Qucs | how to export circuit to schematic or PCB ===
+### List Available Angular CLI Schematics
+
+Source: https://github.com/tanstack/query/blob/main/integrations/angular-cli-20/README.md
+
+Displays all available code generation schematics provided by Angular CLI, including options for components, directives, pipes, and other artifacts.
+
+```bash
+ng generate --help
+```
+
+--------------------------------
+
+### Generate Angular Component with CLI
+
+Source: https://github.com/tanstack/query/blob/main/integrations/angular-cli-20/README.md
+
+Uses Angular CLI scaffolding tools to generate a new component with the specified name. Supports various schematics including components, directives, and pipes.
+
+```bash
+ng generate component component-name
+```
+
+--------------------------------
+
+### Custom Hook for Data Fetching with useQuery
+
+Source: https://github.com/tanstack/query/blob/main/examples/react/nextjs/src/hooks/usePosts.ts
+
+A reusable custom hook pattern that wraps useQuery with a typed fetch function and parameterized query key. Demonstrates the standard pattern for encapsulating data fetching logic into a custom hook with co-located queryKey and queryFn.
+
+```typescript
+import { useQuery } from '@tanstack/react-query'
+
+type Post = {
+  id: number
+  title: string
+  body: string
+}
+
+const fetchPosts = async (limit = 10): Promise<Array<Post>> => {
+  const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+  const data = await response.json()
+  return data.filter((x: Post) => x.id <= limit)
+}
+
+const usePosts = (limit: number) => {
+  return useQuery({
+    queryKey: ['posts', limit],
+    queryFn: () => fetchPosts(limit),
+  })
+}
+
+export { usePosts, fetchPosts }
+```
+
+### Code scaffolding
+
+Source: https://github.com/tanstack/query/blob/main/integrations/angular-cli-20/README.md
+
+Angular CLI includes powerful code scaffolding tools that enable developers to quickly generate new project components. To generate a new component, you can use the `ng generate component` command. For a complete list of available schematics such
+
+=== ngspice | how to create circuits programmatically ===
+### Netlist Manipulation with PySpice
+
+Source: https://pyspice.fabrice-salvaire.fr/releases/v1.5/examples/basic-usages/index.html
+
+Shows basic operations for manipulating SPICE netlists using PySpice. This includes creating circuits, adding components, and accessing circuit properties.
+
+```python
+from PySpice.Spice.Netlist import Circuit
+from PySpice.Unit import *
+
+# Create a new circuit
+circuit = Circuit('Netlist Manipulation')
+
+# Add components
+circuit.V('input', 'in', circuit.gnd, 1@u_V)
+circuit.R(1, 'in', 'out', 1@u_kOhm)
+circuit.C(1, 'out', circuit.gnd, 1@u_uF)
+
+# Access circuit properties
+print(f"Circuit name: {circuit.name}")
+print(f"Nodes: {circuit.nodes}")
+print(f"Elements: {circuit.elements}")
+
+# Add a subcircuit (example)
+def my_subcircuit(circuit, name, node1, node2, value):
+    sub = circuit.subcircuit(name)
+    sub.R(1, node1, node2, value)
+
+my_subcircuit(circuit, 'my_resistor_sub', 'in', 'out', 10@u_kOhm)
+print(f"Elements after adding subcircuit: {circuit.elements}")
+```
+
+--------------------------------
+
+### Define Subcircuits and Circuits in PySpice
+
+Source: https://pyspice.fabrice-salvaire.fr/releases/v1.5/_sources/examples/basic-usages/netlist-manipulations.rst.txt
+
+Demonstrates how to create a custom subcircuit using SubCircuitFactory and initialize a basic circuit object.
+
+```python
+from PySpice.Spice.Netlist import Circuit, SubCircuitFactory
+from PySpice.Unit import *
+
+class SubCircuit1(SubCircuitFactory):
+    NAME = 'sub_circuit1'
+    NODES = ('n1', 'n2')
+    def __init__(self):
+        super().__init__()
+        self.R(1, 'n1', 'n2', 1@u_Ω)
+        self.R(2, 'n1', 'n2', 2@u_Ω)
+
+circuit = Circuit('Test')
+```
+
+--------------------------------
+
+### Building Circuit from Parsed Statements in PySpice
+
+Source: https://pyspice.fabrice-salvaire.fr/releases/v1.5/_modules/PySpice/Spice/Parser.html
+
+The `_build_circuit` and `build_circuit` methods in PySpice are responsible for constructing a `Circuit` object from parsed netlist statements. `_build_circ
+
+=== ngspice | how to run simulation from command line ===
+### Initialize and Run NgSpice Simulation
+
+Source: https://pyspice.fabrice-salvaire.fr/releases/v1.5/_sources/examples/ngspice-shared/ngspice-interpreter.rst.txt
+
+This snippet demonstrates how to instantiate the NgSpiceShared interface, execute standard Spice commands, load a netlist circuit, and run a transient analysis.
+
+```python
+import PySpice.Logging.Logging as Logging
+logger = Logging.setup_logging()
+from PySpice.Spice.NgSpice.Shared import NgSpiceShared
+
+ngspice = NgSpiceShared.new_instance()
+print(ngspice.exec_command('version -f'))
+
+circuit = '''
+.title Voltage Multiplier
+.SUBCKT 1N4148 1 2
+R1 1 2 5.827E+9
+D1 1 2 1N4148
+.MODEL 1N4148 D
++ IS = 4.352E-9
++ N = 1.906
++ BV = 110
++ IBV = 0.0001
++ RS = 0.6458
++ CJO = 7.048E-13
++ VJ = 0.869
++ M = 0.03
++ FC = 0.5
++ TT = 3.48E-9
+.ENDS
+Vinput in 0 DC 0V AC 1V SIN(0V 10V 50Hz 0s 0Hz)
+C0 in 1 1mF
+X0 1 0 1N4148
+C1 0 2 1mF
+X1 2 1 1N4148
+C2 1 3 1mF
+X2 3 2 1N4148
+C3 2 4 1mF
+X3 4 3 1N4148
+C4 3 5 1mF
+X4 5 4 1N4148
+R1 5 6 1MegOhm
+.tran 0.0001s 0.4s 0s
+.end
+'''
+
+ngspice.load_circuit(circuit)
+ngspice.run()
+print('Plots:', ngspice.plot_names)
+```
+
+--------------------------------
+
+### NgSpice Interpreter Usage
+
+Source: https://pyspice.fabrice-salvaire.fr/releases/v1.5/examples/ngspice-shared/ngspice-interpreter.html
+
+This example demonstrates how to initialize the NgSpice interpreter, execute various commands, load a circuit definition, run a transient analysis, and retrieve simulation results.
+
+```APIDOC
+## NgSpice Interpreter Binding
+
+### Description
+This section details the usage of the NgSpice binding in PySpice, allowing direct interaction with the NgSpice simulator.
+
+### Method
+N/A (Illustrative Example)
+
+### Endpoint
+N/A (Local Execution)
+
+### Parameters
+N/A
+
+### Request Example
+```python
+import PySpice.Logging.Logging as Logging
+logger = Logging.setup_logging()
+
+from PySpice.Spice.NgSpice.Shared import NgSpiceShared
+
+# Initialize NgSpice
+ngspice = NgSpiceShared.new_instance()
+
+# Execute NgSpice commands
+print(ngspice.exec
+
+=== ngspice | python API for circuit netlist generation ===
+### Generating SPICE Netlist
+
+Source: https://pyspice.fabrice-salvaire.fr/releases/v1.5/_modules/PySpice/Spice/Netlist.html
+
+Methods to format and concatenate circuit components into a valid SPICE netlist string representation.
+
+```python
+def __str__(self):
+	netlist = self._str_raw_spice()
+	netlist += self._str_subcircuits()
+	netlist += self._str_elements()
+	netlist += self._str_models()
+	return netlist
+```
+
+--------------------------------
+
+### Netlist Generation and Element Disabling
+
+Source: https://pyspice.fabrice-salvaire.fr/releases/v1.5/examples/basic-usages/netlist-manipulations.html
+
+Illustrates how to generate the SPICE netlist string representation of a circuit and how to disable specific elements.
+
+```APIDOC
+## Netlist Generation and Element Disabling
+
+### Description
+Shows how to obtain the string representation of a circuit's SPICE netlist and how to disable individual circuit elements.
+
+### Method
+N/A (Python code)
+
+### Endpoint
+N/A (Python code)
+
+### Parameters
+N/A
+
+### Request Example
+```python
+# Assuming 'circuit' and 'C1' are defined
+print(circuit) # Implicitly calls str(circuit) to print the netlist
+print(C1)      # Prints the netlist representation of element C1
+
+C1.enabled = False # Disable element C1
+print(circuit)     # Print circuit netlist with C1 disabled
+```
+
+### Response
+#### Success Response (200)
+N/A (Python execution)
+
+#### Response Example
+N/A
+```
+
+--------------------------------
+
+### Export and Clone Netlists
+
+Source: https://pyspice.fabrice-salvaire.fr/releases/v1.5/_sources/examples/basic-usages/netlist-manipulations.rst.txt
+
+Explains how to convert a circuit to a SPICE netlist string and how to clone or remove elements from a circuit.
+
+```python
+# Export to string
+print(circuit)
+
+# Clone a circuit
+circuit2 = circuit.clone(title='A clone')
+
+# Remove an element
+C2 = circuit2.C2.detach()
+```
+
+--------------------------------
+
+### PySpice Netlist Parser Bootstrap Example (Python)
+
+Source: https://pyspice.fabrice-salvaire.fr/releases
+
+=== ngspice | SPICE simulation python wrapper ===
+### PySpice API Documentation - Spice Simulation
+
+Source: https://pyspice.fabrice-salvaire.fr/releases/v1.5/index.html
+
+This documentation covers the Simulation module within the Spice package of PySpice. It provides the core functionalities for setting up and running various types of SPICE simulations.
+
+```python
+# Example of setting up a simulation in PySpice
+import PySpice.Logging.Logging as Logging
+logger = Logging.setup_logging()
+
+from PySpice.Spice.Netlist import Circuit
+from PySpice.Unit import * # For units like *V, *A, *Ohm etc.
+
+circuit = Circuit('Simulation Setup Example')
+circuit.V('input', 'node1', circuit.gnd, 1@u_V)
+circuit.R(1, 'node1', circuit.gnd, 1@u_kOhm)
+
+# Setup the simulator
+simulator = circuit.simulator(temperature=25, nominal_temperature=25)
+
+# Perform an operating point analysis
+analysis = simulator.operating_point(circuit.V('input'))
+
+print(f"Simulation analysis results: {analysis}")
+
+```
+
+--------------------------------
+
+### PySpice.Spice.Simulation Module
+
+Source: https://pyspice.fabrice-salvaire.fr/releases/v1.5/_modules/PySpice/Tools/File.html
+
+Documentation for the PySpice.Spice.Simulation module, enabling circuit simulations.
+
+```APIDOC
+## PySpice.Spice.Simulation
+
+### Description
+This module handles the simulation of electronic circuits using SPICE engines.
+
+### Module
+PySpice.Spice.Simulation
+
+### Key Classes
+- **Simulator**: Base class for SPICE simulators.
+- **NgSpice**: Interface for the NgSpice simulator.
+- **Xyce**: Interface for the Xyce simulator.
+
+### Usage
+Instantiate a simulator object, define the circuit, and run the simulation.
+
+### Example
+```python
+# Example usage (conceptual)
+from PySpice.Spice.Netlist import Circuit
+from PySpice.Spice.Simulation import Simulation
+
+circuit = Circuit('My Circuit')
+circuit.V('1', 'in', circuit.gnd, 1@u_V)
+circuit.R(1, 'in', 'out', 1@u_kOhm)
+circuit.C(1, 'out', circuit.gnd, 1@u_uF)
+
+simulator = Simulation(circuit)
+simulation_results = simulator.transient(end_time=1@u_ms, step_time=1@u_
+
+=== ngspice | how to export circuit to schematic or PCB ===
+### Simulate and Export Circuit
+
+Source: https://pyspice.fabrice-salvaire.fr/releases/v1.5/api/PySpice/Spice/Netlist.html
+
+Provides methods to create a simulator instance from a circuit and export the circuit definition to a SPICE-compatible string format.
+
+```python
+simulator = circuit.simulator()
+spice_netlist = str(circuit)
+```
+
+--------------------------------
+
+### Export and Clone Netlists
+
+Source: https://pyspice.fabrice-salvaire.fr/releases/v1.5/_sources/examples/basic-usages/netlist-manipulations.rst.txt
+
+Explains how to convert a circuit to a SPICE netlist string and how to clone or remove elements from a circuit.
+
+```python
+# Export to string
+print(circuit)
+
+# Clone a circuit
+circuit2 = circuit.clone(title='A clone')
+
+# Remove an element
+C2 = circuit2.C2.detach()
+```
+
+--------------------------------
+
+### Circuit Management API
+
+Source: https://pyspice.fabrice-salvaire.fr/releases/v1.5/_sources/examples/basic-usages/netlist-manipulations.rst.txt
+
+Endpoints for defining, modifying, and exporting SPICE netlist circuits.
+
+```APIDOC
+## POST /circuit/create
+
+### Description
+Initializes a new SPICE circuit instance.
+
+### Method
+POST
+
+### Endpoint
+/circuit/create
+
+### Parameters
+#### Request Body
+- **title** (string) - Required - The name of the circuit.
+
+### Request Example
+{
+  "title": "TestCircuit"
+}
+
+### Response
+#### Success Response (200)
+- **circuit_id** (string) - The identifier for the created circuit object.
+
+---
+
+## POST /circuit/element
+
+### Description
+Adds a component (Resistor, Capacitor, etc.) or sub-circuit to an existing circuit.
+
+### Method
+POST
+
+### Endpoint
+/circuit/{id}/element
+
+### Parameters
+#### Path Parameters
+- **id** (string) - Required - The circuit identifier.
+
+#### Request Body
+- **type** (string) - Required - Element type (e.g., 'C', 'R', 'X').
+- **name** (string) - Required - Unique element name.
+- **nodes** (list) - Required - List of connected nodes.
+- **value** (string) - Required - Component value with units.
+
+### Request Exam
+
+=== Xyce | how to create circuits programmatically ===
+### Set Netlist Parameters Programmatically (C++)
+
+Source: https://context7.com/xyce/xyce/llms.txt
+
+Illustrates how to modify netlist parameters at runtime, which is useful for integration with tools like Dakota. This involves creating a list of parameter substitutions and setting them on the Simulator instance before initialization. The netlist can then reference these parameters, which will be substituted during runtime.
+
+```cpp
+// Modify netlist parameters at runtime (useful for Dakota integration)
+#include <N_CIR_Xyce.h>
+#include <vector>
+#include <utility>
+#include <string>
+
+Xyce::Circuit::Simulator xyce;
+
+// Define parameter substitutions as key-value pairs
+std::vector<std::pair<std::string, std::string>> externalParams;
+externalParams.push_back(std::make_pair("RES_VALUE", "1000"));
+externalParams.push_back(std::make_pair("CAP_VALUE", "1e-6"));
+externalParams.push_back(std::make_pair("VOLTAGE", "5.0"));
+
+// Set parameters before initialization
+xyce.setNetlistParameters(externalParams);
+
+// Set output file suffix to avoid overwriting
+xyce.setOutputFileSuffix("_run1");
+
+// Initialize with netlist that references these parameters
+// Example netlist: R1 1 0 {RES_VALUE}
+std::vector<std::string> args;
+args.push_back("parametric_circuit.cir");
+xyce.initialize(args);
+xyce.runSimulation();
+```
+
+--------------------------------
+
+### Initialize Xyce for Embedded Use (C++)
+
+Source: https://context7.com/xyce/xyce/llms.txt
+
+Shows a two-phase initialization process for embedding Xyce within other applications. This involves creating a Simulator instance with an MPI communicator, preparing arguments, performing an 'initializeEarly' step to read the netlist, an 'initializeLate' step for setup, and finally running the simulation.
+
+```cpp
+// Two-phase initialization for embedded applications
+#include <N_CIR_Xyce.h>
+#include <vector>
+#include <string>
+
+// Create simulator with MPI communicator
+Xyce::Circuit::Simulator xyce(MPI_COMM_WORLD);
+
+// Prepare command-line arguments (with
+
+=== Xyce | how to run simulation from command line ===
+### Run Transient Analysis with Xyce
+
+Source: https://context7.com/xyce/xyce/llms.txt
+
+Simulates circuit behavior over time. Requires a SPICE netlist defining the circuit and the .TRAN analysis command. Xyce executable is used to run the simulation, optionally with MPI for parallel execution or custom logging.
+
+```spice
+* Simple RC Circuit Transient Analysis
+* circuit.cir
+
+V1 1 0 PULSE(0 5 0 1ns 1ns 50ns 100ns)
+R1 1 2 1k
+C1 2 0 1uF
+
+.TRAN 1ns 500ns
+.PRINT TRAN V(1) V(2) I(V1)
+.MEASURE TRAN risetime TRIG V(2)=0.5 RISE=1 TARG V(2)=4.5 RISE=1
+.MEASURE TRAN maxvolt MAX V(2)
+
+.END
+```
+
+```bash
+# Execute simulation
+Xyce circuit.cir
+
+# Parallel execution with MPI
+mpirun -np 4 Xyce circuit.cir
+
+# With custom log file
+Xyce -l simulation.log circuit.cir
+
+# Output: circuit.cir.prn (contains time-series data)
+```
+
+--------------------------------
+
+### Running Sensitivity Analysis (Bash)
+
+Source: https://context7.com/xyce/xyce/llms.txt
+
+Command to execute an Xyce sensitivity analysis simulation. The output file containing the sensitivity data is indicated.
+
+```bash
+Xyce sensitivity.cir
+# Output: sensitivity.cir.sens.prn (sensitivity data)
+```
+
+--------------------------------
+
+### Running Noise Analysis (Bash)
+
+Source: https://context7.com/xyce/xyce/llms.txt
+
+Command to execute an Xyce noise analysis simulation. The output file containing the noise analysis results is specified.
+
+```bash
+Xyce noise_circuit.cir
+# Output: noise_circuit.cir.noise.prn (noise analysis results)
+```
+
+--------------------------------
+
+### Running Harmonic Balance Analysis (Bash)
+
+Source: https://context7.com/xyce/xyce/llms.txt
+
+Command to execute an Xyce Harmonic Balance analysis using a provided SPICE netlist. The output file containing the HB analysis results in frequency domain is also indicated.
+
+```bash
+Xyce hb_circuit.cir
+# Output: hb_circuit.cir.HB.FD.prn (harmonic balance frequency domain)
+```
+
+--------------------------------
+
+### Run DC Sweep Analysis with Xyce
+
+Source: https://context7.com/xy
+
+=== Xyce | python API for circuit netlist generation ===
+### Set Netlist Parameters Programmatically (C++)
+
+Source: https://context7.com/xyce/xyce/llms.txt
+
+Illustrates how to modify netlist parameters at runtime, which is useful for integration with tools like Dakota. This involves creating a list of parameter substitutions and setting them on the Simulator instance before initialization. The netlist can then reference these parameters, which will be substituted during runtime.
+
+```cpp
+// Modify netlist parameters at runtime (useful for Dakota integration)
+#include <N_CIR_Xyce.h>
+#include <vector>
+#include <utility>
+#include <string>
+
+Xyce::Circuit::Simulator xyce;
+
+// Define parameter substitutions as key-value pairs
+std::vector<std::pair<std::string, std::string>> externalParams;
+externalParams.push_back(std::make_pair("RES_VALUE", "1000"));
+externalParams.push_back(std::make_pair("CAP_VALUE", "1e-6"));
+externalParams.push_back(std::make_pair("VOLTAGE", "5.0"));
+
+// Set parameters before initialization
+xyce.setNetlistParameters(externalParams);
+
+// Set output file suffix to avoid overwriting
+xyce.setOutputFileSuffix("_run1");
+
+// Initialize with netlist that references these parameters
+// Example netlist: R1 1 0 {RES_VALUE}
+std::vector<std::string> args;
+args.push_back("parametric_circuit.cir");
+xyce.initialize(args);
+xyce.runSimulation();
+```
+
+--------------------------------
+
+### Set Xyce Working Directory (C++)
+
+Source: https://context7.com/xyce/xyce/llms.txt
+
+Demonstrates setting the working directory in C++ before loading a netlist, allowing relative paths within the netlist to be resolved correctly. The Xyce simulator is initialized with arguments after setting the working directory.
+
+```cpp
+// Set working directory before loading netlist
+#include <N_CIR_Xyce.h>
+
+Xyce::Circuit::Simulator xyce;
+
+// Set working directory for relative paths in netlist
+xyce.setWorkingDirectory("/path/to/circuit/directory");
+
+std::vector<std::string> args;
+args.push_back("circuit.cir");  // Loaded relative to working directory
+xyce.in
+
+=== Xyce | SPICE simulation python wrapper ===
+### Initialize Xyce for Embedded Use (C++)
+
+Source: https://context7.com/xyce/xyce/llms.txt
+
+Shows a two-phase initialization process for embedding Xyce within other applications. This involves creating a Simulator instance with an MPI communicator, preparing arguments, performing an 'initializeEarly' step to read the netlist, an 'initializeLate' step for setup, and finally running the simulation.
+
+```cpp
+// Two-phase initialization for embedded applications
+#include <N_CIR_Xyce.h>
+#include <vector>
+#include <string>
+
+// Create simulator with MPI communicator
+Xyce::Circuit::Simulator xyce(MPI_COMM_WORLD);
+
+// Prepare command-line arguments (without "Xyce" as arg 0)
+std::vector<std::string> arguments;
+arguments.push_back("circuit.cir");
+arguments.push_back("-l");
+arguments.push_back("logfile.txt");
+
+// First phase: read netlist and instantiate devices
+Xyce::Circuit::Simulator::RunStatus status = xyce.initializeEarly(arguments);
+if (status != Xyce::Circuit::Simulator::SUCCESS) {
+  std::cerr << "Early initialization failed" << std::endl;
+  return 1;
+}
+
+// Second phase: setup topology and matrix structures
+status = xyce.initializeLate();
+if (status != Xyce::Circuit::Simulator::SUCCESS) {
+  std::cerr << "Late initialization failed" << std::endl;
+  return 1;
+}
+
+// Run the simulation
+status = xyce.runSimulation();
+if (status != Xyce::Circuit::Simulator::SUCCESS) {
+  std::cerr << "Simulation failed" << std::endl;
+  return 1;
+}
+```
+
+--------------------------------
+
+### Run Basic Xyce Simulation (C++)
+
+Source: https://context7.com/xyce/xyce/llms.txt
+
+Demonstrates how to run a basic Xyce simulation directly from the main entry point. This requires including the necessary Xyce headers and instantiating the Simulator class. The 'run' method takes command-line arguments similar to how Xyce is invoked from the terminal.
+
+```cpp
+#include <N_CIR_Xyce.h>
+#include <N_ERH_ErrorMgr.h>
+
+int main(int argc, char *argv[]) {
+  bool bsuccess = false;
+
+  // Create Xyce simulator instance
+  Xy
+
+=== Xyce | how to export circuit to schematic or PCB ===
+### Export Xyce Library Targets with CMake
+
+Source: https://github.com/xyce/xyce/blob/master/src/CMakeLists.txt
+
+This CMake snippet exports the Xyce library targets using `export()`. It generates a `XyceTargets.cmake` file in the build directory's cmake subdirectory and defines a namespace `Xyce::`. This allows other CMake projects to easily link against Xyce libraries.
+
+```cmake
+export(EXPORT XyceLibTarget
+  FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/XyceTargets.cmake"
+  NAMESPACE Xyce::
+)
+```
+
+--------------------------------
+
+### Install Xyce Exported Targets with CMake
+
+Source: https://github.com/xyce/xyce/blob/master/src/CMakeLists.txt
+
+This CMake code installs the exported Xyce library targets, specified by `XyceLibTarget`, into the `${ConfigPackageLocation}` directory. The `XyceTargets.cmake` file will be installed with the `Core` component and a `Xyce::` namespace.
+
+```cmake
+set(ConfigPackageLocation lib/cmake/Xyce)
+install(EXPORT XyceLibTarget
+  FILE
+    XyceTargets.cmake
+  NAMESPACE
+    Xyce::
+  DESTINATION
+    ${ConfigPackageLocation}
+  COMPONENT 
+    Core
+)
+```
+
+--------------------------------
+
+### Installing Xyce Executable Target (CMake)
+
+Source: https://github.com/xyce/xyce/blob/master/src/CMakeLists.txt
+
+Installs the main Xyce executable target. This command ensures that the Xyce executable is placed in the appropriate binary directory (`bin`) and that its installation is exported for use by other projects. This is a standard step for making the built executable available after installation.
+
+```cmake
+install(TARGETS Xyce DESTINATION bin EXPORT XyceTarget)
+```
+
+--------------------------------
+
+### Windows Export All Symbols for Shared Libraries
+
+Source: https://github.com/xyce/xyce/blob/master/CMakeLists.txt
+
+When building shared libraries on Windows, this setting automatically exports all symbols from the resulting DLL. This is a broad approach to ensure symbol visibility until more granular symbol management is implemented.
+
+```cmake
+if(BUILD_SHARED
+
+=== LTspice | how to create circuits programmatically ===
+### Access and Modify SPICE Netlist Components with PyLTSpice
+
+Source: https://context7.com/nunobrum/pyltspice/llms.txt
+
+This Python snippet shows how to use PyLTSpice's SpiceEditor to access and manipulate components within a SPICE netlist. It covers getting components by type, retrieving and setting component values, parameters, and nodes. It also demonstrates accessing and modifying subcircuits, cloning circuits, removing components, and adding new ones.
+
+```python
+from PyLTSpice import SpiceEditor
+from spicelib.editor.spice_editor import Component
+
+netlist = SpiceEditor("./complex_circuit.net")
+
+# Get all components of specific types
+all_resistors = netlist.get_components('R')          # All resistors
+all_capacitors = netlist.get_components('C')         # All capacitors
+all_components = netlist.get_components('*')         # All components
+
+print(f"Resistors: {all_resistors}")
+# Output: ['R1', 'R2', 'R3', 'R4']
+
+# Get component details
+r1_value = netlist.get_component_value('R1')
+r1_nodes = netlist.get_component_nodes('R1')
+r1_params = netlist.get_component_parameters('R1')
+
+print(f"R1: value={r1_value}, nodes={r1_nodes}, params={r1_params}")
+# Output: R1: value=10k, nodes=['N001', 'N002'], params={'tc1': '0.01'}
+
+# Set component parameters
+netlist.set_component_parameters('R1', value='10k', tc1=0.01, tc2=0.001)
+
+# Access subcircuits
+subcircuit_names = netlist.get_subcircuit_names()
+print(f"Subcircuits: {subcircuit_names}")
+
+# Get a subcircuit as an editable object
+opamp_circuit = netlist.get_subcircuit('XU1')
+opamp_circuit.set_component_value('R_internal', '1Meg')
+
+# Access all nodes in the circuit
+all_nodes = netlist.get_all_nodes()
+print(f"Circuit nodes: {all_nodes}")
+
+# Get all parameter names
+param_names = netlist.get_all_parameter_names()
+print(f"Parameters: {param_names}")
+
+# Clone the circuit for variations
+netlist_copy = netlist.clone(new_name='circuit_variant')
+netlist_copy.set_component_value('R1', '20k')
+netlist_copy.save_netlist("circuit_variant.net"
+
+=== LTspice | how to run simulation from command line ===
+### Implement Simulator run() Method
+
+Source: https://github.com/nunobrum/pyltspice/blob/master/doc/classes/sim_simulator.md
+
+This classmethod implements the core logic for running a Spice simulation. It constructs the command line arguments, including the netlist file and any switches, and then calls a helper function to execute the simulation. This method should be overridden by subclasses.
+
+```python
+@classmethod
+def run(cls, netlist_file: str | Path, cmd_line_switches: list | None = None, timeout: float | None = None,
+    stdout=None, stderr=None, cwd: str | Path | None = None, exe_log: bool = False) -> int:
+    '''This method implements the call for the simulation of the netlist file. '''
+    cmd_run = cls.spice_exe + ['-Run'] + ['-b'] + [netlist_file] + cmd_line_switches
+    return run_function(cmd_run, timeout=timeout, stdout=stdout, stderr=stderr, cwd=cwd)
+```
+
+--------------------------------
+
+### POST /simulator/run
+
+Source: https://github.com/nunobrum/pyltspice/blob/master/doc/classes/sim_simulator.md
+
+Executes a netlist simulation using the configured Spice simulator.
+
+```APIDOC
+## POST /simulator/run
+
+### Description
+Executes the simulation of a netlist file using the defined simulator executable and provided command line switches.
+
+### Method
+POST
+
+### Endpoint
+/simulator/run
+
+### Parameters
+#### Request Body
+- **netlist_file** (str | Path) - Required - Path to the netlist file.
+- **cmd_line_switches** (list) - Optional - List of command line arguments for the simulator.
+- **timeout** (float) - Optional - Execution timeout in seconds.
+- **cwd** (str | Path) - Optional - Current working directory for the process.
+
+### Request Example
+{
+  "netlist_file": "/path/to/circuit.net",
+  "cmd_line_switches": ["-i"],
+  "timeout": 30.0
+}
+
+### Response
+#### Success Response (200)
+- **exit_code** (int) - The return code of the simulation process.
+
+#### Response Example
+{
+  "exit_code": 0
+}
+```
+
+--------------------------------
+
+### Execute Circuit Simulation with Py
+
+=== LTspice | python API for circuit netlist generation ===
+### Manipulate Netlist Files with SpiceEditor
+
+Source: https://context7.com/nunobrum/pyltspice/llms.txt
+
+The SpiceEditor class allows programmatic modification of SPICE netlist components, parameters, models, and simulation directives. It supports complex operations like subcircuit component targeting and regex-based instruction removal.
+
+```python
+from PyLTSpice import SpiceEditor
+
+# Load a netlist file
+netlist = SpiceEditor("circuit.net")
+
+# Modify component values
+netlist.set_component_value('R1', '4.7k')
+netlist.set_component_value('C1', 100e-9)
+netlist.set_component_value('R2', '2k')
+
+# Set parameters
+netlist.set_parameters(res=0, cap=100e-6)
+netlist.set_parameter('TEMP', 80)
+
+# Change element models
+netlist.set_element_model('D1', '1N4148')
+netlist.set_element_model('V3', "SINE(0 1 3k 0 0 0)")
+
+# Modify components inside subcircuits
+netlist.set_component_value('XU1:C2', 20e-12)
+
+# Add/Remove simulation instructions
+netlist.add_instructions(".tran 10m", ".meas AC Gain MAX mag(V(out))")
+netlist.remove_Xinstruction(r"\.AC.*");
+
+# Save the modified netlist
+netlist.save_netlist("circuit_modified.net")
+```
+
+--------------------------------
+
+### Save Netlist to File - PylTSPICE
+
+Source: https://github.com/nunobrum/pyltspice/blob/master/doc/modules/sim_analysis.md
+
+Saves the generated circuit netlist to a specified file path. This is a crucial step for later simulation or analysis.
+
+```python
+wca.save_netlist('./testfiles/sallenkey_wc.asc')
+```
+
+### PyLTSpice > SpiceEditor - Netlist Manipulation
+
+Source: https://context7.com/nunobrum/pyltspice/llms.txt
+
+The SpiceEditor class provides interfaces to read and manipulate SPICE netlist files (.net). It allows for the modification of component values, parameters, element models, and simulation commands directly through Python code without opening the LTSpice GUI. Users can modify components inside subcircuits using the colon notation, add or remove simulation instructions, and reset netlists to their original state, making 
+
+=== LTspice | SPICE simulation python wrapper ===
+### Implement Simulator run() Method
+
+Source: https://github.com/nunobrum/pyltspice/blob/master/doc/classes/sim_simulator.md
+
+This classmethod implements the core logic for running a Spice simulation. It constructs the command line arguments, including the netlist file and any switches, and then calls a helper function to execute the simulation. This method should be overridden by subclasses.
+
+```python
+@classmethod
+def run(cls, netlist_file: str | Path, cmd_line_switches: list | None = None, timeout: float | None = None,
+    stdout=None, stderr=None, cwd: str | Path | None = None, exe_log: bool = False) -> int:
+    '''This method implements the call for the simulation of the netlist file. '''
+    cmd_run = cls.spice_exe + ['-Run'] + ['-b'] + [netlist_file] + cmd_line_switches
+    return run_function(cmd_run, timeout=timeout, stdout=stdout, stderr=stderr, cwd=cwd)
+```
+
+--------------------------------
+
+### POST /simulator/run
+
+Source: https://github.com/nunobrum/pyltspice/blob/master/doc/classes/sim_simulator.md
+
+Executes a netlist simulation using the configured Spice simulator.
+
+```APIDOC
+## POST /simulator/run
+
+### Description
+Executes the simulation of a netlist file using the defined simulator executable and provided command line switches.
+
+### Method
+POST
+
+### Endpoint
+/simulator/run
+
+### Parameters
+#### Request Body
+- **netlist_file** (str | Path) - Required - Path to the netlist file.
+- **cmd_line_switches** (list) - Optional - List of command line arguments for the simulator.
+- **timeout** (float) - Optional - Execution timeout in seconds.
+- **cwd** (str | Path) - Optional - Current working directory for the process.
+
+### Request Example
+{
+  "netlist_file": "/path/to/circuit.net",
+  "cmd_line_switches": ["-i"],
+  "timeout": 30.0
+}
+
+### Response
+#### Success Response (200)
+- **exit_code** (int) - The return code of the simulation process.
+
+#### Response Example
+{
+  "exit_code": 0
+}
+```
+
+--------------------------------
+
+### Batch Simulation and Iteration
+
+So
+
+=== LTspice | how to export circuit to schematic or PCB ===
+### Manipulate Schematic Files with AscEditor
+
+Source: https://context7.com/nunobrum/pyltspice/llms.txt
+
+The AscEditor class extends the functionality of SpiceEditor to work directly with LTSpice .asc schematic files. It allows for component value updates and simulation command injection before exporting to netlist or saving as a modified schematic.
+
+```python
+from PyLTSpice import AscEditor
+
+# Load an LTSpice schematic file
+schematic = AscEditor("./testfiles/sallenkey.asc")
+
+# Apply modifications
+schematic.set_component_value('R1', '10k')
+schematic.set_parameters(Vos=0.001)
+
+# Add simulation commands
+schematic.add_instructions(".tran 0 10m 0 1u", ".meas TRAN vout_max MAX V(out)")
+
+# Save as netlist or modified .asc
+schematic.save_netlist("./testfiles/sallenkey_modified.net")
+```
+
+--------------------------------
+
+### Save Netlist to File using AscEditor
+
+Source: https://github.com/nunobrum/pyltspice/blob/master/doc/classes/asc_editor.md
+
+Saves the current circuit netlist to a specified file path. This method is part of the AscEditor class, which is designed for manipulating LTSpice .asc files. It takes the output file path as a parameter.
+
+```python
+from pathlib import Path
+from PyLTSpice.editor import AscEditor
+
+# Assuming 'asc_file_path' is the path to your .asc file
+asc_file_path = Path("path/to/your/circuit.asc")
+
+editor = AscEditor(asc_file_path)
+editor.save_netlist("path/to/save/netlist.net")
+```
+
+--------------------------------
+
+### Execute Circuit Simulation with PyLTSpice
+
+Source: https://context7.com/nunobrum/pyltspice/llms.txt
+
+This snippet demonstrates how to initialize a simulation runner and execute a netlist file. It utilizes the SimRunner class to manage output directories and verbosity, and the SpiceEditor to load the circuit definition.
+
+```python
+from PyLTSpice import SimRunner, SpiceEditor
+
+# Initialize the simulation runner with output configuration
+runner = SimRunner(output_folder='./temp', verbose=True)
+
+# Load the circuit netlist
+netlist = 
+
