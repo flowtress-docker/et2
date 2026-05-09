@@ -1,0 +1,37 @@
+name: 'Smart Thermostat Demo'
+version: 1
+author: 'Demo Bot'
+
+steps:
+  - wait-serial: 'Smart Thermostat started'
+
+  # Normal temp
+  - set-control:
+      part-id: dht
+      control: temperature
+      value: 22
+  - delay: 1s
+  - wait-serial: 'Temp: 22.00 C'
+
+  # Alarm threshold
+  - set-control:
+      part-id: dht
+      control: temperature
+      value: 35
+  - delay: 1s
+  - wait-serial: 'ALARM: High temperature!'
+  - expect-pin:
+      part-id: esp
+      pin: 2
+      expected: 1
+
+  # Return to normal
+  - set-control:
+      part-id: dht
+      control: temperature
+      value: 22
+  - delay: 1s
+  - expect-pin:
+      part-id: esp
+      pin: 2
+      expected: 0

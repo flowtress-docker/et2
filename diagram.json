@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "author": "Demo Bot",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht",
+      "top": -80,
+      "left": 180,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": 100,
+      "left": 180,
+      "attrs": {
+        "color": "red"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 120,
+      "left": 100,
+      "attrs": {
+        "value": "220"
+      }
+    }
+  ],
+  "connections": [
+    ["esp:3V3", "dht:VCC", "red", ["h20", "v-20"]],
+    ["esp:GND.2", "dht:GND", "black", ["h20", "v20"]],
+    ["esp:D15", "dht:SDA", "green", ["h30", "v-10"]],
+    ["esp:D2", "r1:1", "orange", ["h40", "v30"]],
+    ["r1:2", "led1:A", "orange", ["h10"]],
+    ["led1:C", "esp:GND.1", "black", ["v20", "h-100"]],
+    ["esp:TX", "$serialMonitor:RX", "", []],
+    ["esp:RX", "$serialMonitor:TX", "", []]
+  ]
+}
