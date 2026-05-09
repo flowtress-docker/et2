@@ -1,0 +1,30 @@
+name: 'Auto-Blinds Demo'
+version: 1
+author: 'Demo Bot'
+
+steps:
+  - wait-serial: 'Auto-Blinds started'
+
+  # Bright light → open blinds
+  - set-control:
+      part-id: ldr
+      control: lux
+      value: 100
+  - delay: 1s
+  - wait-serial: 'Blinds OPEN'
+
+  # Dark → close blinds
+  - set-control:
+      part-id: ldr
+      control: lux
+      value: 10
+  - delay: 1s
+  - wait-serial: 'Blinds CLOSED'
+
+  # Medium light → open again
+  - set-control:
+      part-id: ldr
+      control: lux
+      value: 80
+  - delay: 1s
+  - wait-serial: 'Blinds OPEN'

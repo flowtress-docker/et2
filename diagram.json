@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "author": "Demo Bot",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-photoresistor", "id": "ldr", "top": -100, "left": -100, "attrs": {} },
+    { "type": "wokwi-servo", "id": "servo", "top": -100, "left": 100, "attrs": {} }
+  ],
+  "connections": [
+    [ "ldr:Sig", "uno:A0", "orange", [ "v0" ] ],
+    [ "ldr:Gnd", "uno:GND.1", "black", [ "v0" ] ],
+    [ "servo:PWM", "uno:9", "orange", [ "v0" ] ],
+    [ "servo:V+", "uno:5V", "red", [ "v0" ] ],
+    [ "servo:Gnd", "uno:GND.2", "black", [ "v0" ] ]
+  ]
+}
