@@ -1,0 +1,30 @@
+name: 'Weather Station Demo'
+version: 1
+author: 'Demo Bot'
+
+steps:
+  - wait-serial: 'Weather Station started'
+  
+  # First reading
+  - set-control:
+      part-id: dht
+      control: temperature
+      value: 22.5
+  - set-control:
+      part-id: dht
+      control: humidity
+      value: 45
+  - delay: 2s
+  - wait-serial: 'Temp: 22.5 C'
+  
+  # Second reading
+  - set-control:
+      part-id: dht
+      control: temperature
+      value: 28.0
+  - set-control:
+      part-id: dht
+      control: humidity
+      value: 60
+  - delay: 2s
+  - wait-serial: 'Temp: 28.0 C'
