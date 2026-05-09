@@ -1,4 +1,4 @@
 [wokwi]
 version = 1
-firmware = 'build/smart-thermostat.ino.bin'
-elf = 'build/smart-thermostat.ino.elf'
+firmware = 'build/firmware.bin'
+elf = 'build/firmware.elf'
