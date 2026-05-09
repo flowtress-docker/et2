@@ -1,4 +1,7 @@
-# Wokwi Project Publisher — Design Spec
+# Wokwi Project Publisher — Design Spec (v2)
+
+> **Version:** 2.0 — CLI-native pipeline  
+> **Based on:** [v1 spec](#) (Puppeteer-based browser automation, superseded)
 
 ## Context
 
@@ -8,26 +11,38 @@ Wokwi has no public API for creating `wokwi.com/projects/XXXX` URLs programmatic
 - `wokwi-cli mcp` is experimental and only exposes simulation tools, not project publishing
 - The only way to get a permanent shareable project URL is through the Wokwi browser UI
 
+**v2 pivot:** Instead of fragile browser automation (Puppeteer), Kimi Code orchestrates a **local build-and-simulate pipeline** using `wokwi-cli`. Projects are validated as real, working simulations before any manual web upload. The output is a collection of known-good project directories that can be imported into wokwi.com or shared as self-contained ZIPs.
+
 ## Objective
 
-Build a Puppeteer-based automation system that creates Wokwi projects with permanent URLs and generates multiple hardware variants of the same base project.
+Build a Kimi Code + `wokwi-cli` pipeline that:
+1. Generates multiple hardware variants from a base template
+2. Compiles firmware for each variant via PlatformIO
+3. Runs automated simulation scenarios via `wokwi-cli`
+4. Captures screenshots and serial logs as proof-of-work
+5. Produces a registry of validated, ready-to-publish projects
 
 ## Dependencies
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `puppeteer` | `^22.0.0` | Browser automation for wokwi.com project creation |
-| `puppeteer-extra` | `^3.3.6` | Stealth plugin wrapper |
-| `puppeteer-extra-plugin-stealth` | `^2.11.2` | Evade headless detection |
+| Package / Tool | Version | Purpose |
+|----------------|---------|---------|
+| `wokwi-cli` | `latest` | Local simulation, scenario execution, screenshot capture |
+| `platformio` | `latest` | Firmware compilation (`pio run`) |
+| `node` | `≥ 18` | Runtime for helper scripts |
 | `fs-extra` | `^11.2.0` | Atomic JSON registry writes |
-| `yaml` | `^2.4.0` | Parse `scenarios/*.yaml` for metadata |
-| `wokwi-cli` | `latest` | Lint validation (`wokwi-cli lint`) |
+| `js-yaml` | `^4.1.0` | Parse / generate `scenarios/*.yaml` |
+| `chalk` | `^5.3.0` | Colored CLI output (optional) |
 
 Install:
 ```bash
-npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth fs-extra yaml
-# wokwi-cli is installed globally via:
-# curl -L https://wokwi.com/ci/install.sh | sh
+# Wokwi CLI
+curl -L https://wokwi.com/ci/install.sh | sh
+
+# PlatformIO
+pip install platformio
+
+# Node deps (for Kimi Code helper scripts)
+npm install fs-extra js-yaml chalk
 ```
 
 ## Architecture
@@ -35,20 +50,57 @@ npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth fs-extra ya
 ```
 et2/
 ├── docs/superpowers/specs/          ← This spec
-├── staging/v1/
-│   ├── publisher/
-│   │   ├── publish.js               # Puppeteer automation script
-│   │   ├── variants.js              # Variant generation configs
-│   │   ├── registry.json            # Published URL registry
-│   │   └── README.md
+├── staging/v2/
+│   ├── scripts/
+│   │   ├── build-all.js             # Kimi Code orchestrator entry point
+│   │   ├── variants.js              # Variant generation rules & pinmaps
+│   │   ├── validate.js              # Post-simulation assertion checker
+│   │   └── screenshot.js            # Screenshot collation helper
+│   ├── registry.json                # Build + simulation result registry
+│   ├── artifacts/                   # Generated screenshots & logs
+│   │   ├── light-esp32/
+│   │   │   ├── screenshot.png
+│   │   │   └── serial.log
+│   │   └── ...
+│   │
 │   ├── templates/
 │   │   └── base/                    # Base project template
 │   │       ├── diagram.json
-│   │       └── sketch.ino
-│   └── variants/                    # Generated variant projects
+│   │       ├── sketch.ino
+│   │       ├── wokwi.toml
+│   │       ├── platformio.ini
+│   │       └── scenarios/
+│   │           └── base.yaml
+│   │
+│   └── variants/                    # Generated + validated variant projects
 │       ├── light-esp32/
 │       ├── temp-arduino/
 │       └── motion-pico/
+│
+└── wokwi-project/                   # Canonical interactive demo (source of truth)
+```
+
+## Data Flow
+
+```
+Base Template (wokwi-project/)
+    │
+    ▼
+Kimi Code + variants.js ──► Variant Projects (diagram.json + sketch.ino + wokwi.toml)
+    │
+    ├──► pio run ──► Compiled firmware (.hex / .bin / .elf)
+    │
+    └──► wokwi-cli . --scenario scenarios/base.yaml
+            │
+            ├──► Simulation passes → Screenshot + Serial log
+            │
+            └──► Simulation fails → Error log, skip registry entry
+    │
+    ▼
+Registry (registry.json) + Artifacts (screenshots/)
+    │
+    ▼
+Manual import → wokwi.com/projects/new → Permanent Project URL
 ```
 
 ## Components
@@ -58,6 +110,9 @@ et2/
 A valid Wokwi project with:
 - `diagram.json` — circuit definition
 - `sketch.ino` — Arduino/ESP32 firmware
+- `wokwi.toml` — simulator config (firmware path, ELF path)
+- `platformio.ini` — build environment
+- `scenarios/base.yaml` — automation scenario
 
 **Cross-reference:** The canonical base project lives at `../../wokwi-project/` (repo root). Key files:
 - [`wokwi-project/diagram.json`](../../wokwi-project/diagram.json) — Arduino Uno + photoresistor + LCD1602
@@ -66,7 +121,7 @@ A valid Wokwi project with:
 - [`wokwi-project/platformio.ini`](../../wokwi-project/platformio.ini) — PlatformIO env: `uno`, `atmelavr`, `arduino` framework, `LiquidCrystal` lib
 - [`wokwi-project/scenarios/base.yaml`](../../wokwi-project/scenarios/base.yaml) — Validation scenario (`wait-serial: 'LUX:'`)
 
-### 2. Variant Generator (`publisher/variants.js`)
+### 2. Variant Generator (`scripts/variants.js`)
 
 Transforms the base template into N variants by applying configurable rules.
 
@@ -84,6 +139,7 @@ Transforms the base template into N variants by applying configurable rules.
 | **Firmware patch** | `sketch.ino` | Regex-driven replacements for: `#include`, `pinMode`, `analogRead`/`digitalRead`, `Serial.begin` baud, `Wire.begin` for I2C, LCD constructor pins, library names | See `PATCHERS` table below |
 | **Firmware patch** | `platformio.ini` | Update `board`, `platform`, `framework`, `lib_deps` to match target MCU and peripherals | `uno`/`atmelavr`/`arduino` → `esp32dev`/`espressif32`/`arduino` |
 | **Scenario patch** | `scenarios/*.yaml` | Update `part-id` references to match new diagram IDs, adjust `wait-serial` strings to match new firmware output | `wait-serial: 'LUX:'` → `wait-serial: 'Temp:'` |
+| **wokwi.toml patch** | `wokwi.toml` | Update `firmware` and `elf` paths to match variant's PlatformIO `build_dir` output | `.pio/build/uno/firmware.hex` → `.pio/build/esp32dev/firmware.bin` |
 
 **PATCHERS (Firmware Regex Rules)**
 
@@ -115,266 +171,213 @@ Transforms the base template into N variants by applying configurable rules.
 
 Each variant is written to `variants/<variant-id>/` as a self-contained Wokwi project.
 
-### 3. Publisher (`publisher/publish.js`)
+### 3. Build Orchestrator (`scripts/build-all.js`)
 
-Puppeteer script that automates wokwi.com. The implementation uses `puppeteer-extra` with stealth mode to minimize bot-detection risk, and interacts with the Wokwi editor via specific selectors derived from the live DOM.
+Kimi Code (or a human operator running via Kimi Code) executes this Node.js script to drive the entire pipeline. It does **not** use Puppeteer; all interaction is via child-process invocation of `pio` and `wokwi-cli`.
 
 ```javascript
-import puppeteer from 'puppeteer-extra';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import fs from 'fs-extra';
 import path from 'path';
+import { execSync } from 'child_process';
+import yaml from 'js-yaml';
 
-puppeteer.use(StealthPlugin());
+const STAGING_DIR = path.resolve('staging/v2');
+const VARIANTS_DIR = path.join(STAGING_DIR, 'variants');
+const ARTIFACTS_DIR = path.join(STAGING_DIR, 'artifacts');
+const REGISTRY_PATH = path.join(STAGING_DIR, 'registry.json');
+const TEMPLATE_DIR = path.join(STAGING_DIR, 'templates', 'base');
 
-const WOKWI_NEW_PROJECT_URL = 'https://wokwi.com/projects/new';
-const COOKIES_PATH = path.resolve('publisher/cookies.json');
-const REGISTRY_PATH = path.resolve('publisher/registry.json');
-const SCREENSHOT_DIR = path.resolve('publisher/screenshots');
+async function buildVariant(variantId) {
+  const variantDir = path.join(VARIANTS_DIR, variantId);
+  const metaPath = path.join(variantDir, 'variant.json');
+  if (!(await fs.pathExists(metaPath))) return null;
 
-async function loadCookies(page) {
-  if (await fs.pathExists(COOKIES_PATH)) {
-    const cookies = await fs.readJson(COOKIES_PATH);
-    await page.setCookie(...cookies);
+  const meta = await fs.readJson(metaPath);
+  const artifactDir = path.join(ARTIFACTS_DIR, variantId);
+  await fs.ensureDir(artifactDir);
+
+  const result = {
+    variantId,
+    board: meta.board,
+    sensors: meta.sensors,
+    display: meta.display,
+    build: { ok: false, stdout: '', stderr: '' },
+    simulate: { ok: false, stdout: '', stderr: '', screenshot: null, serialLog: null },
+    validatedAt: new Date().toISOString(),
+  };
+
+  // ── Step 1: Compile firmware ───────────────────────────────
+  try {
+    const stdout = execSync('pio run', {
+      cwd: variantDir,
+      encoding: 'utf-8',
+      timeout: 120000,
+    });
+    result.build = { ok: true, stdout, stderr: '' };
+  } catch (err) {
+    result.build = { ok: false, stdout: err.stdout || '', stderr: err.stderr || '' };
+    console.error(`[${variantId}] ❌ Build failed`);
+    return result;
   }
-}
 
-async function saveCookies(page) {
-  const cookies = await page.cookies('https://wokwi.com');
-  await fs.writeJson(COOKIES_PATH, cookies, { spaces: 2 });
-}
-
-async function captureFailure(page, variantId, step) {
-  const screenshotPath = path.join(SCREENSHOT_DIR, `${variantId}-${step}-${Date.now()}.png`);
-  await page.screenshot({ path: screenshotPath, fullPage: true });
-  console.error(`[${variantId}] Failure at step "${step}". Screenshot: ${screenshotPath}`);
-}
-
-async function waitForLoggedIn(page, timeout = 30000) {
-  // The user avatar or "New Project" button indicates logged-in state
-  await page.waitForSelector('button[title="New Project"], [data-testid="user-avatar"]', { timeout });
-}
-
-async function pasteIntoDiagramEditor(page, diagramJson) {
-  // 1. Open the diagram tab (if not already active)
-  const diagramTab = await page.$('button:text-matches("diagram", "i")');
-  if (diagramTab) await diagramTab.click();
-
-  // 2. Open the raw JSON editor via the "{}" toolbar button
-  const rawJsonBtn = await page.waitForSelector('button[title="Edit diagram.json"]');
-  await rawJsonBtn.click();
-
-  // 3. The raw editor is a focused textarea or Monaco instance
-  const editor = await page.waitForSelector('textarea[class*="json-editor"], .monaco-editor textarea');
-  await editor.click({ clickCount: 3 }); // select all
-  await editor.type(JSON.stringify(diagramJson, null, 2));
-
-  // 4. Close the raw editor modal / panel (usually an "X" or "Close" button)
-  const closeBtn = await page.$('button[title="Close"]');
-  if (closeBtn) await closeBtn.click();
-}
-
-async function pasteIntoCodeEditor(page, sketchCode) {
-  // The code editor is a Monaco instance; focus via click then replace
-  const codeEditor = await page.waitForSelector('.monaco-editor');
-  await codeEditor.click();
-
-  // Ctrl+A then type replacement
-  await page.keyboard.down('Control');
-  await page.keyboard.down('a');
-  await page.keyboard.up('a');
-  await page.keyboard.up('Control');
-
-  await page.keyboard.type(sketchCode);
-}
-
-async function saveProject(page) {
-  // Trigger save: Ctrl+S or the Save button in the toolbar
-  await page.keyboard.down('Control');
-  await page.keyboard.down('s');
-  await page.keyboard.up('s');
-  await page.keyboard.up('Control');
-
-  // Wait for URL transition from /new to /projects/<id>
-  await page.waitForFunction(
-    () => /\/projects\/\d+/.test(location.href),
-    { timeout: 30000 }
-  );
-}
-
-async function publishVariant(browser, variantPath, variantMeta) {
-  const page = await browser.newPage();
-  await loadCookies(page);
-
-  const variantId = variantMeta.id;
-  const diagramJson = await fs.readJson(path.join(variantPath, 'diagram.json'));
-  const sketchCode = await fs.readFile(path.join(variantPath, 'sketch.ino'), 'utf-8');
+  // ── Step 2: Run simulation with scenario ───────────────────
+  const screenshotPath = path.join(artifactDir, 'screenshot.png');
+  const serialLogPath = path.join(artifactDir, 'serial.log');
+  const scenarioPath = path.join(variantDir, 'scenarios', 'base.yaml');
 
   try {
-    await page.goto(WOKWI_NEW_PROJECT_URL, { waitUntil: 'networkidle2' });
-    await waitForLoggedIn(page);
+    const cmd = [
+      'wokwi-cli',
+      variantDir,
+      '--scenario', scenarioPath,
+      '--screenshot-part', meta.board.id || 'mcu',
+      '--screenshot-time', '5000',
+      '--screenshot-file', screenshotPath,
+      '--serial-log-file', serialLogPath,
+      '--timeout', '30000',
+    ].join(' ');
 
-    await pasteIntoDiagramEditor(page, diagramJson);
-    await pasteIntoCodeEditor(page, sketchCode);
-    await saveProject(page);
+    const stdout = execSync(cmd, {
+      encoding: 'utf-8',
+      timeout: 60000,
+    });
 
-    const url = page.url();
-    const match = url.match(/projects\/(\d+)/);
-    if (!match) throw new Error(`Could not extract project ID from URL: ${url}`);
-    const projectId = match[1];
-
-    await saveCookies(page);
-    await page.close();
-
-    return {
-      variantId,
-      board: variantMeta.board,
-      sensors: variantMeta.sensors,
-      display: variantMeta.display,
-      url,
-      projectId,
-      publishedAt: new Date().toISOString(),
+    result.simulate = {
+      ok: true,
+      stdout,
+      stderr: '',
+      screenshot: screenshotPath,
+      serialLog: serialLogPath,
     };
+    console.log(`[${variantId}] ✅ Simulation passed`);
   } catch (err) {
-    await captureFailure(page, variantId, err.step || 'unknown');
-    await page.close();
-    throw err;
+    result.simulate = {
+      ok: false,
+      stdout: err.stdout || '',
+      stderr: err.stderr || '',
+      screenshot: null,
+      serialLog: null,
+    };
+    console.error(`[${variantId}] ❌ Simulation failed`);
   }
+
+  return result;
 }
 
 async function main() {
-  const variantsDir = path.resolve('staging/v1/variants');
-  const variants = await fs.readdir(variantsDir);
+  // Generate variants first (invokes variants.js logic)
+  await import('./variants.js'); // side-effect: writes to VARIANTS_DIR
 
-  const registry = await fs.pathExists(REGISTRY_PATH)
-    ? await fs.readJson(REGISTRY_PATH)
-    : { publishedAt: null, projects: [] };
+  const variantIds = await fs.readdir(VARIANTS_DIR);
+  const registry = {
+    generatedAt: new Date().toISOString(),
+    projects: [],
+  };
 
-  const browser = await puppeteer.launch({
-    headless: false,           // Wokwi can detect headless; use headed mode
-    args: ['--window-size=1366,768'],
-    defaultViewport: { width: 1366, height: 768 },
-  });
-
-  for (const variantId of variants) {
-    const variantPath = path.join(variantsDir, variantId);
-    const metaPath = path.join(variantPath, 'variant.json');
-    if (!(await fs.pathExists(metaPath))) continue;
-
-    const variantMeta = await fs.readJson(metaPath);
-
-    // Pre-flight lint
-    try {
-      const { execSync } = await import('child_process');
-      execSync(`wokwi-cli lint "${variantPath}"`, { stdio: 'inherit' });
-    } catch {
-      console.error(`[${variantId}] Lint failed; skipping.`);
-      continue;
-    }
-
-    const entry = await publishVariant(browser, variantPath, variantMeta);
-    registry.projects.push(entry);
-    await fs.writeJson(REGISTRY_PATH, registry, { spaces: 2 });
-
-    // Rate-limiting delay between publishes
-    await new Promise(r => setTimeout(r, 2500));
+  for (const variantId of variantIds) {
+    const result = await buildVariant(variantId);
+    if (result) registry.projects.push(result);
   }
 
-  registry.publishedAt = new Date().toISOString();
   await fs.writeJson(REGISTRY_PATH, registry, { spaces: 2 });
-  await browser.close();
+  console.log(`\nRegistry written to ${REGISTRY_PATH}`);
 }
 
 main().catch(console.error);
 ```
 
 **Key implementation details:**
-- **Stealth mode:** `puppeteer-extra-plugin-stealth` patches the headless user agent, `navigator.webdriver`, and WebGL fingerprints.
-- **Cookie persistence:** Session cookies are saved to `publisher/cookies.json` after each successful login so subsequent runs do not require re-authentication.
-- **Editor targeting:** Wokwi uses Monaco editors for both code and raw JSON. The script targets `.monaco-editor` and `textarea[class*="json-editor"]`; if these selectors drift, the dry-run mode (see Testing) will surface the mismatch before any project is created.
-- **Save detection:** Instead of waiting for a button state, the script waits for the URL to match `/projects/\d+/`, which is the canonical redirect after a successful save.
-- **Failure capture:** Every caught exception triggers a full-page screenshot into `publisher/screenshots/` with a timestamped filename.
+- **No browser automation:** Everything is CLI/subprocess. No Puppeteer, no cookies, no DOM selectors.
+- **PlatformIO build:** `pio run` compiles the `.ino` into the firmware binary/hex that `wokwi.toml` references.
+- **wokwi-cli simulation:** Runs headlessly in CI or locally. The `--scenario` flag drives sensor state changes and assertions.
+- **Artifact capture:** Screenshots and serial logs are written to `artifacts/<variant-id>/` for human verification.
+- **Failure isolation:** A build failure skips simulation; a simulation failure still records the build success so you can inspect later.
 
-### 4. Registry (`publisher/registry.json`)
+### 4. Registry (`staging/v2/registry.json`)
 
-JSON file tracking all published projects:
+JSON file tracking all generated and validated projects:
 
 ```json
 {
-  "publishedAt": "2026-05-09T12:00:00Z",
+  "generatedAt": "2026-05-09T12:00:00Z",
   "projects": [
     {
       "variantId": "light-esp32",
-      "board": "wokwi-esp32-devkit-v1",
+      "board": {
+        "type": "wokwi-esp32-devkit-v1",
+        "platformioEnv": "esp32dev"
+      },
       "sensors": ["wokwi-photoresistor-sensor"],
       "display": "wokwi-lcd1602",
-      "url": "https://wokwi.com/projects/415876684817699841",
-      "projectId": "415876684817699841"
+      "build": {
+        "ok": true,
+        "stdout": "...",
+        "stderr": ""
+      },
+      "simulate": {
+        "ok": true,
+        "stdout": "...",
+        "stderr": "",
+        "screenshot": "staging/v2/artifacts/light-esp32/screenshot.png",
+        "serialLog": "staging/v2/artifacts/light-esp32/serial.log"
+      },
+      "validatedAt": "2026-05-09T12:05:00Z"
     }
   ]
 }
-```
-
-## Data Flow
-
-```
-Base Template
-    │
-    ▼
-Variant Generator ──► Variant Projects (diagram.json + sketch.ino)
-    │
-    ▼
-Publisher (Puppeteer) ──► wokwi.com ──► Project URL
-    │
-    ▼
-Registry (registry.json)
 ```
 
 ## Error Handling
 
 | Scenario | Handling |
 |----------|----------|
-| Wokwi UI changes | Puppeteer selectors break → log error, stop batch |
-| Bot detection / CAPTCHA | Pause, prompt user to complete manually |
-| Login expired | Save/load cookies, prompt re-auth if needed |
-| Network timeout | Retry with exponential backoff (max 3) |
-| Invalid diagram.json | Run `wokwi-cli lint` before publishing |
+| PlatformIO build failure | Log stderr, skip simulation for this variant, continue with next |
+| Missing `wokwi-cli` | Pre-flight check in `build-all.js`; exit early with install instructions |
+| Missing `WOKWI_CLI_TOKEN` | Required for wokwi-cli; prompt user to set env var |
+| Scenario assertion failure | `wokwi-cli` exits non-zero; capture stdout/stderr, mark `simulate.ok: false` |
+| Invalid `diagram.json` | Caught during `wokwi-cli` startup; logged to stderr |
+| Firmware path mismatch | Validate `wokwi.toml` `firmware` path exists post-`pio run` before launching sim |
 
 ## Testing
 
-1. **Lint first:** Run `wokwi-cli lint` on every variant before attempting publish
-2. **Dry run mode:** Publisher can run without saving to verify selectors work
-3. **Screenshot on failure:** Capture page screenshot if any step fails
+1. **Build first:** `pio run` on every variant before simulation
+2. **Scenario-driven validation:** Each variant has a `scenarios/base.yaml` that asserts expected behavior
+3. **Screenshot diff:** Capture baseline screenshots; future runs can pixel-compare for regression
+4. **Serial log parsing:** Parse `serial.log` for expected output strings as a secondary assertion layer
 
 ## Security
 
-- Wokwi session cookies stored in `publisher/cookies.json` (gitignored)
-- `WOKWI_CLI_TOKEN` used for lint validation only
-- No credentials hardcoded in scripts
+- `WOKWI_CLI_TOKEN` is the only credential; stored as env var, never committed
+- No browser cookies or session state to manage
+- All execution is local; no external APIs except Wokwi's simulation runtime (authenticated via token)
 
 ## Success Criteria
 
-- [ ] Base template can be published to wokwi.com manually
+- [ ] Base template compiles with `pio run` and simulates with `wokwi-cli`
 - [ ] Variant generator produces 3+ distinct hardware configurations
-- [ ] Publisher script successfully creates a project and captures URL
-- [ ] Registry.json contains all published project metadata
-- [ ] Each URL loads a working, interactive simulation on wokwi.com
+- [ ] Each variant compiles successfully for its target board
+- [ ] Each variant passes its automation scenario
+- [ ] Screenshots and serial logs are captured for every passing variant
+- [ ] `registry.json` contains build + simulation results for all variants
+- [ ] Each variant directory is a self-contained project that can be zipped and imported into wokwi.com
 
 ## Out of Scope
 
-- Private projects (requires Wokwi Pro plan, not automatable)
+- Automated upload to wokwi.com (still no API; manual import required)
+- Private projects (requires Wokwi Pro plan)
 - Custom parts/chips (requires manual chip definition upload)
-- Multi-file projects with libraries (keep to single sketch.ino)
+- Multi-file projects with libraries (keep to single sketch.ino for now)
 - Real-time collaboration features
 
 ## Risks
 
 | Risk | Mitigation |
 |------|------------|
-| Wokwi UI changes | Keep selectors minimal, use data attributes when possible |
-| Rate limiting | Add delays between publishes (2-3s) |
-| Login/session expiry | Save cookies, handle re-auth gracefully |
-| Headless detection | Use `headless: false` or stealth mode |
+| PlatformIO board package drift | Pin `platformio.ini` platform versions; lock `platform_packages` |
+| `wokwi-cli` breaking changes | Pin CLI version in CI; test before upgrading |
+| Simulation flakiness | Add retry logic (max 2) for `wokwi-cli` invocations |
+| Long build times | Parallelize variant builds via `Promise.all` with concurrency limit |
+| Large artifact storage | `.gitignore` `artifacts/`; store only in CI or local disk |
 
 ---
 
@@ -387,14 +390,26 @@ et2/
 ├── docs/superpowers/specs/
 │   └── 2026-05-09-wokwi-project-publisher-design.md   ← This spec
 │
-├── staging/v1/
-│   ├── publisher/
-│   │   ├── publish.js                                  # Puppeteer automation (this spec §3)
+├── staging/v2/
+│   ├── scripts/
+│   │   ├── build-all.js                                # Kimi Code orchestrator (this spec §3)
 │   │   ├── variants.js                                 # Variant generation rules (this spec §2)
-│   │   ├── registry.json                               # Published URL registry (this spec §4)
-│   │   ├── cookies.json                                # Session cookies (gitignored)
-│   │   ├── screenshots/                                # Failure screenshots (gitignored)
+│   │   ├── validate.js                                 # Serial-log / screenshot assertion helper
+│   │   ├── screenshot.js                               # Baseline screenshot comparison
 │   │   └── README.md                                   # Local usage instructions
+│   │
+│   ├── registry.json                                   # Build + simulation result registry (this spec §4)
+│   │
+│   ├── artifacts/                                      # Generated screenshots & logs (gitignored)
+│   │   ├── light-esp32/
+│   │   │   ├── screenshot.png
+│   │   │   └── serial.log
+│   │   ├── temp-arduino/
+│   │   │   ├── screenshot.png
+│   │   │   └── serial.log
+│   │   └── motion-pico/
+│   │       ├── screenshot.png
+│   │       └── serial.log
 │   │
 │   ├── templates/
 │   │   └── base/
@@ -472,3 +487,25 @@ Each generated variant directory contains a `variant.json` metadata file:
   ]
 }
 ```
+
+## Appendix D: Kimi Code Workflow
+
+When a human (or agent) asks Kimi Code to "build the Wokwi simulations," the expected interaction is:
+
+```
+User: "Build all Wokwi variants"
+Kimi Code:
+  1. Read wokwi-project/ base artifacts
+  2. Run: node staging/v2/scripts/variants.js
+  3. For each variant in staging/v2/variants/:
+     a. Run: pio run
+     b. Run: wokwi-cli . --scenario scenarios/base.yaml --screenshot-file ... --serial-log-file ...
+     c. Parse results
+  4. Update registry.json
+  5. Report: pass/fail per variant, artifact paths, next steps
+```
+
+Kimi Code may also be asked to:
+- **Add a new variant:** Edit `variants.js` config, regenerate, rebuild
+- **Debug a failing simulation:** Inspect `serial.log` and `screenshot.png`, suggest firmware fixes
+- **Export for web:** Zip a variant directory and prompt the user to upload to `wokwi.com/projects/new`
