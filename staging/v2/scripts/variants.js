@@ -290,6 +290,178 @@ steps:
       { rule: 'firmware-patch', target: 'display', replace: 'OLED' },
     ],
   },
+  {
+    id: 'smart-sprinkler',
+    name: 'Smart Sprinkler (ESP32)',
+    board: {
+      id: 'esp',
+      type: 'wokwi-esp32-devkit-v1',
+      platformioEnv: 'esp32dev',
+      platformioPlatform: 'espressif32',
+      platformioBoard: 'esp32dev',
+      platformioFramework: 'arduino',
+    },
+    sensors: [
+      {
+        id: 'soil',
+        type: 'wokwi-soil-moisture',
+        attrs: { moisture: '30' },
+      },
+      {
+        id: 'dht',
+        type: 'wokwi-dht22',
+        attrs: { temperature: '28', humidity: '45' },
+      },
+    ],
+    display: {
+      id: 'oled',
+      type: 'wokwi-ssd1306',
+    },
+    actuator: {
+      id: 'relay',
+      type: 'wokwi-relay-module',
+      attrs: { state: 'open' },
+    },
+    connections: [
+      ['esp:3V3', 'soil:VCC', 'red', ['v0']],
+      ['esp:GND.1', 'soil:GND', 'black', ['v0']],
+      ['esp:D34', 'soil:AO', 'orange', ['v0']],
+      ['esp:3V3', 'dht:VCC', 'red', ['v0']],
+      ['esp:GND.2', 'dht:GND', 'black', ['v0']],
+      ['esp:D15', 'dht:SDA', 'green', ['v0']],
+      ['esp:3V3', 'oled:VCC', 'red', ['v0']],
+      ['esp:GND.2', 'oled:GND', 'black', ['v0']],
+      ['esp:D21', 'oled:SDA', 'green', ['v0']],
+      ['esp:D22', 'oled:SCL', 'blue', ['v0']],
+      ['esp:3V3', 'relay:VCC', 'red', ['v0']],
+      ['esp:GND.2', 'relay:GND', 'black', ['v0']],
+      ['esp:D18', 'relay:IN', 'yellow', ['v0']],
+      ['esp:TX', '$serialMonitor:RX', '', []],
+      ['esp:RX', '$serialMonitor:TX', '', []],
+    ],
+    patchSketch() {
+      return `#include <WiFi.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include <DHT.h>
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET -1
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
+#define DHTPIN 15
+#define DHTTYPE DHT22
+DHT dht(DHTPIN, DHTTYPE);
+
+const int soilPin = 34;
+const int relayPin = 18;
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin();
+  dht.begin();
+  pinMode(relayPin, OUTPUT);
+  digitalWrite(relayPin, LOW);
+
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println(F("SSD1306 allocation failed"));
+  }
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+  display.println("Smart Sprinkler ready");
+  display.display();
+  delay(500);
+  display.clearDisplay();
+}
+
+void loop() {
+  int moisture = analogRead(soilPin);
+  float temp = dht.readTemperature();
+  float humidity = dht.readHumidity();
+
+  display.clearDisplay();
+  display.setCursor(0, 0);
+
+  if (moisture < 40 && temp > 25) {
+    digitalWrite(relayPin, HIGH);
+    display.println("SPRINKLER ON");
+  } else {
+    digitalWrite(relayPin, LOW);
+    display.println("IDLE");
+  }
+  display.display();
+
+  Serial.print("SOIL:");
+  Serial.print(moisture);
+  Serial.print(" TEMP:");
+  Serial.print(temp);
+  Serial.print(" HUM:");
+  Serial.print(humidity);
+  Serial.print(" STATE:");
+  Serial.println((digitalRead(relayPin) == HIGH) ? "ON" : "OFF");
+
+  delay(1000);
+}
+`;
+    },
+    platformioIni: `[platformio]
+build_dir = build
+
+[env:esp32dev]
+platform = espressif32
+board = esp32dev
+framework = arduino
+lib_deps = 
+    adafruit/Adafruit SSD1306 @ ^2.5.7
+    adafruit/Adafruit GFX Library @ ^1.11.9
+    adafruit/DHT sensor library @ ^1.4.6`,
+    wokwiToml: `[wokwi]
+version = 1
+firmware = '.pio/build/esp32dev/firmware.bin'
+elf = '.pio/build/esp32dev/firmware.elf'`,
+    scenario: `name: 'Smart Sprinkler Scenario'
+version: 1
+author: 'Demo Bot'
+
+steps:
+  - wait-serial: 'Smart Sprinkler ready'
+  - set-control:
+      part-id: soil
+      control: moisture
+      value: 20
+  - set-control:
+      part-id: dht
+      control: temperature
+      value: 30
+  - delay: 2s
+  - expect-pin:
+      part-id: esp
+      pin: 18
+      expected: 1
+  - wait-serial: 'STATE:ON'
+  - set-control:
+      part-id: soil
+      control: moisture
+      value: 60
+  - delay: 2s
+  - expect-pin:
+      part-id: esp
+      pin: 18
+      expected: 0
+  - wait-serial: 'STATE:OFF'`,
+    transforms: [
+      { rule: 'board-swap', from: 'wokwi-arduino-uno', to: 'wokwi-esp32-devkit-v1' },
+      { rule: 'sensor-swap', from: 'wokwi-photoresistor-sensor', to: 'wokwi-soil-moisture' },
+      { rule: 'sensor-add', type: 'wokwi-dht22' },
+      { rule: 'display-swap', from: 'wokwi-lcd1602', to: 'wokwi-ssd1306' },
+      { rule: 'actuator-add', type: 'wokwi-relay-module' },
+      { rule: 'firmware-patch', target: 'sensor', replace: 'soil-moisture+DHT22' },
+      { rule: 'firmware-patch', target: 'display', replace: 'OLED' },
+    ],
+  },
 ];
 
 // ── Helpers ─────────────────────────────────────────────────────
@@ -317,8 +489,21 @@ function buildDiagram(baseDiagram, variant) {
         id: variant.display.id,
         type: variant.display.type,
         top: -60,
-        left: 180,
+        left: -80 + variant.sensors.length * 260,
       },
+      ...(variant.actuator
+        ? [
+            {
+              id: variant.actuator.id,
+              type: variant.actuator.type,
+              top: -100,
+              left: -80 + (variant.sensors.length + 1) * 260,
+              ...(Object.keys(variant.actuator.attrs || {}).length
+                ? { attrs: variant.actuator.attrs }
+                : {}),
+            },
+          ]
+        : []),
     ],
     connections: variant.connections,
   };
@@ -332,6 +517,7 @@ function buildVariantJson(variant) {
     board: variant.board,
     sensors: variant.sensors,
     display: variant.display,
+    ...(variant.actuator ? { actuator: variant.actuator } : {}),
     transforms: variant.transforms,
   };
 }

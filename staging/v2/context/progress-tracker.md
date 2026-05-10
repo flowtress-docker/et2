@@ -8,7 +8,7 @@ In progress
 
 ## Current Goal
 
-Run the full pipeline end-to-end (`build-all.js`) and commit the implementation.
+Build the smart-sprinkler variant with `pio run` and run the full pipeline end-to-end.
 
 ## Completed
 
@@ -24,10 +24,13 @@ Run the full pipeline end-to-end (`build-all.js`) and commit the implementation.
   - `staging/v2/context/progress-tracker.md`
 - [x] `templates/base/` copied from `wokwi-project/` with `src/sketch.ino` layout
 - [x] `scripts/variants.js` — variant generator with pinmaps, firmware patchers, board/sensor/display swaps
-- [x] 3 variants generated and validated:
+- [x] 3 base variants generated and validated:
   - `light-esp32/` — ESP32 + photoresistor + LCD1602
   - `temp-arduino/` — Uno + DHT22 + TM1637
   - `motion-pico/` — Pico + MPU6050 + SSD1306
+- [x] 4th variant added via cavecrew swarm:
+  - `smart-sprinkler/` — ESP32 + soil moisture + DHT22 + OLED + relay
+- [x] `variants.js` enhanced with generic `actuator` support and dynamic layout math
 - [x] `scripts/build-all.js` — orchestrator with wokwi-cli pre-flight, firmware path validation, retry logic
 - [x] `scripts/validate.js` — serial-log assertion + registry stats
 - [x] `scripts/screenshot.js` — screenshot collation + baseline comparison
@@ -39,14 +42,15 @@ Run the full pipeline end-to-end (`build-all.js`) and commit the implementation.
 
 ## In Progress
 
-- Integration testing and final commit
+- smart-sprinkler variant generation (complete)
+- Next: compile and simulate smart-sprinkler
 
 ## Next Up
 
-1. Install Node dependencies (`npm install` in `staging/v2/`)
+1. Build smart-sprinkler firmware (`pio run`)
 2. Run `node scripts/build-all.js` end-to-end
 3. Fix any runtime issues discovered
-4. Commit all implementation files
+4. Commit variants.js changes
 
 ## Open Questions
 
