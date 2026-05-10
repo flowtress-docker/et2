@@ -63,8 +63,8 @@ lib_deps =
     arduino-libraries/LiquidCrystal @ ^1.0.7`,
     wokwiToml: `[wokwi]
 version = 1
-firmware = '.pio/build/esp32dev/firmware.bin'
-elf = '.pio/build/esp32dev/firmware.elf'`,
+firmware = 'build/esp32dev/firmware.bin'
+elf = 'build/esp32dev/firmware.elf'`,
     scenario: `name: 'Light Sensor ESP32 Scenario'
 version: 1
 author: 'Demo Bot'
@@ -158,8 +158,8 @@ lib_deps =
     avishorp/TM1637 @ ^1.2.0`,
     wokwiToml: `[wokwi]
 version = 1
-firmware = '.pio/build/uno/firmware.hex'
-elf = '.pio/build/uno/firmware.elf'`,
+firmware = 'build/uno/firmware.hex'
+elf = 'build/uno/firmware.elf'`,
     scenario: `name: 'Temp Sensor Arduino Scenario'
 version: 1
 author: 'Demo Bot'
@@ -273,8 +273,8 @@ lib_deps =
     electroniccats/MPU6050 @ ^1.0.1`,
     wokwiToml: `[wokwi]
 version = 1
-firmware = '.pio/build/pico/firmware.uf2'
-elf = '.pio/build/pico/firmware.elf'`,
+firmware = 'build/pico/firmware.uf2'
+elf = 'build/pico/firmware.elf'`,
     scenario: `name: 'Motion Sensor Pico Scenario'
 version: 1
 author: 'Demo Bot'
@@ -420,8 +420,8 @@ lib_deps =
     adafruit/DHT sensor library @ ^1.4.6`,
     wokwiToml: `[wokwi]
 version = 1
-firmware = '.pio/build/esp32dev/firmware.bin'
-elf = '.pio/build/esp32dev/firmware.elf'`,
+firmware = 'build/esp32dev/firmware.bin'
+elf = 'build/esp32dev/firmware.elf'`,
     scenario: `name: 'Smart Sprinkler Scenario'
 version: 1
 author: 'Demo Bot'
@@ -573,15 +573,15 @@ void loop() {
   display.clearDisplay();
   display.setCursor(0, 0);
 
-  if (temp > 38.0) {
+  if (btnState == LOW) {
+    digitalWrite(buzzerPin, LOW);
+    display.println("ACKNOWLEDGED");
+  } else if (temp > 38.0) {
     digitalWrite(buzzerPin, HIGH);
     display.println("FEVER ALERT");
   } else if (totalAccel > 30000) {
     digitalWrite(buzzerPin, HIGH);
     display.println("FALL ALERT");
-  } else if (btnState == LOW) {
-    digitalWrite(buzzerPin, LOW);
-    display.println("ACKNOWLEDGED");
   } else {
     digitalWrite(buzzerPin, LOW);
     display.println("NORMAL");
@@ -589,9 +589,9 @@ void loop() {
   display.display();
 
   String stateStr;
-  if (temp > 38.0) stateStr = "FEVER";
+  if (btnState == LOW) stateStr = "ACK";
+  else if (temp > 38.0) stateStr = "FEVER";
   else if (totalAccel > 30000) stateStr = "FALL";
-  else if (btnState == LOW) stateStr = "ACK";
   else stateStr = "NORMAL";
 
   Serial.print("TEMP:");
@@ -621,8 +621,8 @@ lib_deps =
     electroniccats/MPU6050 @ ^1.0.1`,
     wokwiToml: `[wokwi]
 version = 1
-firmware = '.pio/build/esp32dev/firmware.bin'
-elf = '.pio/build/esp32dev/firmware.elf'`,
+firmware = 'build/esp32dev/firmware.bin'
+elf = 'build/esp32dev/firmware.elf'`,
     scenario: `name: 'Medical Monitor Scenario'
 version: 1
 author: 'Demo Bot'
