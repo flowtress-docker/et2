@@ -8,7 +8,7 @@ In progress
 
 ## Current Goal
 
-Bootstrap the staging/v2 directory structure and context files. Next: implement `variants.js` and `build-all.js`.
+Run the full pipeline end-to-end (`build-all.js`) and commit the implementation.
 
 ## Completed
 
@@ -22,19 +22,31 @@ Bootstrap the staging/v2 directory structure and context files. Next: implement 
   - `staging/v2/context/code-standards.md`
   - `staging/v2/context/ai-workflow-rules.md`
   - `staging/v2/context/progress-tracker.md`
+- [x] `templates/base/` copied from `wokwi-project/` with `src/sketch.ino` layout
+- [x] `scripts/variants.js` — variant generator with pinmaps, firmware patchers, board/sensor/display swaps
+- [x] 3 variants generated and validated:
+  - `light-esp32/` — ESP32 + photoresistor + LCD1602
+  - `temp-arduino/` — Uno + DHT22 + TM1637
+  - `motion-pico/` — Pico + MPU6050 + SSD1306
+- [x] `scripts/build-all.js` — orchestrator with wokwi-cli pre-flight, firmware path validation, retry logic
+- [x] `scripts/validate.js` — serial-log assertion + registry stats
+- [x] `scripts/screenshot.js` — screenshot collation + baseline comparison
+- [x] Cavecrew swarm fixes applied:
+  - sketch.ino moved to `src/` in all variants
+  - `build_dir` moved to `[platformio]` section in all `platformio.ini`
+  - `build-all.js` pre-flight + retry + firmware validation added
+  - `screenshot.js` baseline comparison added
 
 ## In Progress
 
-- Context file setup (this session)
+- Integration testing and final commit
 
 ## Next Up
 
-1. Create `scripts/variants.js` — variant generation logic with pinmaps and firmware patchers
-2. Create `scripts/build-all.js` — orchestrator entry point
-3. Create `templates/base/` — copy from `wokwi-project/`
-4. Run first variant generation and validate output structure
-5. Run `pio run` on first variant to verify build pipeline
-6. Run `wokwi-cli` on first variant to verify simulation pipeline
+1. Install Node dependencies (`npm install` in `staging/v2/`)
+2. Run `node scripts/build-all.js` end-to-end
+3. Fix any runtime issues discovered
+4. Commit all implementation files
 
 ## Open Questions
 
@@ -48,8 +60,10 @@ Bootstrap the staging/v2 directory structure and context files. Next: implement 
 - **File-system registry over database**: Simplicity. JSON is human-readable, diffable, and requires no infrastructure.
 - **Kimi Code orchestration over CI-only**: Flexible for iterative development. CI integration can be added later by invoking the same scripts.
 - **Single `.ino` per variant**: Keeps firmware patching simple (regex on one file). Multi-file support deferred.
+- **Cavecrew swarms for implementation**: Parallel investigator/builder/reviewer agents used to write, verify, and fix code efficiently.
 
 ## Session Notes
 
-- Context files adapted from `sebest-design/6-files-context-method` private repo, modified for Kimi Code and the et2 Wokwi CLI pipeline.
-- Next session should start by reading all 6 context files in order, then implement `variants.js`.
+- All 4 scripts pass `node --check` syntax validation.
+- All 3 variants have correct structure: `src/sketch.ino`, valid `platformio.ini`, `diagram.json`, `wokwi.toml`, `variant.json`, `scenarios/base.yaml`.
+- `templates/base/` compiles with `pio run` after moving sketch to `src/`.

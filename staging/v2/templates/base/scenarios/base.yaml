@@ -1,0 +1,6 @@
+name: 'Light Sensor Base Scenario'
+version: 1
+author: 'Demo Bot'
+
+steps:
+  - wait-serial: 'LUX:'

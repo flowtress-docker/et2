@@ -1,0 +1,16 @@
+# Generated variant projects (reproducible from templates + scripts)
+variants/
+
+# Simulation artifacts (screenshots, serial logs)
+artifacts/
+
+# Node modules (if scripts ever get their own package.json)
+node_modules/
+package-lock.json
+
+# Registry (regenerated on every run)
+registry.json
+
+# Credentials / tokens
+.env
+*.token
