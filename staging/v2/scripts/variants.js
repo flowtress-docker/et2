@@ -462,6 +462,219 @@ steps:
       { rule: 'firmware-patch', target: 'display', replace: 'OLED' },
     ],
   },
+  {
+    id: 'medical-monitor',
+    name: 'Medical Monitor (ESP32)',
+    board: {
+      id: 'esp',
+      type: 'wokwi-esp32-devkit-v1',
+      platformioEnv: 'esp32dev',
+      platformioPlatform: 'espressif32',
+      platformioBoard: 'esp32dev',
+      platformioFramework: 'arduino',
+    },
+    sensors: [
+      {
+        id: 'dht',
+        type: 'wokwi-dht22',
+        attrs: { temperature: '36.5', humidity: '50' },
+      },
+      {
+        id: 'mpu',
+        type: 'wokwi-mpu6050',
+        attrs: {},
+      },
+      {
+        id: 'btn',
+        type: 'wokwi-pushbutton',
+        attrs: {},
+      },
+    ],
+    display: {
+      id: 'oled',
+      type: 'wokwi-ssd1306',
+    },
+    actuator: {
+      id: 'buzzer',
+      type: 'wokwi-buzzer',
+      attrs: {},
+    },
+    connections: [
+      ['esp:3V3', 'dht:VCC', 'red', ['v0']],
+      ['esp:GND.1', 'dht:GND', 'black', ['v0']],
+      ['esp:D15', 'dht:SDA', 'green', ['v0']],
+      ['esp:3V3', 'mpu:VCC', 'red', ['v0']],
+      ['esp:GND.2', 'mpu:GND', 'black', ['v0']],
+      ['esp:D21', 'mpu:SDA', 'green', ['v0']],
+      ['esp:D22', 'mpu:SCL', 'blue', ['v0']],
+      ['esp:3V3', 'oled:VCC', 'red', ['v0']],
+      ['esp:GND.2', 'oled:GND', 'black', ['v0']],
+      ['esp:D21', 'oled:SDA', 'green', ['v0']],
+      ['esp:D22', 'oled:SCL', 'blue', ['v0']],
+      ['esp:3V3', 'btn:VCC', 'red', ['v0']],
+      ['esp:GND.2', 'btn:GND', 'black', ['v0']],
+      ['esp:D19', 'btn:OUT', 'yellow', ['v0']],
+      ['esp:D18', 'buzzer:1', 'orange', ['v0']],
+      ['esp:GND.2', 'buzzer:2', 'black', ['v0']],
+      ['esp:TX', '$serialMonitor:RX', '', []],
+      ['esp:RX', '$serialMonitor:TX', '', []],
+    ],
+    patchSketch() {
+      return `#include <WiFi.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include <DHT.h>
+#include <MPU6050.h>
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET -1
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
+#define DHTPIN 15
+#define DHTTYPE DHT22
+DHT dht(DHTPIN, DHTTYPE);
+
+MPU6050 mpu;
+
+const int buzzerPin = 18;
+const int buttonPin = 19;
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin();
+  dht.begin();
+  mpu.initialize();
+  pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(buzzerPin, OUTPUT);
+  digitalWrite(buzzerPin, LOW);
+
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println(F("SSD1306 allocation failed"));
+  }
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+  display.println("Patient Monitor ready");
+  display.display();
+  delay(500);
+  display.clearDisplay();
+}
+
+void loop() {
+  float temp = dht.readTemperature();
+  float hum = dht.readHumidity();
+  int16_t ax, ay, az;
+  mpu.getAcceleration(&ax, &ay, &az);
+  int btnState = digitalRead(buttonPin);
+
+  float totalAccel = sqrt(ax * ax + ay * ay + az * az);
+
+  display.clearDisplay();
+  display.setCursor(0, 0);
+
+  if (temp > 38.0) {
+    digitalWrite(buzzerPin, HIGH);
+    display.println("FEVER ALERT");
+  } else if (totalAccel > 30000) {
+    digitalWrite(buzzerPin, HIGH);
+    display.println("FALL ALERT");
+  } else if (btnState == LOW) {
+    digitalWrite(buzzerPin, LOW);
+    display.println("ACKNOWLEDGED");
+  } else {
+    digitalWrite(buzzerPin, LOW);
+    display.println("NORMAL");
+  }
+  display.display();
+
+  String stateStr;
+  if (temp > 38.0) stateStr = "FEVER";
+  else if (totalAccel > 30000) stateStr = "FALL";
+  else if (btnState == LOW) stateStr = "ACK";
+  else stateStr = "NORMAL";
+
+  Serial.print("TEMP:");
+  Serial.print(temp);
+  Serial.print(" ACC:");
+  Serial.print(totalAccel);
+  Serial.print(" BTN:");
+  Serial.print(btnState == LOW ? 1 : 0);
+  Serial.print(" STATE:");
+  Serial.println(stateStr);
+
+  delay(500);
+}
+`;
+    },
+    platformioIni: `[platformio]
+build_dir = build
+
+[env:esp32dev]
+platform = espressif32
+board = esp32dev
+framework = arduino
+lib_deps = 
+    adafruit/Adafruit SSD1306 @ ^2.5.7
+    adafruit/Adafruit GFX Library @ ^1.11.9
+    adafruit/DHT sensor library @ ^1.4.6
+    electroniccats/MPU6050 @ ^1.0.1`,
+    wokwiToml: `[wokwi]
+version = 1
+firmware = '.pio/build/esp32dev/firmware.bin'
+elf = '.pio/build/esp32dev/firmware.elf'`,
+    scenario: `name: 'Medical Monitor Scenario'
+version: 1
+author: 'Demo Bot'
+
+steps:
+  - wait-serial: 'Patient Monitor ready'
+  - delay: 1s
+  - wait-serial: 'STATE:NORMAL'
+  - set-control:
+      part-id: dht
+      control: temperature
+      value: 39.5
+  - delay: 2s
+  - wait-serial: 'STATE:FEVER'
+  - set-control:
+      part-id: btn
+      control: pressed
+      value: 1
+  - delay: 500ms
+  - set-control:
+      part-id: btn
+      control: pressed
+      value: 0
+  - delay: 1s
+  - wait-serial: 'STATE:ACK'
+  - set-control:
+      part-id: mpu
+      control: accelZ
+      value: 35000
+  - delay: 2s
+  - wait-serial: 'STATE:FALL'
+  - set-control:
+      part-id: btn
+      control: pressed
+      value: 1
+  - delay: 500ms
+  - set-control:
+      part-id: btn
+      control: pressed
+      value: 0
+  - delay: 1s
+  - wait-serial: 'STATE:ACK'`,
+    transforms: [
+      { rule: 'board-swap', from: 'wokwi-arduino-uno', to: 'wokwi-esp32-devkit-v1' },
+      { rule: 'sensor-swap', from: 'wokwi-photoresistor-sensor', to: 'wokwi-dht22' },
+      { rule: 'sensor-add', type: 'wokwi-mpu6050' },
+      { rule: 'sensor-add', type: 'wokwi-pushbutton' },
+      { rule: 'display-swap', from: 'wokwi-lcd1602', to: 'wokwi-ssd1306' },
+      { rule: 'actuator-add', type: 'wokwi-buzzer' },
+    ],
+  },
 ];
 
 // ── Helpers ─────────────────────────────────────────────────────
