@@ -1,0 +1,22 @@
+flow: et2 — Live simulation session
+direction: TB
+
+[system] session: Agent session active
+  { icon: "Activity", color: "blue" }
+[system] simsrv: Local sim server running
+  { icon: "Monitor", color: "emerald" }
+[architecture] primary: Wokwi embed (after wokwi.com import)
+  { icon: "Layout", color: "emerald" }
+[architecture] fallback: wokwi-cli daemon (set-control + serial)
+  { icon: "RefreshCw", color: "amber" }
+[process] controls: Supplemental controls from diagram.json
+  { icon: "Sliders", color: "violet" }
+[browser] operator: Operator interacts (board + controls)
+
+session ==> simsrv
+simsrv ==> primary
+simsrv -> fallback
+primary ==> operator
+fallback -> operator
+controls -> operator
+simsrv -> controls

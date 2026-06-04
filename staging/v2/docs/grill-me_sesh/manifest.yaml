@@ -47,3 +47,7 @@ files:
 related_root_files:
   - CONTEXT.md
     note: Slim pointer glossary at repo root; full canonical glossary is glossary.json here
+  - architecture/
+    note: OpenFlow DSL (.ofk) + OpenFlowKit viewer URLs; visual mirror of architecture.yaml
+  - architecture/README.md
+    note: Human entry — interactive editor links for all et2 diagrams

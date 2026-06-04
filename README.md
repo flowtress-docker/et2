@@ -12,6 +12,7 @@ This branch holds **structured context for AI agents** working on the **et2 v2 p
 
 | Resource | Description |
 |----------|-------------|
+| [**architecture/**](architecture/README.md) | **Interactive OpenFlowKit diagrams** (layers, flows, anti-patterns) |
 | [CONTEXT.md](CONTEXT.md) | Layer 2 glossary and index to the six-file research pack (`research/01`–`06`) |
 | [staging/v2/docs/grill-me_sesh/](staging/v2/docs/grill-me_sesh/) | Layer 1 canonical output from grill-with-docs (decisions, glossary, architecture YAML) |
 | [staging/v2/context/](staging/v2/context/) | Layer 3 appendix markdown (architecture, standards, UI, progress) |

@@ -2,6 +2,7 @@
 .worktrees/
 *.log
 node_modules/
+scripts/node_modules/
 build/
 superpowers-integration/
 .gitnexus

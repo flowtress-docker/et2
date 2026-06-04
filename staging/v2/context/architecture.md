@@ -1,5 +1,7 @@
 # Architecture Context
 
+**Interactive diagrams:** [`architecture/README.md`](../../../architecture/README.md) on the `context` branch (OpenFlowKit). Canonical YAML: [`docs/grill-me_sesh/architecture.yaml`](../docs/grill-me_sesh/architecture.yaml).
+
 ## Stack
 
 | Layer       | Technology                | Role                                          |

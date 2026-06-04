@@ -1,0 +1,18 @@
+flow: et2 — Session end
+direction: LR
+
+[system] mcp: MCP connected
+  { icon: "Plug", color: "blue" }
+[process] disconnect: MCP disconnect
+  { icon: "Unplug", color: "amber" }
+[process] stop_srv: Local sim server stops
+  { icon: "Power", color: "red" }
+[process] stop_cli: wokwi-cli session ends
+  { icon: "Square", color: "red" }
+[end] done: Session closed
+
+mcp -> disconnect
+disconnect ==> stop_srv
+disconnect ==> stop_cli
+stop_srv ==> done
+stop_cli ==> done

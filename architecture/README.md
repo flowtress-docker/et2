@@ -1,0 +1,44 @@
+# et2 architecture diagrams (OpenFlowKit)
+
+Interactive diagrams for the **et2 v2 plugin** architecture. Canonical spec remains [`staging/v2/docs/grill-me_sesh/architecture.yaml`](../staging/v2/docs/grill-me_sesh/architecture.yaml); these files are a visual mirror for exploration.
+
+## Quick start — open in OpenFlowKit
+
+| Diagram | View (read-only) | Open in editor (pan, zoom, edit) |
+|---------|------------------|----------------------------------|
+| **System layers** (start here) | [View](https://openflowkit.com/view?flow=~eNptks1q3DAQx-96imFPDe2mkKMgOawLJbRJFpK2h7AHrTxZDxlrjCTbhFDoQ_QJ-ySV7dhowx7MfHl-zF8zTyy9BowX0F3Avz9_YcvtgRwYbyuKaGPrEdi8oA-qJJ8SJE7Dw0apx72XPqDfgTToTRSv4e7Ngw9F60Oyn-Eb1ZRMwaYt8UwBvALZgbH6kZpXn8AKD62rPbe4gt_qsfFiMYQdkAvRMOvZWTfjcOehyjFfpHcspsxQgU2cWOElRKx3YA7oooZCSnKHKYKPEJ6JOWdtJGaYjoQxHnFq22i4KbaQZu8w6byVd6rux8JpyqKsM56Mi0HDz8kDdEkZ5qCvFDfeOFtlLFPvE_sIFUXYVoZSyzbJfhJfX98lbb0897S2TDnzAX1NzvBJ5KwxUB18p-G7WMNDtIjlIVNJiEeKb8RR2nnGxDqdAZcjNb-k3TSVhl-DgdDuQ0z3ciS7aNrTJDWfGVxeXk0rVG-HAeurYTNq2utQHqL0jf782Gp2xuzybst_k261FMbkOLCaSlniP7cFFVc) | [Edit](https://openflowkit.com/view?flow=~eNptks1q3DAQx-96imFPDe2mkKMgOawLJbRJFpK2h7AHrTxZDxlrjCTbhFDoQ_QJ-ySV7dhowx7MfHl-zF8zTyy9BowX0F3Avz9_YcvtgRwYbyuKaGPrEdi8oA-qJJ8SJE7Dw0apx72XPqDfgTToTRSv4e7Ngw9F60Oyn-Eb1ZRMwaYt8UwBvALZgbH6kZpXn8AKD62rPbe4gt_qsfFiMYQdkAvRMOvZWTfjcOehyjFfpHcspsxQgU2cWOElRKx3YA7oooZCSnKHKYKPEJ6JOWdtJGaYjoQxHnFq22i4KbaQZu8w6byVd6rux8JpyqKsM56Mi0HDz8kDdEkZ5qCvFDfeOFtlLFPvE_sIFUXYVoZSyzbJfhJfX98lbb0897S2TDnzAX1NzvBJ5KwxUB18p-G7WMNDtIjlIVNJiEeKb8RR2nnGxDqdAZcjNb-k3TSVhl-DgdDuQ0z3ciS7aNrTJDWfGVxeXk0rVG-HAeurYTNq2utQHqL0jf782Gp2xuzybst_k261FMbkOLCaSlniP7cFFVc&edit=1) |
+| Plugin install | [View](https://openflowkit.com/view?flow=~eNpVkU1OwzAQhfc-xagrEH8Sy0hlk-4AURUkFlUXrjNJRp3E0dgBVQiJQ3BCTsLEaat0Yc3zs_15_Fyy_8wA4z38_fzCkvuKWqA2RMsMpS6aggRdJN9m8LQyZq1LEjeQSgYvHYqNXsZ5MOtOvMMQNiC9nlj1J9pNl-C3oTYAX0BuIM7eUBpqLc-uwXn2otaWe5zB9wRVYNQWMlikCrUPES7yXoLeewc5275AFY_U0OUU_opWXD1B22aLcs7WnSVVGbwLRYTnfHlw4EpFt4ewI-ZzaIzUVmGC_SDPGM-5nWDJVNXa9vIoIXrPrrYasavR7cKUmw9OTuIYJ2hsNF8uEhvbQmNFW-yz40-lmTEpfJjPH4bUjY6kx9jMWJIzPs0cXjg4pzbNSY2cBP4H4f-4OQ) | [Edit](https://openflowkit.com/view?flow=~eNpVkU1OwzAQhfc-xagrEH8Sy0hlk-4AURUkFlUXrjNJRp3E0dgBVQiJQ3BCTsLEaat0Yc3zs_15_Fyy_8wA4z38_fzCkvuKWqA2RMsMpS6aggRdJN9m8LQyZq1LEjeQSgYvHYqNXsZ5MOtOvMMQNiC9nlj1J9pNl-C3oTYAX0BuIM7eUBpqLc-uwXn2otaWe5zB9wRVYNQWMlikCrUPES7yXoLeewc5275AFY_U0OUU_opWXD1B22aLcs7WnSVVGbwLRYTnfHlw4EpFt4ewI-ZzaIzUVmGC_SDPGM-5nWDJVNXa9vIoIXrPrrYasavR7cKUmw9OTuIYJ2hsNF8uEhvbQmNFW-yz40-lmTEpfJjPH4bUjY6kx9jMWJIzPs0cXjg4pzbNSY2cBP4H4f-4OQ&edit=1) |
+| Create simulation | [View](https://openflowkit.com/view?flow=~eNptUU1PwzAMvedXWLuyMYljxYagEh_SgGmIA0w9pIm3GZKmStL2wJD4EfxCfgle6UaRuDi2n_X88rwyrkkA4wl8fXxC6lFGhEC2MjKSK2DFuNDkUe3KBGYLIZYhSh8zKL2zZUzgvkQvo_NwN-t6QAXINRYR1EZGseSuwhAy8BicqTGB8xbtygAFSs4j1NKTbAFFJQqANyC12zu4onjhZaE2gyEoZ5znnrQ5-gG8i6Xm-cACM8aKFXnLG2xO68pVAayManPWJ7tGU6bklcF_2Q5yWeTua6z3Np0fqgDHbNiYp17YljA-JT0d9-kvndHo56YKPfrcVPiXPa_I6ARKcuCrAo6gca8NjZQh9sGQbi_wR7a0liX-ctbkDMaWFQudgUZDNTLyQBYeFzPmfL6ZcyRbOh8hRCyDEN2RJpPp_gKie2E03Tsoupdb2ycMQ2gkxe3BhD6cGj7fj829gX3S7mn_KtrY1p1S8Q22nNvz) | [Edit](https://openflowkit.com/view?flow=~eNptUU1PwzAMvedXWLuyMYljxYagEh_SgGmIA0w9pIm3GZKmStL2wJD4EfxCfgle6UaRuDi2n_X88rwyrkkA4wl8fXxC6lFGhEC2MjKSK2DFuNDkUe3KBGYLIZYhSh8zKL2zZUzgvkQvo_NwN-t6QAXINRYR1EZGseSuwhAy8BicqTGB8xbtygAFSs4j1NKTbAFFJQqANyC12zu4onjhZaE2gyEoZ5znnrQ5-gG8i6Xm-cACM8aKFXnLG2xO68pVAayManPWJ7tGU6bklcF_2Q5yWeTua6z3Np0fqgDHbNiYp17YljA-JT0d9-kvndHo56YKPfrcVPiXPa_I6ARKcuCrAo6gca8NjZQh9sGQbi_wR7a0liX-ctbkDMaWFQudgUZDNTLyQBYeFzPmfL6ZcyRbOh8hRCyDEN2RJpPp_gKie2E03Tsoupdb2ycMQ2gkxe3BhD6cGj7fj829gX3S7mn_KtrY1p1S8Q22nNvz&edit=1) |
+| Live session | [View](https://openflowkit.com/view?flow=~eNqNUcFO5DAMvecrrDkNgpkDx0ogwV4HITEr7WE1hzR1By9JXTlpq9EKiY_YL9wvwS3NUG6cnLxnvWc_156HAjBdw_-3f7CjHiFS6LxNxA1EjFGrqUjQjUgBP--N-R1PMWE4ZL6AuyM2KX_Bam-PBuAvkBvp1d2IUDqtrsCxZ1Go9B2u4HUhRiFKX8COnfXjT_WkRwHpmoaa41LvgRtKLAs5DCjWV5OiFfdMSSfuBA_QCgUrpwJ-8ctAgKHECta2Tio9jNDWcQAKLUu6WJrs7Im79C2P2npfWvdSfChunCeoLAYNYx0xbVQwCXu4HHci67_4PGEtGJ9_DAsrq1PKZNQKO831ALNGLGDfta3XYZqkQWUYatE1KrJHsWH7J-rZFh57TxVKXDj0xB7TZFEKDzrXAbjVBdNIP84voEZz0oNGWJdspdIVsuOFMfniNze38_3MR5mQOfkMbW7POZmZmtqyq8ns2HkGz_stwU_FTJt3SoH5tg) | [Edit](https://openflowkit.com/view?flow=~eNqNUcFO5DAMvecrrDkNgpkDx0ogwV4HITEr7WE1hzR1By9JXTlpq9EKiY_YL9wvwS3NUG6cnLxnvWc_156HAjBdw_-3f7CjHiFS6LxNxA1EjFGrqUjQjUgBP--N-R1PMWE4ZL6AuyM2KX_Bam-PBuAvkBvp1d2IUDqtrsCxZ1Go9B2u4HUhRiFKX8COnfXjT_WkRwHpmoaa41LvgRtKLAs5DCjWV5OiFfdMSSfuBA_QCgUrpwJ-8ctAgKHECta2Tio9jNDWcQAKLUu6WJrs7Im79C2P2npfWvdSfChunCeoLAYNYx0xbVQwCXu4HHci67_4PGEtGJ9_DAsrq1PKZNQKO831ALNGLGDfta3XYZqkQWUYatE1KrJHsWH7J-rZFh57TxVKXDj0xB7TZFEKDzrXAbjVBdNIP84voEZz0oNGWJdspdIVsuOFMfniNze38_3MR5mQOfkMbW7POZmZmtqyq8ns2HkGz_stwU_FTJt3SoH5tg&edit=1) |
+| Session end | [View](https://openflowkit.com/view?flow=~eNptkE1qw0AMhfdziofXzabLgWTTbQshIasQijOjliHjkTuyY0oI9BA9YU9SJW3sGLzTz9Mn6b1F7iyoecTP1zfWJBI4gZI3PmRyjWYWzytjtvIpDVU7VK62eHlawnFKqiBvgBOCuyiLZWzfiwftRc6a7mNLBc5mW2d2Ct_BB_kf_KMM-T1mk-oxqKz2lMckabh-lXzU-9iVERIqCOUj5WtLRmdxp-MDLpOfgLkYLDo-dGGmocJ6N0aw9UdbZpqgqVAf5ES2d9JFFnXIqGuYLe6_HULM54v-m8m6XmNugmv1ssTcWkPlFxtGnSQ) | [Edit](https://openflowkit.com/view?flow=~eNptkE1qw0AMhfdziofXzabLgWTTbQshIasQijOjliHjkTuyY0oI9BA9YU9SJW3sGLzTz9Mn6b1F7iyoecTP1zfWJBI4gZI3PmRyjWYWzytjtvIpDVU7VK62eHlawnFKqiBvgBOCuyiLZWzfiwftRc6a7mNLBc5mW2d2Ct_BB_kf_KMM-T1mk-oxqKz2lMckabh-lXzU-9iVERIqCOUj5WtLRmdxp-MDLpOfgLkYLDo-dGGmocJ6N0aw9UdbZpqgqVAf5ES2d9JFFnXIqGuYLe6_HULM54v-m8m6XmNugmv1ssTcWkPlFxtGnSQ&edit=1) |
+| Anti-patterns | [View](https://openflowkit.com/view?flow=~eNqVkcFKAzEURff5isusWrAKLrMQdERU6qoVhVJKyLw6z6bJkGRaigh-hF_ol5iZjnZABF0lue_m5OW-pXFbCYqn-Hh7x7nXJUfSsfYEZSOPKhUjeRswKBysi0NRsE8GdlZieiHETNkkq0aYI3I0JHFjN8pzuh9aqto4LhBLCiSAF2hnnJfIPBUZXsWs8k5TCHMs1YoWRhcSV2mHcX4Jtrie3o0xUFV1XO3Q9TNsQaybLrLHnL02lB39Tg5syEaJSbuiaw9Pdapiy7F0dUy37ZL9-p_o57Coyl2QyA0n9ihwQQhkg_MnKiWpovO4naAxsQ5_o6veIOap6pvMJe4DwZMyeHCrLYPWtWmTh7Nm1yfnJenVDzqtySvTviDaUWF09h36QdmHdTh3PxRfzkbrWhJ7b1_p3H3pE8cv0mE) | [Edit](https://openflowkit.com/view?flow=~eNqVkcFKAzEURff5isusWrAKLrMQdERU6qoVhVJKyLw6z6bJkGRaigh-hF_ol5iZjnZABF0lue_m5OW-pXFbCYqn-Hh7x7nXJUfSsfYEZSOPKhUjeRswKBysi0NRsE8GdlZieiHETNkkq0aYI3I0JHFjN8pzuh9aqto4LhBLCiSAF2hnnJfIPBUZXsWs8k5TCHMs1YoWRhcSV2mHcX4Jtrie3o0xUFV1XO3Q9TNsQaybLrLHnL02lB39Tg5syEaJSbuiaw9Pdapiy7F0dUy37ZL9-p_o57Coyl2QyA0n9ihwQQhkg_MnKiWpovO4naAxsQ5_o6veIOap6pvMJe4DwZMyeHCrLYPWtWmTh7Nm1yfnJenVDzqtySvTviDaUWF09h36QdmHdTh3PxRfzkbrWhJ7b1_p3H3pE8cv0mE&edit=1) |
+
+**Tip:** Use **Open in editor** links to pan, zoom, select nodes, and tweak layout. Changes live in the browser until you copy DSL back into the `.ofk` file in git.
+
+## Source files
+
+| File | Maps to `architecture.yaml` |
+|------|-----------------------------|
+| [`et2-system-layers.ofk`](et2-system-layers.ofk) | `layers[]` |
+| [`et2-install-flow.ofk`](et2-install-flow.ofk) | `flows.install` |
+| [`et2-create-simulation.ofk`](et2-create-simulation.ofk) | `flows.create_simulation` |
+| [`et2-live-session.ofk`](et2-live-session.ofk) | `flows.live_interaction` |
+| [`et2-session-end.ofk`](et2-session-end.ofk) | `flows.session_end` |
+| [`et2-anti-patterns.ofk`](et2-anti-patterns.ofk) | `anti_patterns[]` |
+
+Machine-readable URLs: [`viewer-urls.json`](viewer-urls.json) (regenerate after editing DSL).
+
+## Regenerate viewer URLs
+
+After changing any `.ofk` file:
+
+```bash
+cd scripts && npm install && node encode-openflow-viewer-url.mjs ../architecture
+```
+
+Commit both the `.ofk` and updated `viewer-urls.json`.
+
+## Tooling
+
+- **OpenFlowKit** (diagram UI): [flowtress-docker/openflowkit](https://github.com/flowtress-docker/openflowkit) · hosted app [openflowkit.com](https://openflowkit.com)
+- **Agent setup:** [openflowkit.md](openflowkit.md)

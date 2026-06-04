@@ -1,0 +1,28 @@
+flow: et2 v2 — Plugin architecture layers
+direction: TB
+
+[browser] operator: Operator (Cursor / Kimi / Claude)
+  { icon: "User", color: "blue" }
+[process] install: install-plugin.sh
+  { icon: "Download", color: "slate" }
+[system] agent: Coding agent + skill
+  { icon: "Bot", color: "violet" }
+[system] mcp: MCP server (Node)
+  { icon: "Server", color: "violet" }
+[process] variants: Variant engine
+  { icon: "GitBranch", color: "amber" }
+[process] toolchain: PlatformIO + wokwi-cli
+  { icon: "Terminal", color: "amber" }
+[system] simsrv: Local sim server (localhost)
+  { icon: "Monitor", color: "emerald" }
+[architecture] wokwi: Wokwi substrate
+  { icon: "Cpu", color: "emerald" }
+
+operator ==> agent
+install -> mcp
+agent ==> mcp
+mcp ==> variants
+variants ==> toolchain
+mcp ==> simsrv
+toolchain ==> wokwi
+simsrv ==> wokwi

@@ -14,6 +14,31 @@
 
 **Legacy `main`:** `demo/*` + `./run-demo.sh` worktrees = historical Wokwi CLI demos; not north star for agentic plugin on `staging/v2`.
 
+## OpenFlowKit — architecture diagrams (this branch)
+
+**Visual index:** [`architecture/README.md`](architecture/README.md) — use **Open in editor** links for interactive pan/zoom on [openflowkit.com](https://openflowkit.com).
+
+**Canonical spec:** [`staging/v2/docs/grill-me_sesh/architecture.yaml`](staging/v2/docs/grill-me_sesh/architecture.yaml). **Derived DSL:** `architecture/*.ofk`. When YAML changes, update the matching `.ofk` and run:
+
+```bash
+cd scripts && npm install && node encode-openflow-viewer-url.mjs ../architecture
+```
+
+**Optional MCP** ([`architecture/openflowkit.md`](architecture/openflowkit.md)) — when `@openflowkit/mcp-server` is published or built from [flowtress-docker/openflowkit](https://github.com/flowtress-docker/openflowkit/tree/main/mcp-server):
+
+```json
+{
+  "mcpServers": {
+    "openflowkit": {
+      "command": "npx",
+      "args": ["-y", "@openflowkit/mcp-server"]
+    }
+  }
+}
+```
+
+Tools: `validate_openflow_dsl`, `create_viewer_url`, `find_icon`, `get_starter_template`. Read `openflowkit://docs/dsl-cheatsheet` before editing DSL.
+
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 

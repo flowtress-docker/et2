@@ -1,0 +1,20 @@
+flow: et2 — Create simulation flow
+direction: LR
+
+[start] prompt: Operator NL prompt in agent chat
+[process] resolve: Agent resolves nearest variant recipe
+  { icon: "GitBranch", color: "amber" }
+[decision] confirm: Ambiguous match?
+  { icon: "HelpCircle", color: "amber" }
+[process] generate: MCP generates .et2/projects/<id>/
+  { icon: "FolderPlus", color: "blue" }
+[process] build: pio run + wokwi-cli validation
+  { icon: "Hammer", color: "violet" }
+[end] deliver: Sim URL + ZIP + import steps
+
+prompt ==> resolve
+resolve -> confirm
+confirm ->|Yes, wait| generate
+confirm ->|Clear match| generate
+generate ==> build
+build ==> deliver

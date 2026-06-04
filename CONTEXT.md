@@ -2,6 +2,16 @@
 
 > **Canonical spec (this branch):** [`staging/v2/docs/grill-me_sesh/manifest.yaml`](staging/v2/docs/grill-me_sesh/manifest.yaml) — structured YAML/JSON, not a single markdown dump.
 
+## Visual architecture (OpenFlowKit)
+
+Interactive diagrams mirror [`architecture.yaml`](staging/v2/docs/grill-me_sesh/architecture.yaml):
+
+| Start here | Link |
+|------------|------|
+| Index + all viewer/editor links | [`architecture/README.md`](architecture/README.md) |
+| **System layers** (pan/zoom in browser) | [Open in OpenFlowKit editor](https://openflowkit.com/view?flow=~eNptks1q3DAQx-96imFPDe2mkKMgOawLJbRJFpK2h7AHrTxZDxlrjCTbhFDoQ_QJ-ySV7dhowx7MfHl-zF8zTyy9BowX0F3Avz9_YcvtgRwYbyuKaGPrEdi8oA-qJJ8SJE7Dw0apx72XPqDfgTToTRSv4e7Ngw9F60Oyn-Eb1ZRMwaYt8UwBvALZgbH6kZpXn8AKD62rPbe4gt_qsfFiMYQdkAvRMOvZWTfjcOehyjFfpHcspsxQgU2cWOElRKx3YA7oooZCSnKHKYKPEJ6JOWdtJGaYjoQxHnFq22i4KbaQZu8w6byVd6rux8JpyqKsM56Mi0HDz8kDdEkZ5qCvFDfeOFtlLFPvE_sIFUXYVoZSyzbJfhJfX98lbb0897S2TDnzAX1NzvBJ5KwxUB18p-G7WMNDtIjlIVNJiEeKb8RR2nnGxDqdAZcjNb-k3TSVhl-DgdDuQ0z3ciS7aNrTJDWfGVxeXk0rVG-HAeurYTNq2utQHqL0jf782Gp2xuzybst_k261FMbkOLCaSlniP7cFFVc&edit=1) |
+| Agent / MCP notes | [`architecture/openflowkit.md`](architecture/openflowkit.md) |
+
 Agentic layer for Wokwi hardware simulation. Users describe hardware setups in natural language instead of manually wiring circuits in the Wokwi visual editor.
 
 ## Terms
