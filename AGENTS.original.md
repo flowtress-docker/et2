@@ -1,18 +1,18 @@
 ## Six-File Context Pack
 
-**Primary spec:** [`staging/v2/docs/grill-me_sesh/`](staging/v2/docs/grill-me_sesh/) (manifest, glossary, invariants, status matrix) + root [`CONTEXT.md`](CONTEXT.md).
+**Primary spec:** [`staging/v2/docs/grill-me_sesh/`](staging/v2/docs/grill-me_sesh/) (manifest, glossary, invariants, status matrix) plus root [`CONTEXT.md`](CONTEXT.md) glossary.
 
 **v1 invariants (non-negotiable):**
 
 - Real Wokwi emulation only — no client-side hardware fakes ([`invariants.yaml`](staging/v2/docs/grill-me_sesh/invariants.yaml))
-- Unmatched prompts → nearest variant + operator confirm before generate
+- Unmatched prompts → present nearest variant and wait for operator confirmation before generate
 - Generated projects under `.et2/projects/<id>/` (gitignored)
 
-**Research appendix:** [`research/01-landscape.md`](research/01-landscape.md) … [`research/06-practical-guide.md`](research/06-practical-guide.md) — landscape + Wokwi CLI ref; not product spec.
+**Research appendix:** [`research/01-landscape.md`](research/01-landscape.md) through [`research/06-practical-guide.md`](research/06-practical-guide.md) — landscape and Wokwi CLI reference only; not the product spec.
 
-**Active impl:** [`staging/v2/scripts/variants.js`](staging/v2/scripts/variants.js) (template variant recipes).
+**Active implementation:** [`staging/v2/scripts/variants.js`](staging/v2/scripts/variants.js) (template variant recipes).
 
-**Legacy `main`:** `demo/*` + `./run-demo.sh` worktrees = historical Wokwi CLI demos; not north star for agentic plugin on `staging/v2`.
+**Legacy on `main`:** `demo/*` branches and `./run-demo.sh` worktrees remain for historical Wokwi CLI demos; they are not the north star for the agentic plugin on `staging/v2`.
 
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence

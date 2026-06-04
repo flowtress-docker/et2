@@ -1,8 +1,8 @@
 # Context7 Research Findings
 
-> **v2 agents:** Primary ref for **Wokwi CLI**, **embed**, **automation scenarios**. EDA/SPICE/KiCad below = **legacy only** (not v2 plugin path).
+> **v2 agents:** Primary reference for implementing **Wokwi CLI**, **embed**, and **automation scenarios**. EDA / SPICE / KiCad sections below are **legacy reference** only (not v2 plugin path).
 
-## Wokwi (primary — et2)
+## Wokwi (primary — et2 demos)
 
 - **Context7 library ID**: `/websites/wokwi`
 
@@ -99,10 +99,10 @@ curl -L https://wokwi.com/ci/install.sh | sh
 ```
 
 
-## KiCad / pcbnew (legacy)
+## KiCad / pcbnew
 
-- **API**: Yes — `kicad-python` / `kigadgets` over `pcbnew`.
-- **Snippet**:
+- **Programmatic/API interface**: Yes (via `kicad-python` / `kigadgets` wrapper over native `pcbnew` module).
+- **Example snippet** (max 10 lines):
   ```python
   from kigadgets.board import Board
 
@@ -115,10 +115,10 @@ curl -L https://wokwi.com/ci/install.sh | sh
 - **Source**: https://context7.com/atait/kicad-python/llms.txt
 - **Context7 library ID**: `/atait/kicad-python`
 
-## PySpice (legacy)
+## PySpice
 
-- **API**: Yes — Python → Ngspice/Xyce.
-- **Snippet**:
+- **Programmatic/API interface**: Yes (Python module interfacing Ngspice and Xyce).
+- **Example snippet** (max 10 lines):
   ```python
   from PySpice.Spice.Netlist import Circuit
   from PySpice.Unit import *
@@ -134,10 +134,10 @@ curl -L https://wokwi.com/ci/install.sh | sh
 - **Source**: https://pyspice.fabrice-salvaire.fr/releases/v1.5/index.html
 - **Context7 library ID**: `/websites/pyspice_fabrice-salvaire_fr`
 
-## skidl (legacy)
+## skidl
 
-- **API**: Yes — compact circuit + netlist.
-- **Snippet**:
+- **Programmatic/API interface**: Yes (Python module for compact circuit description and netlist generation).
+- **Example snippet** (max 10 lines):
   ```python
   reset()  # Clear existing circuitry.
 
@@ -151,10 +151,10 @@ curl -L https://wokwi.com/ci/install.sh | sh
 - **Source**: https://github.com/devbisme/skidl/blob/master/tests/examples/spice-sim-intro/spice-sim-intro.ipynb
 - **Context7 library ID**: `/devbisme/skidl`
 
-## lcapy (legacy)
+## lcapy
 
-- **API**: Yes — symbolic linear circuits.
-- **Snippet**:
+- **Programmatic/API interface**: Yes (Python package for symbolic linear circuit analysis).
+- **Example snippet** (max 10 lines):
   ```python
   from lcapy import Circuit, s, t
 
@@ -170,11 +170,11 @@ curl -L https://wokwi.com/ci/install.sh | sh
 - **Source**: https://github.com/mph-/lcapy/blob/master/README.md
 - **Context7 library ID**: `/mph-/lcapy`
 
-## Other EDA SDKs (legacy)
+## Other EDA SDKs
 
 - **ngspice**
-  - **API**: Yes — PySpice `NgSpiceShared` + C API.
-  - **Snippet**:
+  - Programmatic/API interface: Yes (via PySpice `NgSpiceShared` Python wrapper and direct C API).
+  - Example snippet (max 10 lines):
     ```python
     import PySpice.Logging.Logging as Logging
     logger = Logging.setup_logging()
@@ -191,8 +191,8 @@ curl -L https://wokwi.com/ci/install.sh | sh
   - Context7 library ID: `/websites/pyspice_fabrice-salvaire_fr`
 
 - **Xyce**
-  - **API**: Yes — C++ embedded sim.
-  - **Snippet**:
+  - Programmatic/API interface: Yes (C++ embedded simulator API).
+  - Example snippet (max 10 lines):
     ```cpp
     #include <N_CIR_Xyce.h>
     #include <vector>
@@ -209,8 +209,8 @@ curl -L https://wokwi.com/ci/install.sh | sh
   - Context7 library ID: `/xyce/xyce`
 
 - **LTspice**
-  - **API**: Yes — PyLTSpice.
-  - **Snippet**:
+  - Programmatic/API interface: Yes (via PyLTSpice Python toolchain).
+  - Example snippet (max 10 lines):
     ```python
     from PyLTSpice import SimRunner, SpiceEditor
 
@@ -222,8 +222,8 @@ curl -L https://wokwi.com/ci/install.sh | sh
   - Context7 library ID: `/nunobrum/pyltspice`
 
 - **spicelib**
-  - **API**: Yes — batch SPICE (LTspice, Ngspice, QSPICE, Xyce).
-  - **Snippet**:
+  - Programmatic/API interface: Yes (Python toolchain for batch SPICE simulation across LTspice, Ngspice, QSPICE, and Xyce).
+  - Example snippet (max 10 lines):
     ```python
     @classmethod
     def run(cls, netlist_file, cmd_line_switches=None, timeout=None,
@@ -234,12 +234,13 @@ curl -L https://wokwi.com/ci/install.sh | sh
   - Source: https://github.com/nunobrum/spicelib/blob/main/doc/classes/simulator_sim.md
   - Context7 library ID: `/nunobrum/spicelib`
 
-- **Qucs** — no relevant Context7 library (unrelated hits). Skipped.
+- **Qucs**
+  - Did not resolve to a relevant circuit/EDA library in Context7 (search returned unrelated web-framework results). Skipped.
 
 
-## Playwright (legacy browser automation)
+## Playwright
 
-- **WebSocket intercept**: `BrowserContext.routeWebSocket()` / `Page.routeWebSocket()` + `WebSocketRoute` — inspect/block/modify before server.
+- **Intercept WebSocket messages**: Use `BrowserContext.routeWebSocket()` or `Page.routeWebSocket()` with a `WebSocketRoute` handler to inspect, block, or modify messages before they reach the server.
   ```javascript
   await context.routeWebSocket('/ws', async ws => {
     ws.routeSend(message => {
@@ -251,7 +252,7 @@ curl -L https://wokwi.com/ci/install.sh | sh
   ```
   - Source: https://github.com/microsoft/playwright/blob/main/docs/src/api/class-browsercontext.md
 
-- **`page.evaluate()`**: run JS in browser; serializable result; args + Promise await.
+- **Evaluate JavaScript in page context**: `page.evaluate()` runs code in the browser and returns serializable results; supports passing arguments and auto-awaiting Promises.
   ```javascript
   const result = await page.evaluate(([x, y]) => {
     return Promise.resolve(x * y);
@@ -259,21 +260,21 @@ curl -L https://wokwi.com/ci/install.sh | sh
   ```
   - Source: https://github.com/microsoft/playwright/blob/main/docs/src/api/class-page.md
 
-- **Iframes**: `page.frameLocator(selector)` + chain locators; `contentFrame()` for nested frames.
+- **Handle iframe navigation and interaction**: Use `page.frameLocator(selector)` to target an iframe and chain locators; `contentFrame()` converts a standard locator into a frame locator for nested frames.
   ```javascript
   await page.frameLocator('#my-iframe')
     .getByRole('button', { name: 'Submit' }).click();
   ```
   - Source: https://github.com/microsoft/playwright/blob/main/docs/src/api/class-page.md
 
-- **Session persist**: `context.storageState()` → file; restore via `storageState` on `browser.newContext()`.
+- **Persist cookies and session state**: `context.storageState()` saves cookies, localStorage, and IndexedDB to a file; restore by passing `storageState` to `browser.newContext()`.
   ```python
   storage = await context.storage_state(path="state.json")
   context = await browser.new_context(storage_state="state.json")
   ```
   - Source: https://github.com/microsoft/playwright/blob/main/docs/src/auth.md
 
-- **Bot flags**: `Page.addLocatorHandler()` for popups; `serviceWorkers: 'BLOCK'` in context options.
+- **Avoid bot detection / automation flags**: Use `Page.addLocatorHandler()` to dismiss unexpected pop-up overlays; block service workers via `serviceWorkers: 'BLOCK'` in context options.
   ```javascript
   await page.addLocatorHandler(
     page.getByText('Sign up to the newsletter'),
@@ -282,9 +283,9 @@ curl -L https://wokwi.com/ci/install.sh | sh
   ```
   - Source: https://github.com/microsoft/playwright/blob/main/docs/src/api/class-page.md
 
-## Puppeteer (legacy)
+## Puppeteer
 
-- **WebSocket**: no dedicated API; CDP or `page.setRequestInterception(true)` for HTTP-level.
+- **Intercept WebSocket messages**: Puppeteer core does not expose a dedicated WebSocket interception API; use CDP directly or fall back to `page.setRequestInterception(true)` for HTTP-level monitoring.
   ```javascript
   await page.setRequestInterception(true);
   page.on('request', req => {
@@ -293,14 +294,14 @@ curl -L https://wokwi.com/ci/install.sh | sh
   ```
   - Source: https://context7.com/puppeteer/puppeteer/llms.txt
 
-- **`page.evaluate()`**: fn/string in browser; args, Promises, `evaluateHandle()` for DOM nodes.
+- **Evaluate JavaScript in page context**: `page.evaluate()` runs a function or string expression inside the browser; supports arguments, Promises, and `evaluateHandle()` for DOM node references.
   ```javascript
   const title = await page.evaluate(() => document.title);
   const sum = await page.evaluate((a, b) => a + b, 10, 20);
   ```
   - Source: https://context7.com/puppeteer/puppeteer/llms.txt
 
-- **Iframes**: `page.frames()` / `waitForFrame()`; `frame.evaluate/click/waitForNavigation`; `Promise.all` on click+navigate.
+- **Handle iframe navigation and interaction**: Access frames via `page.frames()` or `page.waitForFrame()`, then use `frame.evaluate()`, `frame.click()`, and `frame.waitForNavigation()`; wrap click+navigate in `Promise.all` to avoid races.
   ```javascript
   const [response] = await Promise.all([
     frame.waitForNavigation(),
@@ -309,7 +310,7 @@ curl -L https://wokwi.com/ci/install.sh | sh
   ```
   - Source: https://github.com/puppeteer/puppeteer/blob/main/docs/api/puppeteer.frame.waitfornavigation.md
 
-- **Cookies**: `setCookie` / `cookies` / `deleteCookie`; pre-seed before nav; `createBrowserContext()` for isolation.
+- **Persist cookies and session state**: Use `browser.setCookie()`, `browser.cookies()`, and `browser.deleteCookie()` to pre-seed or restore session state before navigation; isolated contexts via `browser.createBrowserContext()`.
   ```javascript
   await browser.setCookie({
     name: 'session_token', value: 'abc123',
@@ -318,7 +319,7 @@ curl -L https://wokwi.com/ci/install.sh | sh
   ```
   - Source: https://context7.com/puppeteer/puppeteer/llms.txt
 
-- **Bot flags**: no stealth in Context7 core; disable Chrome features + request interception vs masking `navigator.webdriver`.
+- **Avoid bot detection / automation flags**: Context7 core docs do not cover stealth plugins; returned results focus on disabling Chrome features and request interception rather than masking `navigator.webdriver`.
   ```javascript
   const browser = await puppeteer.launch({
     args: ['--disable-features=HttpsFirstBalancedModeAutoEnable'],
