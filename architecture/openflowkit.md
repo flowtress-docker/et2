@@ -4,6 +4,19 @@
 
 ## For humans
 
+### Localhost
+
+```bash
+./scripts/serve-openflowkit-local.sh
+```
+
+- Index: http://127.0.0.1:8765/
+- Viewer: http://127.0.0.1:5173/#/view?flow=… (from index links)
+
+`#/home` stays empty until you save flows in IndexedDB; et2 diagrams use **`#/view?flow=`** links instead.
+
+### Cloud
+
 1. Open [`architecture/README.md`](README.md).
 2. Click **View** on **System layers** (or any diagram).
 3. Pan, zoom, and explore at [app.openflowkit.com](https://app.openflowkit.com) (use **Open in Editor** in the viewer toolbar to edit).
