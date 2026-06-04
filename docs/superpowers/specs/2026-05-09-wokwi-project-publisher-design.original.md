@@ -1,26 +1,26 @@
 # Wokwi Project Publisher — Design Spec (v2)
 
 > **Version:** 2.0 — CLI-native pipeline  
-> **Based on:** [v1 spec](#) (Puppeteer browser automation, superseded)
+> **Based on:** [v1 spec](#) (Puppeteer-based browser automation, superseded)
 
 ## Context
 
-No public API for `wokwi.com/projects/XXXX` URLs. Context7 MCP confirmed:
-- No GitHub loader URL (`wokwi.com/projects/github/...` unsupported)
-- No REST API for project create
-- `wokwi-cli mcp` experimental — sim tools only, not publish
-- Permanent shareable project URL only via Wokwi browser UI
+Wokwi has no public API for creating `wokwi.com/projects/XXXX` URLs programmatically. Context7 MCP verification confirmed:
+- No GitHub project loader URL exists (`wokwi.com/projects/github/...` is unsupported)
+- No REST API for project creation
+- `wokwi-cli mcp` is experimental and only exposes simulation tools, not project publishing
+- The only way to get a permanent shareable project URL is through the Wokwi browser UI
 
-**v2 pivot:** Drop fragile Puppeteer. Kimi Code runs **local build + simulate** via `wokwi-cli`. Validate real sims before manual web upload. Output = known-good project dirs → import wokwi.com or ZIP.
+**v2 pivot:** Instead of fragile browser automation (Puppeteer), Kimi Code orchestrates a **local build-and-simulate pipeline** using `wokwi-cli`. Projects are validated as real, working simulations before any manual web upload. The output is a collection of known-good project directories that can be imported into wokwi.com or shared as self-contained ZIPs.
 
 ## Objective
 
-Kimi Code + `wokwi-cli` pipeline:
-1. N hardware variants from base template
-2. PlatformIO compile each
-3. `wokwi-cli` automation scenarios
-4. Screenshots + serial logs as proof
-5. Registry of validated, publish-ready projects
+Build a Kimi Code + `wokwi-cli` pipeline that:
+1. Generates multiple hardware variants from a base template
+2. Compiles firmware for each variant via PlatformIO
+3. Runs automated simulation scenarios via `wokwi-cli`
+4. Captures screenshots and serial logs as proof-of-work
+5. Produces a registry of validated, ready-to-publish projects
 
 ## Dependencies
 
@@ -107,14 +107,14 @@ Manual import → wokwi.com/projects/new → Permanent Project URL
 
 ### 1. Base Template (`templates/base/`)
 
-Valid Wokwi project:
-- `diagram.json` — circuit
-- `sketch.ino` — firmware
-- `wokwi.toml` — sim config (firmware, ELF paths)
-- `platformio.ini` — build env
-- `scenarios/base.yaml` — automation
+A valid Wokwi project with:
+- `diagram.json` — circuit definition
+- `sketch.ino` — Arduino/ESP32 firmware
+- `wokwi.toml` — simulator config (firmware path, ELF path)
+- `platformio.ini` — build environment
+- `scenarios/base.yaml` — automation scenario
 
-**Cross-ref:** canonical base at `../../wokwi-project/` (repo root). Key files:
+**Cross-reference:** The canonical base project lives at `../../wokwi-project/` (repo root). Key files:
 - [`wokwi-project/diagram.json`](../../wokwi-project/diagram.json) — Arduino Uno + photoresistor + LCD1602
 - [`wokwi-project/src/light-sensor.ino`](../../wokwi-project/src/light-sensor.ino) — Lux/ADC display firmware
 - [`wokwi-project/wokwi.toml`](../../wokwi-project/wokwi.toml) — Simulator config (firmware = `.pio/build/uno/firmware.hex`)
@@ -123,7 +123,7 @@ Valid Wokwi project:
 
 ### 2. Variant Generator (`scripts/variants.js`)
 
-Base template → N variants via configurable rules.
+Transforms the base template into N variants by applying configurable rules.
 
 #### Concrete Variant Transformation Rules
 
@@ -169,11 +169,11 @@ Base template → N variants via configurable rules.
 | UART RX | `D0` | `D3` / `RX` | `GP1` |
 | Digital (generic) | `D2`–`D13` | `D2`–`D33` | `GP2`–`GP28` |
 
-Output: `variants/<variant-id>/` self-contained Wokwi project each.
+Each variant is written to `variants/<variant-id>/` as a self-contained Wokwi project.
 
 ### 3. Build Orchestrator (`scripts/build-all.js`)
 
-Kimi Code (or human via Kimi) runs Node script for full pipeline. **No Puppeteer** — child-process `pio` + `wokwi-cli` only.
+Kimi Code (or a human operator running via Kimi Code) executes this Node.js script to drive the entire pipeline. It does **not** use Puppeteer; all interaction is via child-process invocation of `pio` and `wokwi-cli`.
 
 ```javascript
 import fs from 'fs-extra';
@@ -287,15 +287,15 @@ main().catch(console.error);
 ```
 
 **Key implementation details:**
-- **No browser automation:** CLI/subprocess only. No Puppeteer/cookies/DOM.
-- **PlatformIO:** `pio run` → firmware binary/hex for `wokwi.toml`.
-- **wokwi-cli:** headless CI/local; `--scenario` drives sensors + asserts.
-- **Artifacts:** `artifacts/<variant-id>/` screenshots + serial logs.
-- **Failure isolation:** build fail → skip sim; sim fail still records build OK for inspect.
+- **No browser automation:** Everything is CLI/subprocess. No Puppeteer, no cookies, no DOM selectors.
+- **PlatformIO build:** `pio run` compiles the `.ino` into the firmware binary/hex that `wokwi.toml` references.
+- **wokwi-cli simulation:** Runs headlessly in CI or locally. The `--scenario` flag drives sensor state changes and assertions.
+- **Artifact capture:** Screenshots and serial logs are written to `artifacts/<variant-id>/` for human verification.
+- **Failure isolation:** A build failure skips simulation; a simulation failure still records the build success so you can inspect later.
 
 ### 4. Registry (`staging/v2/registry.json`)
 
-JSON: all generated + validated projects:
+JSON file tracking all generated and validated projects:
 
 ```json
 {
@@ -340,34 +340,34 @@ JSON: all generated + validated projects:
 
 ## Testing
 
-1. **Build first:** `pio run` every variant before sim
-2. **Scenario validation:** each `scenarios/base.yaml` asserts behavior
-3. **Screenshot diff:** baseline PNGs; pixel-compare regressions
-4. **Serial parse:** `serial.log` expected strings as secondary assert
+1. **Build first:** `pio run` on every variant before simulation
+2. **Scenario-driven validation:** Each variant has a `scenarios/base.yaml` that asserts expected behavior
+3. **Screenshot diff:** Capture baseline screenshots; future runs can pixel-compare for regression
+4. **Serial log parsing:** Parse `serial.log` for expected output strings as a secondary assertion layer
 
 ## Security
 
-- `WOKWI_CLI_TOKEN` only cred; env var, never commit
-- No browser cookies/session
-- Local execution; external = Wokwi sim runtime (token auth)
+- `WOKWI_CLI_TOKEN` is the only credential; stored as env var, never committed
+- No browser cookies or session state to manage
+- All execution is local; no external APIs except Wokwi's simulation runtime (authenticated via token)
 
 ## Success Criteria
 
-- [ ] Base: `pio run` + `wokwi-cli` pass
-- [ ] Generator: 3+ distinct hardware configs
-- [ ] Each variant compiles for target board
-- [ ] Each passes automation scenario
-- [ ] Screenshot + serial per passing variant
-- [ ] `registry.json` complete for all variants
-- [ ] Each variant dir zip-importable to wokwi.com
+- [ ] Base template compiles with `pio run` and simulates with `wokwi-cli`
+- [ ] Variant generator produces 3+ distinct hardware configurations
+- [ ] Each variant compiles successfully for its target board
+- [ ] Each variant passes its automation scenario
+- [ ] Screenshots and serial logs are captured for every passing variant
+- [ ] `registry.json` contains build + simulation results for all variants
+- [ ] Each variant directory is a self-contained project that can be zipped and imported into wokwi.com
 
 ## Out of Scope
 
-- Auto upload wokwi.com (no API; manual import)
-- Private projects (Wokwi Pro)
-- Custom chips (manual upload)
-- Multi-file libs (single `sketch.ino` for now)
-- Real-time collab
+- Automated upload to wokwi.com (still no API; manual import required)
+- Private projects (requires Wokwi Pro plan)
+- Custom parts/chips (requires manual chip definition upload)
+- Multi-file projects with libraries (keep to single sketch.ino for now)
+- Real-time collaboration features
 
 ## Risks
 
@@ -383,7 +383,7 @@ JSON: all generated + validated projects:
 
 ## Appendix A: File Structure (Exact Paths)
 
-Paths relative to repo root (`et2/`).
+All paths are relative to the repository root (`et2/`).
 
 ```
 et2/
@@ -448,15 +448,15 @@ et2/
 
 | Artifact | Path | Role in Publisher |
 |----------|------|-------------------|
-| Base circuit | `wokwi-project/diagram.json` | → `templates/base/diagram.json`; IDs transformed by `variants.js` |
-| Base firmware | `wokwi-project/src/light-sensor.ino` | → `templates/base/sketch.ino`; regex patch includes/pins/setup/loop |
-| Build config | `wokwi-project/platformio.ini` | → base ini; rewrite env/platform/board/framework/lib_deps per MCU |
-| Simulator config | `wokwi-project/wokwi.toml` | → base toml; `firmware`/`elf` paths match variant `build_dir` |
-| Validation scenario | `wokwi-project/scenarios/base.yaml` | → base scenario; `part-id` + `wait-serial` per variant |
+| Base circuit definition | `wokwi-project/diagram.json` | Source template for `templates/base/diagram.json`; MCU, sensor, and display IDs are parsed and transformed by `variants.js` |
+| Base firmware | `wokwi-project/src/light-sensor.ino` | Source template for `templates/base/sketch.ino`; `#include`, pin constants, and `setup()`/`loop()` bodies are regex-patched per variant |
+| Build config | `wokwi-project/platformio.ini` | Source for `templates/base/platformio.ini`; `env`, `platform`, `board`, `framework`, and `lib_deps` are rewritten per target MCU |
+| Simulator config | `wokwi-project/wokwi.toml` | Source for `templates/base/wokwi.toml`; `firmware` and `elf` paths are updated to match each variant's PlatformIO `build_dir` output |
+| Validation scenario | `wokwi-project/scenarios/base.yaml` | Source for `templates/base/scenarios/base.yaml`; `part-id` references and `wait-serial` assertions are updated to match variant-specific IDs and output strings |
 
 ## Appendix C: Variant `variant.json` Schema
 
-Each variant dir has `variant.json` metadata:
+Each generated variant directory contains a `variant.json` metadata file:
 
 ```json
 {
@@ -490,7 +490,7 @@ Each variant dir has `variant.json` metadata:
 
 ## Appendix D: Kimi Code Workflow
 
-User/agent: "build Wokwi simulations" → expected flow:
+When a human (or agent) asks Kimi Code to "build the Wokwi simulations," the expected interaction is:
 
 ```
 User: "Build all Wokwi variants"
@@ -505,7 +505,7 @@ Kimi Code:
   5. Report: pass/fail per variant, artifact paths, next steps
 ```
 
-Also:
-- **New variant:** edit `variants.js`, regen, rebuild
-- **Debug fail:** read `serial.log` + `screenshot.png`, suggest firmware fix
-- **Export web:** zip variant dir → user uploads `wokwi.com/projects/new`
+Kimi Code may also be asked to:
+- **Add a new variant:** Edit `variants.js` config, regenerate, rebuild
+- **Debug a failing simulation:** Inspect `serial.log` and `screenshot.png`, suggest firmware fixes
+- **Export for web:** Zip a variant directory and prompt the user to upload to `wokwi.com/projects/new`
