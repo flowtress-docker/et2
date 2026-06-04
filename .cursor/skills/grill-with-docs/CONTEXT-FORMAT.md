@@ -24,16 +24,16 @@ _Avoid_: Client, buyer, account
 
 ## Rules
 
-- **Be opinionated.** When multiple words exist for the same concept, pick the best one and list the others under `_Avoid_`.
-- **Keep definitions tight.** One or two sentences max. Define what it IS, not what it does.
-- **Only include terms specific to this project's context.** General programming concepts (timeouts, error types, utility patterns) don't belong even if the project uses them extensively. Before adding a term, ask: is this a concept unique to this context, or a general programming concept? Only the former belongs.
-- **Group terms under subheadings** when natural clusters emerge. If all terms belong to a single cohesive area, a flat list is fine.
+- **Opinionated.** Multiple words for same concept → pick best; rest under `_Avoid_`.
+- **Tight defs.** 1–2 sentences. What it IS, not what it does.
+- **Project-specific terms only.** No general programming concepts (timeouts, error types, utils) unless unique to this context.
+- **Subheadings** when natural clusters; flat list OK for one cohesive area.
 
 ## Single vs multi-context repos
 
-**Single context (most repos):** One `CONTEXT.md` at the repo root.
+**Single (most repos):** one root `CONTEXT.md`.
 
-**Multiple contexts:** A `CONTEXT-MAP.md` at the repo root lists the contexts, where they live, and how they relate to each other:
+**Multiple:** root `CONTEXT-MAP.md` lists contexts, paths, relations:
 
 ```md
 # Context Map
@@ -51,10 +51,10 @@ _Avoid_: Client, buyer, account
 - **Ordering ↔ Billing**: Shared types for `CustomerId` and `Money`
 ```
 
-The skill infers which structure applies:
+Skill infers structure:
 
-- If `CONTEXT-MAP.md` exists, read it to find contexts
-- If only a root `CONTEXT.md` exists, single context
-- If neither exists, create a root `CONTEXT.md` lazily when the first term is resolved
+- `CONTEXT-MAP.md` → read map for contexts
+- root `CONTEXT.md` only → single context
+- neither → create root `CONTEXT.md` lazily on first term
 
-When multiple contexts exist, infer which one the current topic relates to. If unclear, ask.
+Multi-context: infer topic's context; if unclear, ask.
