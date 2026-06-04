@@ -21,3 +21,20 @@ for d in /tmp/caveman-upstream/skills/*/; do
 done
 # Re-apply workspace default in caveman/SKILL.md if needed (ultra + .mdc rule).
 ```
+
+## Matt Pocock ([mattpocock/skills](https://github.com/mattpocock/skills))
+
+| Directory | Source | Purpose |
+|-----------|--------|---------|
+| `handoff/` | `skills/productivity/handoff` | Session handoff notes for next agent |
+| `tdd/` | `skills/engineering/tdd` | TDD workflow (+ `deep-modules.md`, `tests.md`, etc.) |
+| `grill-with-docs/` | `skills/engineering/grill-with-docs` | Doc-driven design review (+ ADR/CONTEXT formats) |
+
+Refresh:
+
+```bash
+git clone --depth 1 https://github.com/mattpocock/skills.git /tmp/mattpocock-skills
+cp -a /tmp/mattpocock-skills/skills/productivity/handoff .cursor/skills/handoff
+cp -a /tmp/mattpocock-skills/skills/engineering/tdd .cursor/skills/tdd
+cp -a /tmp/mattpocock-skills/skills/engineering/grill-with-docs .cursor/skills/grill-with-docs
+```

@@ -57,3 +57,11 @@ This project is indexed by GitNexus as **et2** (282 symbols, 320 relationships, 
 | `caveman-help` | Command reference |
 | `caveman-stats` | Usage stats |
 | `cavecrew` | Multi-agent caveman coordination |
+
+**Matt Pocock skills** ([mattpocock/skills](https://github.com/mattpocock/skills), under `.cursor/skills/`):
+
+| Skill | Trigger |
+|-------|---------|
+| `handoff` | End-of-session handoff for next agent |
+| `tdd` | Test-driven development workflow |
+| `grill-with-docs` | Challenge design using docs / ADRs |
