@@ -1,142 +1,52 @@
-# 🔧 Wokwi CLI Demo Platform
+# et2 — Agent Context Branch
 
-Automated, scriptable microcontroller simulations with real sensor emulation. Built with isolated git worktrees, TDD automation scenarios, CI-ready artifacts, and visual demos produced via Puppeteer MCP.
+This branch holds **structured context for AI agents** working on the **et2 v2 plugin** (Cursor / et2 tooling). It is not the application runtime branch: demo firmware and legacy Wokwi worktrees live on **`main`**.
 
-## Architecture
+## Purpose
+
+- Give agents a **token-budgeted** context pack instead of the full monorepo
+- Separate **v2 plugin architecture** (staging) from **legacy Wokwi CLI demos** (main worktrees)
+- Version context alongside code so prompts stay reproducible
+
+## Where to Start
+
+| Resource | Description |
+|----------|-------------|
+| [CONTEXT.md](CONTEXT.md) | Layer 2 glossary and index to the six-file research pack (`research/01`–`06`) |
+| [staging/v2/docs/grill-me_sesh/](staging/v2/docs/grill-me_sesh/) | Layer 1 canonical output from grill-with-docs (decisions, glossary, architecture YAML) |
+| [staging/v2/context/](staging/v2/context/) | Layer 3 appendix markdown (architecture, standards, UI, progress) |
+| [method/README.md](method/README.md) | Three-layer context model and six-file generation method |
+| [AGENTS.md](AGENTS.md) | Tool-specific rules (skills, MCP) |
+
+Read **Layer 1** (`grill-me_sesh`) for et2 v2 truth, then **CONTEXT.md**, then appendix files only as needed.
+
+## Branch Layout
 
 ```
-et2/
-├── main branch                    ← Workflow, orchestration, docs
-│   ├── run-demo.sh                ← Run single demo
-│   ├── run-all-demos.sh           ← Run all demos
-│   ├── screenshot-demo.sh         ← Capture demo screenshots
-│   ├── visual-demo/               ← Puppeteer-generated gallery
-│   ├── 07-wokwi-cli-demos.md      ← Implementation plan
-│   └── research/                  ← Context7 + web research
-│
-├── .worktrees/
-│   ├── demo-smart-thermostat/     ← branch: demo/smart-thermostat
-│   ├── demo-motion-alarm/         ← branch: demo/motion-alarm
-│   ├── demo-auto-blinds/          ← branch: demo/auto-blinds
-│   ├── demo-weather-station/      ← branch: demo/weather-station
-│   └── demo-touch-ui/             ← branch: demo/touch-ui
+context branch (this branch)
+├── CONTEXT.md              ← agent entry (Layer 2)
+├── research/01–06.md       ← six-file appendix (Layer 3)
+├── staging/v2/
+│   ├── docs/grill-me_sesh/ ← canonical session (Layer 1)
+│   └── context/*.md        ← staging supplements (Layer 3)
+└── method/                 ← reusable method docs
+
+main branch
+├── run-demo.sh, visual-demo/, …
+└── .worktrees/             ← legacy Wokwi demo branches (demo/*)
 ```
 
-**Key principle:** Each demo lives in an isolated git branch accessed via a worktree. The main branch contains only workflow scripts and documentation — no demo code is merged or staged into main.
+**Main** retains the original Wokwi CLI demo platform: isolated git worktrees under `.worktrees/`, workflow scripts, and per-demo branches. Do not expect v2 plugin implementation files here on `context`; use `staging/v2` artifacts and research files for agent work.
 
-## Demos
+## Syncing from staging
 
-| Demo | Board | Sensors/Actuators | Branch |
-|------|-------|-------------------|--------|
-| **Smart Thermostat** | ESP32 DevKit v1 | DHT22, LED | `demo/smart-thermostat` |
-| **Motion Alarm** | ESP32 DevKit v1 | MPU6050, Buzzer, LED | `demo/motion-alarm` |
-| **Auto-Blinds** | Arduino Uno | Photoresistor, Servo | `demo/auto-blinds` |
-| **Weather Station** | Raspberry Pi Pico | DHT22, TM1637 7-seg | `demo/weather-station` |
-| **Touch UI** | ESP32-S3-Box | ILI9341 Display, Touch, RGB LED | `demo/touch-ui` |
-
-## Quick Start
-
-### Prerequisites
+Canonical grill-with-docs output is checked out from `origin/staging/v2`:
 
 ```bash
-# Install Wokwi CLI
-curl -L https://wokwi.com/ci/install.sh | sh
-
-# Install PlatformIO
-pip install platformio
-
-# Set your Wokwi token
-export WOKWI_CLI_TOKEN=<your-token>
+git checkout origin/staging/v2 -- staging/v2/docs/grill-me_sesh staging/v2/context
 ```
-
-### Run a Single Demo
-
-```bash
-./run-demo.sh smart-thermostat
-```
-
-### Run All Demos
-
-```bash
-./run-all-demos.sh
-```
-
-### Capture a Screenshot
-
-```bash
-./screenshot-demo.sh smart-thermostat 3000 screenshots/alarm.png
-```
-
-## TDD Methodology
-
-Every demo follows strict test-driven development:
-
-1. **RED** — Write `scenarios/demo.yaml` first. It asserts serial output, pin states, and sensor behavior.
-2. **GREEN** — Write minimal firmware (`src/*.ino`) to satisfy the scenario.
-3. **REFACTOR** — Clean up only after the scenario passes.
-
-No demo contains features not asserted by its scenario. YAGNI applied ruthlessly.
-
-## Visual Demo
-
-An HTML gallery with live screenshots captured via Puppeteer MCP is available at:
-
-```bash
-open visual-demo/index.html
-```
-
-Screenshots include:
-- ESP32 project running in Wokwi browser simulator
-- ESP32 with HC-SR04 sensor + MQTT IoT demo
-- Official Wokwi CLI documentation
-
-## Context7 MCP Validation
-
-All scaffolds were validated against Wokwi documentation retrieved via Context7 MCP:
-
-- `/wokwi/wokwi-docs` — Official Wokwi docs library
-- Automation scenario syntax verified
-- Part types and controls cross-checked
-- Build path misalignments fixed post-scaffold
-
-## Bug Fixes Applied
-
-| Issue | Fix |
-|-------|-----|
-| Build path mismatch (PlatformIO `.pio/build/` vs `build/`) | Added `build_dir = build` to all `platformio.ini` files |
-| Weather Station blocking `while (!Serial)` | Replaced with non-blocking `delay(500)` |
-| Touch UI `write-serial` uncertainty | Verified via web docs that `write-serial` IS supported |
-
-## Worktree Management
-
-```bash
-# List all worktrees
-git worktree list
-
-# Add a new demo worktree
-git worktree add .worktrees/demo-new-feature -b demo/new-feature
-
-# Remove a worktree
-git worktree remove .worktrees/demo-new-feature
-```
-
-**Preservation rule:** Component branches are never merged into main. They remain isolated for independent evolution.
-
-## CI Integration
-
-Each demo branch can be tested independently in CI:
-
-```bash
-cd .worktrees/demo-smart-thermostat
-pio run
-wokwi-cli . --scenario scenarios/demo.yaml
-```
-
-No integration staging is required — the workflow scripts reference worktrees directly.
 
 ## References
 
-- [Wokwi CLI Docs](https://docs.wokwi.com/wokwi-ci/getting-started)
-- [Automation Scenarios](https://docs.wokwi.com/wokwi-ci/automation-scenarios)
-- [Wokwi Part Tests](https://github.com/wokwi/wokwi-part-tests)
-- [Implementation Plan](07-wokwi-cli-demos.md)
+- Six-file method: [method/README.md](method/README.md)
+- Upstream method template: [flowtress-docker/6-files-context-method](https://github.com/flowtress-docker/6-files-context-method)

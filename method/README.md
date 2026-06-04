@@ -2,6 +2,18 @@
 
 A repeatable workflow for giving coding agents **structured, bounded context** without dumping the whole repository.
 
+## Context Layers (et2 v2)
+
+This repo uses **three layers** of agent context. Load them in order: canonical session output first, then the glossary, then appendix material.
+
+| Layer | Location | Role |
+|-------|----------|------|
+| **1 — Canonical** | `staging/v2/docs/grill-me_sesh/` | Grill-with-docs session output: decisions, glossary JSON, architecture YAML, invariants, implementation map, status matrix |
+| **2 — Glossary** | [CONTEXT.md](../CONTEXT.md) | Six-file method index and project quick facts; entry point for agents on this branch |
+| **3 — Appendix** | `research/01-06` + `staging/v2/context/*.md` | Deep research pack (01–06) and staging markdown supplements (architecture, standards, UI, progress) |
+
+**Layer 1** is the source of truth for et2 plugin v2 architecture. **Layer 2** orients agents and links the six research files. **Layer 3** adds optional depth when a task needs landscape, API notes, or staging-specific guides.
+
 ## Why Six Files?
 
 | Problem | How six files help |
@@ -31,7 +43,9 @@ node scripts/generate-context7-wokwi.js   # or project-specific script
 
 # 5–6: Distill examples and procedures from 01–04 → research/05–06.md
 
-# Manifest
+# Layer 1: grill-with-docs on staging/v2 → staging/v2/docs/grill-me_sesh/
+
+# Layer 2 manifest
 # Write CONTEXT.md linking all six files + project rules
 ```
 
@@ -41,6 +55,7 @@ node scripts/generate-context7-wokwi.js   # or project-specific script
 2. Replace research topics (e.g. swap Tinkercad for your domain).
 3. Point `AGENTS.md` at `CONTEXT.md` and the six files.
 4. Keep generated context on a dedicated branch (e.g. `context`) if `main` should stay code-only.
+5. Sync canonical grill-with-docs output from your staging branch into `docs/grill-me_sesh/` (Layer 1).
 
 ## References
 
