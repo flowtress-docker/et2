@@ -1,0 +1,13 @@
+{
+  "name": "et2-staging-v2",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-all.js"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "js-yaml": "^4.1.0"
+  }
+}

@@ -1,8 +1,18 @@
 ## Six-File Context Pack
 
-Before planning or editing, read [CONTEXT.md](CONTEXT.md) and load the numbered files under `research/` as needed (landscape → APIs → repos → Context7 → examples → practical guide).
+**Primary spec:** [`staging/v2/docs/grill-me_sesh/`](staging/v2/docs/grill-me_sesh/) (manifest, glossary, invariants, status matrix) plus root [`CONTEXT.md`](CONTEXT.md) glossary.
 
-Primary platform for this repo: **Wokwi CLI** + PlatformIO. Demo firmware stays on `demo/*` branches, not on `context` or `main`.
+**v1 invariants (non-negotiable):**
+
+- Real Wokwi emulation only — no client-side hardware fakes ([`invariants.yaml`](staging/v2/docs/grill-me_sesh/invariants.yaml))
+- Unmatched prompts → present nearest variant and wait for operator confirmation before generate
+- Generated projects under `.et2/projects/<id>/` (gitignored)
+
+**Research appendix:** [`research/01-landscape.md`](research/01-landscape.md) through [`research/06-practical-guide.md`](research/06-practical-guide.md) — landscape and Wokwi CLI reference only; not the product spec.
+
+**Active implementation:** [`staging/v2/scripts/variants.js`](staging/v2/scripts/variants.js) (template variant recipes).
+
+**Legacy on `main`:** `demo/*` branches and `./run-demo.sh` worktrees remain for historical Wokwi CLI demos; they are not the north star for the agentic plugin on `staging/v2`.
 
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence

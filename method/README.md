@@ -9,7 +9,7 @@ This repo uses **three layers** of agent context. Load them in order: canonical 
 | Layer | Location | Role |
 |-------|----------|------|
 | **1 — Canonical** | `staging/v2/docs/grill-me_sesh/` | Grill-with-docs session output: decisions, glossary JSON, architecture YAML, invariants, implementation map, status matrix |
-| **2 — Glossary** | [CONTEXT.md](../CONTEXT.md) | Six-file method index and project quick facts; entry point for agents on this branch |
+| **2 — Glossary** | [CONTEXT.md](../CONTEXT.md) | Domain glossary + status table; entry point for agents on this branch |
 | **3 — Appendix** | `research/01-06` + `staging/v2/context/*.md` | Deep research pack (01–06) and staging markdown supplements (architecture, standards, UI, progress) |
 
 **Layer 1** is the source of truth for et2 plugin v2 architecture. **Layer 2** orients agents and links the six research files. **Layer 3** adds optional depth when a task needs landscape, API notes, or staging-specific guides.
