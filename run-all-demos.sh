@@ -4,7 +4,9 @@
 
 set -euo pipefail
 
-WORKTREE_BASE=".worktrees"
+_REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
+_CONTAINER="$(cd "$_REPO_ROOT/.." && pwd)"
+WORKTREE_BASE="${WORKTREE_BASE:-$_CONTAINER/.worktrees}"
 FAILED=()
 
 for demo_dir in "$WORKTREE_BASE"/demo-*; do

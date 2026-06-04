@@ -8,7 +8,9 @@ set -euo pipefail
 DEMO_NAME="${1:-}"
 TIME_MS="${2:-}"
 OUTPUT="${3:-}"
-WORKTREE_BASE=".worktrees"
+_REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
+_CONTAINER="$(cd "$_REPO_ROOT/.." && pwd)"
+WORKTREE_BASE="${WORKTREE_BASE:-$_CONTAINER/.worktrees}"
 
 if [[ -z "$DEMO_NAME" || -z "$TIME_MS" || -z "$OUTPUT" ]]; then
   echo "Usage: $0 <demo-name> <time-ms> <output-file>"

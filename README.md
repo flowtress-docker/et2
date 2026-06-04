@@ -5,22 +5,20 @@ Automated, scriptable microcontroller simulations with real sensor emulation. Bu
 ## Architecture
 
 ```
-et2/
-├── main branch                    ← Workflow, orchestration, docs
-│   ├── run-demo.sh                ← Run single demo
-│   ├── run-all-demos.sh           ← Run all demos
-│   ├── screenshot-demo.sh         ← Capture demo screenshots
-│   ├── visual-demo/               ← Puppeteer-generated gallery
-│   ├── 07-wokwi-cli-demos.md      ← Implementation plan
-│   └── research/                  ← Context7 + web research
-│
-├── .worktrees/
-│   ├── demo-smart-thermostat/     ← branch: demo/smart-thermostat
-│   ├── demo-motion-alarm/         ← branch: demo/motion-alarm
-│   ├── demo-auto-blinds/          ← branch: demo/auto-blinds
-│   ├── demo-weather-station/      ← branch: demo/weather-station
-│   └── demo-touch-ui/             ← branch: demo/touch-ui
+et2/                    ← container (parent of this directory)
+├── .bare/              ← bare git store (local, gitignored)
+├── main/               ← **this directory** — workflow, orchestration, docs
+│   ├── run-demo.sh
+│   └── scripts/setup-git-scaffold.sh
+└── .worktrees/
+    ├── demo-smart-thermostat/     ← branch demo/smart-thermostat
+    ├── demo-motion-alarm/
+    ├── demo-auto-blinds/
+    ├── demo-weather-station/
+    └── demo-touch-ui/
 ```
+
+Setup: from container root, `./scripts/setup-git-scaffold.sh` then `cd main`. See `docs/GIT-SCAFFOLD.md`.
 
 **Key principle:** Each demo lives in an isolated git branch accessed via a worktree. The main branch contains only workflow scripts and documentation — no demo code is merged or staged into main.
 
@@ -107,17 +105,20 @@ All scaffolds were validated against Wokwi documentation retrieved via Context7 
 | Weather Station blocking `while (!Serial)` | Replaced with non-blocking `delay(500)` |
 | Touch UI `write-serial` uncertainty | Verified via web docs that `write-serial` IS supported |
 
-## Worktree Management
+## Git scaffold (`.bare` + worktrees)
 
 ```bash
-# List all worktrees
+# From container root (parent of main/)
+./scripts/setup-git-scaffold.sh
+cd main
+```
+
+See [docs/GIT-SCAFFOLD.md](docs/GIT-SCAFFOLD.md).
+
+```bash
 git worktree list
-
-# Add a new demo worktree
-git worktree add .worktrees/demo-new-feature -b demo/new-feature
-
-# Remove a worktree
-git worktree remove .worktrees/demo-new-feature
+git --git-dir=../.bare worktree add ../.worktrees/demo-new-feature -b demo/new-feature
+git worktree remove ../.worktrees/demo-new-feature
 ```
 
 **Preservation rule:** Component branches are never merged into main. They remain isolated for independent evolution.
