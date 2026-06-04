@@ -20,16 +20,15 @@ ORIGIN_URL="${ORIGIN_URL:-https://github.com/flowtress-docker/et2.git}"
 
 log() { echo "▶ $*"; }
 
-run_demo_worktrees() {
-  local script="$CONTAINER/scripts/setup-demo-worktrees.sh"
-  [[ -f "$MAIN_DIR/scripts/setup-demo-worktrees.sh" ]] && script="$MAIN_DIR/scripts/setup-demo-worktrees.sh"
+run_all_worktrees() {
+  local script="$CONTAINER/scripts/setup-all-worktrees.sh"
+  [[ -f "$MAIN_DIR/scripts/setup-all-worktrees.sh" ]] && script="$MAIN_DIR/scripts/setup-all-worktrees.sh"
   CONTAINER_ROOT="$CONTAINER" GIT_DIR="$BARE_DIR" MAIN_DIR="$MAIN_DIR" bash "$script"
 }
 
 if [[ -d "$BARE_DIR" && -d "$MAIN_DIR/.git" || -f "$MAIN_DIR/.git" ]]; then
-  log "Scaffold present. Fetch + refresh demo worktrees."
-  git --git-dir="$BARE_DIR" fetch origin --prune
-  run_demo_worktrees
+  log "Scaffold present. Fetch + refresh all worktrees."
+  run_all_worktrees
   exit 0
 fi
 
@@ -50,8 +49,8 @@ if [[ -d "$MAIN_DIR" ]]; then
 fi
 git --git-dir="$BARE_DIR" worktree add "$MAIN_DIR" "$MAIN_BRANCH"
 
-log "Demo worktrees"
-run_demo_worktrees
+log "All branch worktrees"
+run_all_worktrees
 
 echo ""
 echo "✅ Scaffold ready"

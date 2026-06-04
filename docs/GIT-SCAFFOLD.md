@@ -54,12 +54,22 @@ git worktree list   # uses .bare via any linked worktree
 
 Demo paths in shell scripts resolve to `../.worktrees/` from `main/`.
 
-## Refresh demo worktrees
+## Refresh all worktrees (every branch on GitHub)
 
 ```bash
-./scripts/setup-demo-worktrees.sh
-# from container root, or CONTAINER_ROOT=/path/to/et2 ./main/scripts/setup-demo-worktrees.sh
+./scripts/setup-all-worktrees.sh
+# alias: ./scripts/setup-demo-worktrees.sh
 ```
+
+Creates `.worktrees/<name>` for each `origin/*` branch:
+
+| Branch pattern | Directory |
+|----------------|-----------|
+| `main` | `main/` (not under `.worktrees`) |
+| `demo/*` | `.worktrees/demo-*` |
+| `cursor/*`, `staging/*`, etc. | `.worktrees/<branch-with-slashes-as-dashes>` |
+
+Source: https://github.com/flowtress-docker/et2
 
 ## Add / remove a demo worktree
 
