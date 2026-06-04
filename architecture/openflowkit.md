@@ -5,8 +5,10 @@
 ## For humans
 
 1. Open [`architecture/README.md`](README.md).
-2. Click **Open in editor** on **System layers** (or any diagram).
-3. Pan, zoom, and explore in the browser at [openflowkit.com](https://openflowkit.com).
+2. Click **View** on **System layers** (or any diagram).
+3. Pan, zoom, and explore at [app.openflowkit.com](https://app.openflowkit.com) (use **Open in Editor** in the viewer toolbar to edit).
+
+**Do not** use `openflowkit.com/view?…` — that domain serves the marketing landing page, not the diagram app.
 
 ## For agents (optional MCP)
 

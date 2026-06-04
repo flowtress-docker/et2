@@ -1,15 +1,11 @@
-flow: et2 — Plugin install flow
+flow: et2 Plugin install flow
 direction: LR
 
 [start] start: Operator starts
-[process] run: Run install-plugin.sh
-  { icon: "Terminal", color: "blue" }
-[process] detect: Detect host (Cursor / Claude / Kimi)
-  { icon: "Search", color: "amber" }
-[process] config: Write MCP config + copy skill
-  { icon: "Settings", color: "violet" }
-[process] preflight: Preflight toolchain checks
-  { icon: "CheckCircle", color: "emerald" }
+[process] run: Run install-plugin.sh { icon: "Terminal", color: "blue" }
+[process] detect: Detect host { icon: "Search", color: "amber" }
+[process] config: Write MCP config + skill { icon: "Settings", color: "violet" }
+[process] preflight: Preflight toolchain { icon: "CheckCircle", color: "emerald" }
 [end] ready: Plugin ready
 
 start ==> run

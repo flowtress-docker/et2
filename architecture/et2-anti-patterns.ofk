@@ -1,16 +1,11 @@
-flow: et2 — Architecture anti-patterns (do not)
+flow: et2 Anti-patterns
 direction: TB
 
-[annotation] title: Invariants — avoid these
-  { color: "red" }
-[process] fake_lcd: Fake LCD in HTML (app.py pattern)
-  { icon: "XCircle", color: "red" }
-[process] silent: Silent variant guess without confirm
-  { icon: "XCircle", color: "red" }
-[process] js_phys: Client-side sensor/actuator JS physics
-  { icon: "XCircle", color: "red" }
-[architecture] correct: Use real Wokwi emulation only
-  { icon: "CheckCircle", color: "emerald" }
+[annotation] title: Do not { color: "red" }
+[process] fake_lcd: Fake LCD in HTML { icon: "XCircle", color: "red" }
+[process] silent: Silent variant guess { icon: "XCircle", color: "red" }
+[process] js_phys: Client-side JS physics { icon: "XCircle", color: "red" }
+[architecture] correct: Real Wokwi emulation only { icon: "CheckCircle", color: "emerald" }
 
 title -> fake_lcd
 title -> silent

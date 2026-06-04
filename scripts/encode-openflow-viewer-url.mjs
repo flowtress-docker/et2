@@ -7,7 +7,8 @@ import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { join, basename } from 'node:path';
 import { deflate } from 'pako';
 
-const APP_BASE = (process.env.OPENFLOWKIT_APP_URL ?? 'https://openflowkit.com').replace(
+// App is at app.openflowkit.com (HashRouter). openflowkit.com is the marketing landing site only.
+const APP_BASE = (process.env.OPENFLOWKIT_APP_URL ?? 'https://app.openflowkit.com').replace(
   /\/+$/,
   '',
 );
@@ -22,8 +23,9 @@ function encodeDslForViewer(dsl) {
   return `~${b64}`;
 }
 
+/** HashRouter: route is #/view?flow=… (not /view?flow= on the host path). */
 function buildViewerUrl(dsl) {
-  return `${APP_BASE}/view?flow=${encodeDslForViewer(dsl)}`;
+  return `${APP_BASE}/#/view?flow=${encodeDslForViewer(dsl)}`;
 }
 
 const archDir = process.argv[2] ?? join(process.cwd(), 'architecture');
@@ -33,10 +35,11 @@ const out = {};
 for (const file of files.sort()) {
   const dsl = readFileSync(join(archDir, file), 'utf8');
   const key = basename(file, '.ofk');
+  const viewerUrl = buildViewerUrl(dsl);
   out[key] = {
     file,
-    viewerUrl: buildViewerUrl(dsl),
-    editorUrl: `${buildViewerUrl(dsl)}&edit=1`,
+    viewerUrl,
+    editorHint: 'Use "Open in Editor" in the viewer toolbar',
   };
 }
 

@@ -16,7 +16,7 @@
 
 ## OpenFlowKit — architecture diagrams (this branch)
 
-**Visual index:** [`architecture/README.md`](architecture/README.md) — use **Open in editor** links for interactive pan/zoom on [openflowkit.com](https://openflowkit.com).
+**Visual index:** [`architecture/README.md`](architecture/README.md) — diagram links use **[app.openflowkit.com](https://app.openflowkit.com)/#/view?flow=…** (not `openflowkit.com`, which is the marketing site only).
 
 **Canonical spec:** [`staging/v2/docs/grill-me_sesh/architecture.yaml`](staging/v2/docs/grill-me_sesh/architecture.yaml). **Derived DSL:** `architecture/*.ofk`. When YAML changes, update the matching `.ofk` and run:
 

@@ -9,7 +9,7 @@ Interactive diagrams mirror [`architecture.yaml`](staging/v2/docs/grill-me_sesh/
 | Start here | Link |
 |------------|------|
 | Index + all viewer/editor links | [`architecture/README.md`](architecture/README.md) |
-| **System layers** (pan/zoom in browser) | [Open in OpenFlowKit editor](https://openflowkit.com/view?flow=~eNptks1q3DAQx-96imFPDe2mkKMgOawLJbRJFpK2h7AHrTxZDxlrjCTbhFDoQ_QJ-ySV7dhowx7MfHl-zF8zTyy9BowX0F3Avz9_YcvtgRwYbyuKaGPrEdi8oA-qJJ8SJE7Dw0apx72XPqDfgTToTRSv4e7Ngw9F60Oyn-Eb1ZRMwaYt8UwBvALZgbH6kZpXn8AKD62rPbe4gt_qsfFiMYQdkAvRMOvZWTfjcOehyjFfpHcspsxQgU2cWOElRKx3YA7oooZCSnKHKYKPEJ6JOWdtJGaYjoQxHnFq22i4KbaQZu8w6byVd6rux8JpyqKsM56Mi0HDz8kDdEkZ5qCvFDfeOFtlLFPvE_sIFUXYVoZSyzbJfhJfX98lbb0897S2TDnzAX1NzvBJ5KwxUB18p-G7WMNDtIjlIVNJiEeKb8RR2nnGxDqdAZcjNb-k3TSVhl-DgdDuQ0z3ciS7aNrTJDWfGVxeXk0rVG-HAeurYTNq2utQHqL0jf782Gp2xuzybst_k261FMbkOLCaSlniP7cFFVc&edit=1) |
+| **System layers** (pan/zoom in browser) | [Open diagram in OpenFlowKit](https://app.openflowkit.com/#/view?flow=~eNptkj1rwzAQhnf9iiNrmw4ZBcmQFEqhIYGm7RAyyIoSHznrjCTbhNL_XtmOP0ozGN-H9HDvvToRVxJMmEE5gy0VZ7SgnE4xGB0KZ4DU1TgvjuhiAdlK2C2F2CeOK2_cATg3TgV2Eja3CL4BdX1w8hFPTB5BM9X9SUKFmcCP2OeOtfH-AGh9UESyC6Z5M8GTTwfIM1eWWB1HIE8qtCR_9cFkB1BnY4OEFR_RntsMHsBfkGggLTmMICUymfCHkulcwnq1hTh3aUZC3pv8_uVeTKkcKhu8hM82AmOjGDNgXjAsnbI6HZFUlkTyH1BgJp0qjFe2UemJXfa6iXIqvlQ41YQDcWdchlbRXWAny2PmXSnhjbWiOvunb80Wo3MjismimXRsOOP3cGinkPBV_8AXiQ_R9ZHIVV7c54juqcB8vmg9EjffYbqoly9a4-p2ncWvibvFii5oqv2W-nOtTtE3mmIzrmhbo8Iv9ycEGw) |
 | Agent / MCP notes | [`architecture/openflowkit.md`](architecture/openflowkit.md) |
 
 Agentic layer for Wokwi hardware simulation. Users describe hardware setups in natural language instead of manually wiring circuits in the Wokwi visual editor.
