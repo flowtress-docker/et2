@@ -1,5 +1,7 @@
 # Tinkercad API & Automation Landscape
 
+> **v2 scope:** Reference only — et2 v1 does not automate Tinkercad. See [grill-me_sesh](../staging/v2/docs/grill-me_sesh/manifest.yaml) (Wokwi-only substrate).
+
 ## Official API
 
 - **No public REST API for Tinkercad Circuits.**

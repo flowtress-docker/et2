@@ -1,5 +1,7 @@
 # Context7 Research Findings
 
+> **v2 agents:** Primary reference for implementing **Wokwi CLI**, **embed**, and **automation scenarios**. EDA / SPICE / KiCad sections below are **legacy reference** only (not v2 plugin path).
+
 ## Wokwi (primary — et2 demos)
 
 - **Context7 library ID**: `/websites/wokwi`

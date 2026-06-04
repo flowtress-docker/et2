@@ -1,0 +1,58 @@
+# et2 plugin target architecture (grill session 2026-06-04)
+
+product:
+  name: et2
+  one_liner: >
+    Agentic Wokwi layer: prompt → variant recipe → build → live interactive sim
+    → ZIP + import guide.
+
+layers:
+  - id: operator
+    description: Agent-CLI user (Cursor, Kimi CLI, Claude Code)
+  - id: plugin_install
+    description: install-plugin.sh → MCP config + skill per host
+  - id: agent
+    description: Coding agent reads skill; calls MCP tools
+  - id: mcp_server
+    description: Node MCP — create, build, simulate, preflight, zip, open sim URL
+  - id: variant_engine
+    description: Maps NL → nearest recipe; confirm; generates under .et2/projects/
+    code: staging/v2/scripts/variants.js
+  - id: toolchain
+    description: PlatformIO pio run + wokwi-cli + WOKWI_CLI_TOKEN
+  - id: local_sim_server
+    description: Session-scoped localhost UI (extends app.py pattern)
+  - id: wokwi_substrate
+    description: diagram.json, firmware, scenarios, embed or daemon
+
+flows:
+  install:
+    - Operator runs install-plugin.sh
+    - Script detects host → writes MCP config → copies skill
+    - Preflight checks toolchain
+
+  create_simulation:
+    - Operator prompts in agent chat
+    - Agent resolves variant (nearest match)
+    - Agent asks confirmation if ambiguous
+    - MCP generates .et2/projects/<id>/
+    - pio run + wokwi-cli validation
+    - MCP returns sim server URL + ZIP path + import steps
+
+  live_interaction:
+    - Sim server running for agent session
+    - Primary: Wokwi embed (after wokwi.com import)
+    - Fallback: daemon set-control + screenshot refresh + serial stream
+    - Supplemental controls from diagram.json part types
+
+  session_end:
+    - MCP disconnect → sim server stops → wokwi-cli session ends
+
+anti_patterns:
+  - name: fake_lcd
+    source: app.py + static/index.html
+    rule: Do not mimic displays in HTML; use Wokwi circuit view + serial
+  - name: silent_variant_guess
+    rule: Always confirm nearest variant before generate
+  - name: js_physics
+    rule: No client-side sensor/actuator approximation

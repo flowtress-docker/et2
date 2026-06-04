@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "et2/grill/glossary",
+  "title": "DomainGlossary",
+  "type": "object",
+  "required": ["terms"],
+  "properties": {
+    "product_summary": { "type": "string" },
+    "terms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "definition"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "definition": { "type": "string" },
+          "aliases": { "type": "array", "items": { "type": "string" } },
+          "related_terms": { "type": "array", "items": { "type": "string" } },
+          "phase": { "enum": ["v1", "later", "invariant", "current", "target"] }
+        }
+      }
+    }
+  }
+}

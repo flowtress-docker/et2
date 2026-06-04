@@ -1,0 +1,42 @@
+# Current vs target (grill session)
+
+aspects:
+  - id: who_prompts
+    current: Developer + coding agent
+    target: Any agent-CLI user
+
+  - id: delivery
+    current: Repo context files + scripts
+    target: MCP + skill + sim server via install-plugin.sh
+
+  - id: agent_runtime
+    current: Kimi Code / Cursor
+    target: Any MCP-capable host (Kimi, Claude Code, Cursor)
+
+  - id: sim_server
+    current: Manual app.py Flask server
+    target: Session-scoped localhost server started by MCP
+
+  - id: substrate
+    current: Wokwi hardcoded
+    target: Wokwi hardcoded v1
+
+  - id: prompt_scope
+    current: Repo scripts + staging/v2 context files
+    target: Template variants; parts catalog later
+
+  - id: prerequisites
+    current: Manual operator setup
+    target: Preflight + guided setup links
+
+  - id: canvas
+    current: Terminal + PNG artifacts; visual-demo static gallery
+    target: Interactive local sim server (circuit + controls + serial)
+
+  - id: output
+    current: staging/v2/variants, registry.json, artifacts/
+    target: .et2/projects/<id>/ + ZIP + wokwi.com import guide
+
+  - id: unmatched_prompt
+    current: N/A (script-defined variants)
+    target: Nearest match + operator confirm

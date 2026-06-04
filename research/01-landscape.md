@@ -1,6 +1,8 @@
 # Circuit Simulation Platform Landscape
 
-> **et2 default:** Use **Wokwi CLI** for programmable MCU demos (see [06-practical-guide.md](06-practical-guide.md)). This file compares the full landscape including SPICE and browser-only tools.
+> **v2 primary (grill session):** et2 v2 targets an **agentic Wokwi plugin** (MCP + skill + live sim canvas). Canonical spec: [staging/v2/docs/grill-me_sesh/manifest.yaml](../staging/v2/docs/grill-me_sesh/manifest.yaml).
+>
+> **This file:** Substrate comparison and background research. For v2 agents, **Wokwi-only** is the hardcoded substrate; **Tinkercad** and **SPICE-first** paths are de-prioritized (reference only). See [06-practical-guide.md](06-practical-guide.md) for legacy automation notes.
 
 ## Platforms with Official APIs
 

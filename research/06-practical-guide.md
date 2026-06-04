@@ -1,5 +1,7 @@
 # Practical Guide: Automating Tinkercad Circuits & Alternatives
 
+> **v2 product flow:** Operator UX, plugin shape, and deliverables are defined in [grill-me_sesh/architecture.yaml](../staging/v2/docs/grill-me_sesh/architecture.yaml) and [deliverables.yaml](../staging/v2/docs/grill-me_sesh/deliverables.yaml). This guide remains useful for **alternative platforms** (Tinkercad hacks, SPICE, KiCad) and historical context.
+
 ## Quick Verdict
 
 - **Can you CLI-control Tinkercad?** No. Tinkercad Circuits has no public API, REST endpoint, or CLI. The only programmatic paths are brittle browser-automation hacks.

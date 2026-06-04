@@ -1,0 +1,182 @@
+{
+  "session_id": "grill-me_sesh-2026-06-04",
+  "branch": "staging/v2",
+  "decisions": [
+    {
+      "id": 1,
+      "topic": "operator_persona",
+      "question_summary": "Who writes prompts?",
+      "chosen": "Agent-CLI user today; moving to user-friendly plugin (not Kimi/Cursor-only)",
+      "chosen_code": "A→target",
+      "recommended": "Developer with coding agent (Kimi, Cursor)",
+      "recommended_code": "A",
+      "options_considered": ["A: coding agent dev", "B: non-dev chat UI", "C: both"],
+      "rationale": "Matches existing v2 orchestration; target broadens to any MCP-capable host."
+    },
+    {
+      "id": 2,
+      "topic": "interaction_surface",
+      "question_summary": "Primary UX for target operator?",
+      "chosen": "Plugin in existing agent workflow (Kimi CLI, Claude Code, Cursor)",
+      "chosen_code": "plugin",
+      "recommended": "Plugin, not standalone web app",
+      "recommended_code": "plugin",
+      "options_considered": ["A: web chat", "B: CLI wizard", "C: API", "D: hybrid"],
+      "rationale": "No new app install; meets operator where they already work."
+    },
+    {
+      "id": 3,
+      "topic": "plugin_shape",
+      "question_summary": "What is the plugin concretely?",
+      "chosen": "MCP + skill bundle + visual canvas",
+      "chosen_code": "C",
+      "recommended": "MCP + skill bundle",
+      "recommended_code": "C",
+      "options_considered": ["A: MCP only", "B: skill only", "C: MCP+skill", "D: npm CLI"],
+      "rationale": "MCP for deterministic tools; skill for workflow; canvas for visibility."
+    },
+    {
+      "id": 4,
+      "topic": "canvas_content",
+      "question_summary": "What does canvas show?",
+      "chosen": "Interactive live simulation (not static screenshots)",
+      "chosen_code": "C-interactive",
+      "recommended": "Pipeline progress then live sim",
+      "recommended_code": "C",
+      "options_considered": ["A: progress only", "B: sim output only", "C: both", "D: anatomy only"],
+      "rationale": "User must test hardware behavior, not view PNG artifacts only."
+    },
+    {
+      "id": 5,
+      "topic": "sim_interaction_model",
+      "question_summary": "What does operator interact with during live sim?",
+      "chosen": "Circuit board primary + generated controls + serial monitor",
+      "chosen_code": "C",
+      "recommended": "Circuit + supplemental controls + serial",
+      "recommended_code": "C",
+      "options_considered": ["A: circuit only", "B: controls only", "C: both", "D: external window"],
+      "rationale": "Connections visible on board; controls cover parts without direct click targets."
+    },
+    {
+      "id": 6,
+      "topic": "emulation_fidelity",
+      "question_summary": "Client-side JS simulation allowed?",
+      "chosen": "No — real Wokwi only",
+      "chosen_code": "invariant",
+      "recommended": "Real Wokwi emulation only",
+      "recommended_code": "invariant",
+      "options_considered": [],
+      "rationale": "Reject app.py-style fake LCD; all sensor/actuator/MCU state from Wokwi."
+    },
+    {
+      "id": 7,
+      "topic": "live_sim_backend",
+      "question_summary": "How does live sim stay running?",
+      "chosen": "Hybrid: Wokwi embed primary, wokwi-cli sim daemon fallback, batch CLI for CI",
+      "chosen_code": "D",
+      "recommended": "Hybrid embed + daemon",
+      "recommended_code": "D",
+      "options_considered": ["A: daemon", "B: per-action spawn", "C: embed only", "D: hybrid"],
+      "rationale": "Embed for circuit UX; daemon when no wokwi.com URL; batch too slow for live."
+    },
+    {
+      "id": 8,
+      "topic": "substrate",
+      "question_summary": "Wokwi vs alternatives?",
+      "chosen": "Wokwi hardcoded v1",
+      "chosen_code": "wokwi-only",
+      "recommended": "Wokwi v1, neutral MCP boundary",
+      "recommended_code": "C",
+      "options_considered": ["A: wokwi-only", "B: full abstraction", "C: neutral boundary", "D: spike first"],
+      "rationale": "Avoid complexity; research already favors Wokwi for MCU+CLI automation."
+    },
+    {
+      "id": 9,
+      "topic": "prompt_scope",
+      "question_summary": "What can operator prompt for?",
+      "chosen": "Template variants v1; parts catalog later",
+      "chosen_code": "D",
+      "recommended": "Variants v1, catalog phase 2",
+      "recommended_code": "D",
+      "options_considered": ["A: templates only", "B: catalog", "C: greenfield", "D: A then B"],
+      "rationale": "Aligns with staging/v2/scripts/variants.js; lowers agent failure rate."
+    },
+    {
+      "id": 10,
+      "topic": "canvas_delivery",
+      "question_summary": "How does canvas reach operator across hosts?",
+      "chosen": "Local sim server at localhost",
+      "chosen_code": "B",
+      "recommended": "Local sim server",
+      "recommended_code": "B",
+      "options_considered": ["A: Cursor canvas only", "B: local server", "C: host-adaptive", "D: MCP resources only"],
+      "rationale": "Portable across Cursor, Kimi CLI, Claude Code; extends app.py pattern."
+    },
+    {
+      "id": 11,
+      "topic": "prerequisites",
+      "question_summary": "What must operator install?",
+      "chosen": "Wokwi toolchain required; plugin preflight + setup links",
+      "chosen_code": "B",
+      "recommended": "Toolchain + preflight",
+      "recommended_code": "B",
+      "options_considered": ["A: install everything", "B: toolchain+preflight", "C: prebuilt firmware", "D: assume full stack"],
+      "rationale": "pio run and wokwi-cli cannot be faked; guided setup is plug-and-play honest."
+    },
+    {
+      "id": 12,
+      "topic": "plugin_install",
+      "question_summary": "How is plugin installed?",
+      "chosen": "Host-aware install-plugin.sh + npm MCP package",
+      "chosen_code": "C",
+      "recommended": "Install script detects host",
+      "recommended_code": "C",
+      "options_considered": ["A: npm manual config", "B: clone repo", "C: install script", "D: docs only"],
+      "rationale": "Single command across Kimi/Cursor/Claude Code; npm ships server binary."
+    },
+    {
+      "id": 13,
+      "topic": "unmatched_prompt",
+      "question_summary": "Prompt does not match variant recipe?",
+      "chosen": "Nearest variant + operator confirmation before generate",
+      "chosen_code": "B",
+      "recommended": "Nearest match + confirm",
+      "recommended_code": "B",
+      "options_considered": ["A: hard fail", "B: confirm", "C: silent guess", "D: clarify until match"],
+      "rationale": "Avoid wrong hardware; friendlier than hard fail."
+    },
+    {
+      "id": 14,
+      "topic": "deliverable",
+      "question_summary": "What does operator receive after create?",
+      "chosen": "Local project + ZIP + wokwi.com import instructions",
+      "chosen_code": "C",
+      "recommended": "Local + ZIP + import guide",
+      "recommended_code": "C",
+      "options_considered": ["A: local only", "B: local+zip", "C: +import guide", "D: auto publish URL"],
+      "rationale": "Enables Wokwi embed for circuit view; no publish API exists."
+    },
+    {
+      "id": 15,
+      "topic": "sim_server_lifecycle",
+      "question_summary": "When does local sim server run?",
+      "chosen": "Whole agent session; stop on MCP disconnect",
+      "chosen_code": "B",
+      "recommended": "Session-scoped server",
+      "recommended_code": "B",
+      "options_considered": ["A: on-demand", "B: session", "C: operator opens URL", "D: always-on daemon"],
+      "rationale": "Low latency for interactive tweaks; one wokwi-cli session per agent session."
+    },
+    {
+      "id": 16,
+      "topic": "project_storage",
+      "question_summary": "Where do generated projects live?",
+      "chosen": ".et2/projects/<id>/ in workspace, gitignored",
+      "chosen_code": "C",
+      "recommended": "Workspace .et2/projects/",
+      "recommended_code": "C",
+      "options_considered": ["A: cwd", "B: ~/.et2", "C: .et2/projects", "D: operator chooses"],
+      "rationale": "IDE-visible; git-clean; stable MCP paths."
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # Working Examples
 
+> **v2 path:** Prefer [staging/v2 templates and variants](../staging/v2/scripts/variants.js) per grill session. External **MQTT / Tinkercad bridges** below are **not** the v2 plugin path.
+
 ## Browser Automation
 
 ### Tinkercad ↔ MQTT Bridge (Puppeteer)

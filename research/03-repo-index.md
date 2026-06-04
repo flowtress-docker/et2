@@ -1,5 +1,7 @@
 # Repo Index
 
+> **v1 recipe source:** Template variants for et2 generation live in [staging/v2/scripts/variants.js](../staging/v2/scripts/variants.js) (see [grill-me_sesh](../staging/v2/docs/grill-me_sesh/manifest.yaml)).
+
 ## Tinkercad / Browser Automation
 
 - **Tinkercad-mqtt-bridge** ([https://github.com/RahmadSadli/Tinkercad-mqtt-bridge](https://github.com/RahmadSadli/Tinkercad-mqtt-bridge)) | ⭐ 0 | last updated 2025-11 | verdict: works (needs-auth) | Puppeteer-based two-way bridge between Tinkercad Serial Monitor and MQTT brokers; requires manual login and headful Chrome.

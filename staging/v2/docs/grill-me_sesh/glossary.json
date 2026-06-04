@@ -1,0 +1,111 @@
+{
+  "product_summary": "Agentic layer for Wokwi hardware simulation. Operators describe hardware in natural language instead of manually wiring wokwi.com circuits.",
+  "terms": [
+    {
+      "id": "simulation_substrate",
+      "name": "Simulation substrate",
+      "definition": "Wokwi: diagram.json, wokwi-cli, native sim UI. Hardcoded v1; no substrate abstraction.",
+      "phase": "v1",
+      "related_terms": ["agentic_layer", "live_simulation_backend"]
+    },
+    {
+      "id": "agentic_layer",
+      "name": "Agentic layer (et2)",
+      "definition": "Accepts NL intent; produces runnable Wokwi projects (circuit, firmware, scenarios, build, validation).",
+      "phase": "v1",
+      "related_terms": ["plugin", "simulation_substrate"]
+    },
+    {
+      "id": "operator_current",
+      "name": "Operator (current)",
+      "definition": "Developer in terminal with coding agent reading repo context files and scripts.",
+      "phase": "current",
+      "related_terms": ["operator_target"]
+    },
+    {
+      "id": "operator_target",
+      "name": "Operator (target)",
+      "definition": "User in agent-capable CLI (Kimi, Claude Code, Cursor). Prompts in existing chat; no separate web app.",
+      "phase": "target",
+      "related_terms": ["plugin"]
+    },
+    {
+      "id": "plugin",
+      "name": "Plugin",
+      "definition": "MCP+skill bundle plus local sim server. Installed via host-aware install-plugin.sh.",
+      "phase": "v1",
+      "related_terms": ["local_sim_server", "simulation_canvas"]
+    },
+    {
+      "id": "local_sim_server",
+      "name": "Local sim server",
+      "definition": "localhost web UI for simulation canvas. Session-scoped: starts on first MCP sim call, stops on disconnect.",
+      "phase": "v1",
+      "related_terms": ["simulation_canvas", "live_simulation_backend"]
+    },
+    {
+      "id": "simulation_canvas",
+      "name": "Simulation canvas",
+      "definition": "Circuit board view (primary), generated controls from diagram.json (supplemental), serial monitor.",
+      "phase": "v1",
+      "related_terms": ["live_simulation", "emulation_fidelity"]
+    },
+    {
+      "id": "live_simulation",
+      "name": "Live simulation",
+      "definition": "Interactive run: operator adjusts sensors/actuators; observes MCU via real Wokwi emulation.",
+      "phase": "v1",
+      "related_terms": ["live_simulation_backend", "emulation_fidelity"]
+    },
+    {
+      "id": "live_simulation_backend",
+      "name": "Live simulation backend",
+      "definition": "Hybrid: Wokwi embed primary; wokwi-cli daemon fallback; batch wokwi-cli for CI only.",
+      "phase": "v1",
+      "related_terms": ["simulation_substrate", "local_sim_server"]
+    },
+    {
+      "id": "prompt_scope_v1",
+      "name": "Prompt scope (v1)",
+      "definition": "NL maps to template variant recipes. Nearest match requires operator confirmation before generate.",
+      "phase": "v1",
+      "related_terms": ["prompt_scope_later"]
+    },
+    {
+      "id": "prompt_scope_later",
+      "name": "Parts catalog (later)",
+      "definition": "Arbitrary Wokwi part combos with agent-driven wiring and firmware.",
+      "phase": "later",
+      "related_terms": ["prompt_scope_v1"]
+    },
+    {
+      "id": "prerequisites_v1",
+      "name": "Prerequisites (v1)",
+      "definition": "wokwi-cli, WOKWI_CLI_TOKEN, PlatformIO, Node.js. Plugin preflight on first use.",
+      "phase": "v1",
+      "related_terms": ["plugin"]
+    },
+    {
+      "id": "deliverable_v1",
+      "name": "Deliverable (v1)",
+      "definition": "Local project under .et2/projects/<id>/, ZIP export, wokwi.com import instructions for embed URL.",
+      "phase": "v1",
+      "related_terms": ["project_storage_v1"]
+    },
+    {
+      "id": "project_storage_v1",
+      "name": "Project storage (v1)",
+      "definition": "Generated projects at .et2/projects/<id>/ in workspace; gitignored.",
+      "phase": "v1",
+      "related_terms": ["deliverable_v1"]
+    },
+    {
+      "id": "emulation_fidelity",
+      "name": "Emulation fidelity",
+      "definition": "Invariant: all hardware behavior from real Wokwi (wokwi-cli or native sim UI). No client-side physics fakes.",
+      "phase": "invariant",
+      "related_terms": ["simulation_canvas"],
+      "aliases": ["no_smoke_and_mirrors"]
+    }
+  ]
+}

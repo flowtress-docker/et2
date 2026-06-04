@@ -1,0 +1,49 @@
+# Grill-with-docs session index — et2 plugin architecture
+# Branch-scoped output; read meta.json for git context.
+
+session:
+  id: grill-me_sesh-2026-06-04
+  tool: grill-with-docs
+  branch: staging/v2
+  worktree_root: /Users/lab/projects/et2
+
+entrypoint: meta.json
+
+files:
+  - path: meta.json
+    format: json
+    role: Git branch, commit, worktree, generation timestamp
+
+  - path: decisions.json
+    format: json
+    schema: schemas/decisions.schema.json
+    role: All resolved Q&A from grill session (15 decisions)
+
+  - path: glossary.json
+    format: json
+    schema: schemas/glossary.schema.json
+    role: Domain terms (canonical glossary)
+
+  - path: architecture.yaml
+    format: yaml
+    role: Components, data flow, plugin layers
+
+  - path: invariants.yaml
+    format: yaml
+    role: Non-negotiable rules (emulation fidelity, etc.)
+
+  - path: status-matrix.yaml
+    format: yaml
+    role: Current vs target by aspect
+
+  - path: deliverables.yaml
+    format: yaml
+    role: Operator outputs, storage paths, prerequisites
+
+  - path: implementation-map.yaml
+    format: yaml
+    role: Links grill decisions to existing repo code
+
+related_root_files:
+  - CONTEXT.md
+    note: Slim pointer glossary at repo root; full canonical glossary is glossary.json here
