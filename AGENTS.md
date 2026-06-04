@@ -41,3 +41,7 @@ This project is indexed by GitNexus as **et2** (282 symbols, 320 relationships, 
 | Index, status, clean, wiki CLI commands | `.claude/skills/gitnexus/gitnexus-cli/SKILL.md` |
 
 <!-- gitnexus:end -->
+
+## Communication (permanent)
+
+**Caveman `ultra` default forever** — see `.cursor/rules/caveman-ultra-default.mdc` and `.cursor/skills/caveman/SKILL.md` ([upstream](https://github.com/JuliusBrussee/caveman/tree/main/skills/caveman)). Off only: user says `stop caveman` or `normal mode`.
