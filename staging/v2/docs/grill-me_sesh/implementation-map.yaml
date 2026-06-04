@@ -1,0 +1,49 @@
+# Grill decisions → existing repo assets
+
+branch: staging/v2
+
+reuse:
+  - decision: variant_engine
+    files:
+      - staging/v2/scripts/variants.js
+      - staging/v2/scripts/build-all.js
+      - staging/v2/templates/base/
+    note: v1 prompt scope = these recipes
+
+  - decision: local_sim_server
+    files:
+      - app.py
+      - static/index.html
+    note: Generalize; remove fake LCD; wire to .et2/projects paths
+
+  - decision: toolchain_preflight
+    files:
+      - staging/v2/scripts/build-all.js
+    note: Extract preflight pattern for MCP
+
+  - decision: deliverable_zip
+    files:
+      - staging/v2/context/project-overview.md
+    note: Success criteria already require zip-importable variants
+
+  - decision: install_plugin
+    files: []
+    status: not_implemented
+
+  - decision: mcp_server
+    files: []
+    status: not_implemented
+
+  - decision: skill_bundle
+    files:
+      - ~/.agents/skills/wokwi-demo-creator/SKILL.md
+    note: External skill; et2 should ship repo-local skill derived from grill + variants
+
+deferred:
+  - parts_catalog_prompt_scope
+  - cursor_canvas_tsx
+  - substrate_abstraction
+  - wokwi_alternatives_spike
+
+gitignore_additions:
+  - .et2/
