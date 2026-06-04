@@ -44,4 +44,16 @@ This project is indexed by GitNexus as **et2** (282 symbols, 320 relationships, 
 
 ## Communication (permanent)
 
-**Caveman `ultra` default forever** — see `.cursor/rules/caveman-ultra-default.mdc` and `.cursor/skills/caveman/SKILL.md` ([upstream](https://github.com/JuliusBrussee/caveman/tree/main/skills/caveman)). Off only: user says `stop caveman` or `normal mode`.
+**Caveman `ultra` default forever** — `.cursor/rules/caveman-ultra-default.mdc`. Off: `stop caveman` / `normal mode`.
+
+**Caveman skills** (from [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman), under `.cursor/skills/`):
+
+| Skill | Trigger |
+|-------|---------|
+| `caveman` | Default reply style; `/caveman [lite\|full\|ultra\|wenyan-*]` |
+| `caveman-commit` | Commit messages; `/caveman-commit` |
+| `caveman-review` | PR review comments; `/caveman-review` |
+| `caveman-compress` | Compress `.md` memory files; includes `scripts/` |
+| `caveman-help` | Command reference |
+| `caveman-stats` | Usage stats |
+| `cavecrew` | Multi-agent caveman coordination |
