@@ -1,0 +1,9 @@
+.worktrees/
+*.log
+node_modules/
+build/
+superpowers-integration/
+.gitnexus
+.gitnexus/
+context7-wokwi.json
+context7-output*.json
