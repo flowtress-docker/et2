@@ -20,9 +20,11 @@ Then open:
 
 | What | URL |
 |------|-----|
-| **Diagram index** | http://127.0.0.1:8765/ |
-| **OpenFlowKit app** | http://127.0.0.1:5173/ |
-| **System layers** | http://127.0.0.1:5173/#/view?flow=… (link on index page) |
+| **Diagram gallery (all 6)** | http://127.0.0.1:8765/gallery.html |
+| OpenFlowKit app (Home is empty) | http://127.0.0.1:5173/#/home |
+| System layers (single diagram) | http://127.0.0.1:5173/#/view?flow=… (from gallery) |
+
+**Do not expect diagrams on OpenFlowKit Home** — that screen lists flows saved in your browser. et2 ships URL-encoded viewers (`#/view?flow=…`), not Home entries.
 
 First run clones [OpenFlowKit](https://github.com/Vrun-design/openflowkit) into `.openflowkit/` and runs `npm install` (~1–2 min).
 

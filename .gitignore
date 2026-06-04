@@ -1,6 +1,7 @@
 .et2/
 .openflowkit/
 architecture/index.html
+architecture/gallery.html
 .worktrees/
 *.log
 node_modules/
