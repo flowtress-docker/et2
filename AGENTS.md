@@ -92,8 +92,24 @@ cp ".pio/build/$ENV_DIR/firmware.elf" build/ 2>/dev/null || true
 
 There is **no** root `package.json`, Makefile, Docker, or committed CI workflow on `main`. Lint/pre-commit hooks are not configured.
 
+### Wokwi simulation (verified in Cloud)
+
+With `WOKWI_CLI_TOKEN` set, `./run-demo.sh smart-thermostat` completes successfully (~8s) after firmware is in `build/` and the diagram serial wires use **`TX0`/`RX0`** (not `TX`/`RX`) in `diagram.json`.
+
+**Diagram fix (ESP32 demos):** In each worktree `diagram.json`, change serial monitor connections to:
+
+```json
+["esp:TX0", "$serialMonitor:RX", "", []],
+["esp:RX0", "$serialMonitor:TX", "", []]
+```
+
+Without this, scenarios time out waiting for serial boot text.
+
+**Scenario `expect-pin` (wokwi-cli 0.26.x):** Use pin name `D2` and field **`value`** (not `expected`), e.g. `expect-pin: { part-id: esp, pin: D2, value: 1 }`. Asserting `value: 0` can spuriously fail even when the pin reads 0; prefer ending with `wait-serial` for “cleared” states.
+
 ### Known demo build/sim caveats (as of setup)
 
-- **smart-thermostat**, **motion-alarm**, **touch-ui**: `pio run` succeeds; `wokwi-cli lint` may report diagram pin naming issues (e.g. `TX`/`RX` vs `TX0`/`RX0`) — simulation may still run.
+- **smart-thermostat**: `pio run` + scenario E2E verified with token.
+- **motion-alarm**, **touch-ui**: `pio run` succeeds; motion-alarm scenario may timeout on serial boot (LEDC init noise in log) until diagram/scenario are aligned on the demo branch.
 - **auto-blinds**: build may fail (`Servo.h` not in `platformio.ini` lib_deps).
 - **weather-station**: build may fail (`avishorp/TM1637` package not found in PlatformIO registry).
