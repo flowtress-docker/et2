@@ -1,0 +1,58 @@
+# Operator-facing outputs and requirements
+
+prerequisites:
+  required:
+    - name: wokwi-cli
+      env: []
+    - name: WOKWI_CLI_TOKEN
+      env: [WOKWI_CLI_TOKEN]
+      url: https://wokwi.com/dashboard/ci
+    - name: PlatformIO
+      command: pio
+    - name: Node.js
+      reason: MCP server runtime
+  preflight:
+    when: first MCP tool use
+    on_failure: clear errors + setup links
+
+install:
+  script: install-plugin.sh
+  hosts:
+    - cursor
+    - claude_code
+    - kimi_cli
+  artifacts:
+    - mcp_config_entry
+    - skill_file_copy
+  package: npm MCP server (path TBD at implementation)
+
+outputs:
+  per_simulation:
+    - type: directory
+      path: .et2/projects/<id>/
+      gitignored: true
+      contains:
+        - diagram.json
+        - firmware build artifacts
+        - scenarios/
+        - wokwi.toml
+        - platformio.ini
+    - type: zip
+      purpose: Manual import to wokwi.com
+    - type: instructions
+      purpose: Obtain embed URL for circuit board view
+    - type: url
+      purpose: Local sim server for interactive session
+      pattern: http://localhost:<port>/
+
+  not_in_v1:
+    - automated wokwi.com project URL creation
+    - cursor_native_canvas_tsx
+
+sim_server:
+  lifecycle: agent_session
+  start_trigger: first MCP sim-related call
+  stop_trigger: MCP disconnect
+  backend:
+    primary: wokwi_embed
+    fallback: wokwi_cli_daemon

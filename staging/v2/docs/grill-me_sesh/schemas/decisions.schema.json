@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "et2/grill/decisions",
+  "title": "GrillSessionDecisions",
+  "type": "object",
+  "required": ["session_id", "decisions"],
+  "properties": {
+    "session_id": { "type": "string" },
+    "branch": { "type": "string" },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "topic", "chosen", "recommended"],
+        "properties": {
+          "id": { "type": "integer", "minimum": 1 },
+          "topic": { "type": "string" },
+          "question_summary": { "type": "string" },
+          "chosen": { "type": "string" },
+          "chosen_code": { "type": "string", "description": "Option letter when applicable" },
+          "recommended": { "type": "string" },
+          "recommended_code": { "type": "string" },
+          "options_considered": { "type": "array", "items": { "type": "string" } },
+          "rationale": { "type": "string" }
+        }
+      }
+    }
+  }
+}

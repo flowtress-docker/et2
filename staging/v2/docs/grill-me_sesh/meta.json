@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Grill session metadata",
+  "branch": "staging/v2",
+  "branch_path_segment": "staging/v2",
+  "worktree_root": "/Users/lab/projects/et2",
+  "docs_relative_root": "staging/v2/docs/grill-me_sesh",
+  "generated_at": "2026-06-04",
+  "session_id": "grill-me_sesh-2026-06-04",
+  "commit": {
+    "sha": "ebbfed90e3140a77f52549373f184b73f7ff5f77"
+  },
+  "decisions_count": 16
+}
