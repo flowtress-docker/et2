@@ -6,7 +6,10 @@
 set -euo pipefail
 
 DEMO_NAME="${1:-}"
-WORKTREE_BASE=".worktrees"
+# Demo trees live next to main/ at container root (see docs/GIT-SCAFFOLD.md)
+_REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
+_CONTAINER="$(cd "$_REPO_ROOT/.." && pwd)"
+WORKTREE_BASE="${WORKTREE_BASE:-$_CONTAINER/.worktrees}"
 
 if [[ -z "$DEMO_NAME" ]]; then
   echo "Usage: $0 <demo-name>"

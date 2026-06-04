@@ -41,3 +41,27 @@ This project is indexed by GitNexus as **et2** (282 symbols, 320 relationships, 
 | Index, status, clean, wiki CLI commands | `.claude/skills/gitnexus/gitnexus-cli/SKILL.md` |
 
 <!-- gitnexus:end -->
+
+## Communication (permanent)
+
+**Caveman `ultra` default forever** — `.cursor/rules/caveman-ultra-default.mdc`. Off: `stop caveman` / `normal mode`.
+
+**Caveman skills** (from [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman), under `.cursor/skills/`):
+
+| Skill | Trigger |
+|-------|---------|
+| `caveman` | Default reply style; `/caveman [lite\|full\|ultra\|wenyan-*]` |
+| `caveman-commit` | Commit messages; `/caveman-commit` |
+| `caveman-review` | PR review comments; `/caveman-review` |
+| `caveman-compress` | Compress `.md` memory files; includes `scripts/` |
+| `caveman-help` | Command reference |
+| `caveman-stats` | Usage stats |
+| `cavecrew` | Multi-agent caveman coordination |
+
+**Matt Pocock skills** ([mattpocock/skills](https://github.com/mattpocock/skills), under `.cursor/skills/`):
+
+| Skill | Trigger |
+|-------|---------|
+| `handoff` | End-of-session handoff for next agent |
+| `tdd` | Test-driven development workflow |
+| `grill-with-docs` | Challenge design using docs / ADRs |
