@@ -6,28 +6,34 @@ Interactive diagrams for the **et2 v2 plugin** architecture. Canonical spec: [`s
 
 ## Quick start
 
-### Local (recommended if cloud home is empty)
+### Local (fast — recommended)
 
-`app.openflowkit.com/#/home` is an empty workspace until you create flows there. et2 diagrams are **URL-encoded** — open them via `#/view?flow=…`, not Home.
+```bash
+./scripts/serve-architecture-local.sh
+```
 
-From repo root:
+Open **http://127.0.0.1:8765/gallery-mermaid.html** — static Mermaid, instant load, edges render correctly.
+
+| What | URL |
+|------|-----|
+| **Diagram gallery (all 6)** | http://127.0.0.1:8765/gallery-mermaid.html |
+
+Generated from `architecture/*.ofk` via `scripts/ofk-to-mermaid.mjs`. No Node install beyond repo scripts.
+
+### Local OpenFlowKit editor (optional, slow)
+
+OpenFlowKit’s read-only `#/view` viewer has known edge-rendering bugs (nodes without React Flow handles). Use only if you need **Open in Editor**.
 
 ```bash
 ./scripts/serve-openflowkit-local.sh
 ```
 
-Then open:
-
 | What | URL |
 |------|-----|
-| **Diagram gallery (all 6)** | http://127.0.0.1:5173/et2-gallery.html |
-| Fallback gallery | http://127.0.0.1:8765/gallery.html |
-| OpenFlowKit app (Home is empty) | http://127.0.0.1:5173/#/home |
-| System layers (single diagram) | http://127.0.0.1:5173/#/view?flow=… (from gallery) |
+| Same-origin iframe gallery | http://127.0.0.1:5173/et2-gallery.html |
+| OpenFlowKit Home (empty) | http://127.0.0.1:5173/#/home |
 
-**Do not expect diagrams on OpenFlowKit Home** — that screen lists flows saved in your browser. et2 ships URL-encoded viewers (`#/view?flow=…`), not Home entries.
-
-First run clones [OpenFlowKit](https://github.com/Vrun-design/openflowkit) into `.openflowkit/` and runs `npm install` (~1–2 min).
+First run clones [OpenFlowKit](https://github.com/Vrun-design/openflowkit) into `.openflowkit/` and runs `npm install` (~1–2 min). **Bun does not help** — rendering runs in the browser.
 
 ### Cloud viewer
 

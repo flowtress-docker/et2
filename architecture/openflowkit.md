@@ -4,16 +4,21 @@
 
 ## For humans
 
-### Localhost
+### Localhost (fast)
+
+```bash
+./scripts/serve-architecture-local.sh
+```
+
+- Gallery: http://127.0.0.1:8765/gallery-mermaid.html (Mermaid, instant, edges OK)
+
+### Localhost (OpenFlowKit editor — optional)
 
 ```bash
 ./scripts/serve-openflowkit-local.sh
 ```
 
-- Index: http://127.0.0.1:8765/
-- Viewer: http://127.0.0.1:5173/#/view?flow=… (from index links)
-
-`#/home` stays empty until you save flows in IndexedDB; et2 diagrams use **`#/view?flow=`** links instead.
+Read-only `#/view` has upstream edge bugs (nodes render, connectors fail). Prefer Mermaid gallery for reading architecture.
 
 ### Cloud
 

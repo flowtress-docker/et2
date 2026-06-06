@@ -2,6 +2,8 @@
 .openflowkit/
 architecture/index.html
 architecture/gallery.html
+architecture/gallery-mermaid.html
+architecture/diagrams/
 .worktrees/
 *.log
 node_modules/
