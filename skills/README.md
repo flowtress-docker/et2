@@ -1,6 +1,6 @@
 # et2 skills (resources only)
 
-Agent skills for **flowtress-docker/et2** only. This directory holds reusable skill resources — not WeAreAlma / other project context (`CONTEXT.md`, `staging/`, app-specific skills, etc.).
+Agent skills for **flowtress-docker/et2** only. This directory holds reusable skill resources — not WeAreAlma project context (`CONTEXT.md`, `staging/`, app code, app-specific skills, etc.).
 
 **Canonical location:** `skills/` at the et2 repo root. Install into agent directories with:
 
@@ -8,11 +8,24 @@ Agent skills for **flowtress-docker/et2** only. This directory holds reusable sk
 ./scripts/install-skills.sh
 ```
 
+## Upstream source
+
+Primary source: **[flowtress-docker/wearealma](https://github.com/flowtress-docker/wearealma/tree/skills)** branch `skills`.
+
+```bash
+./scripts/sync-from-wearealma-skills.sh
+./scripts/install-skills.sh
+```
+
+The sync script copies **resource skills only** and skips WeAreAlma project context (app manifests, `CONTEXT.md`, staging docs, source trees).
+
+> **Cloud agents:** the Cursor GitHub App must include `flowtress-docker/wearealma` in repository access, not just `et2`.
+
 ## Contents
 
 | Directory | Source | Purpose |
 |-----------|--------|---------|
-| `gitnexus/` | [wearelama/skills](https://github.com/wearelama/skills) (private) | GitNexus MCP tools + `gitnexus://repo/et2/*` resources |
+| `gitnexus/` | wearealma/skills branch | GitNexus MCP tools + `gitnexus://repo/et2/*` resources |
 | `caveman/` | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) | Terse replies |
 | `caveman-commit/` | caveman | Conventional Commits, compressed |
 | `caveman-review/` | caveman | One-line PR review comments |
@@ -37,27 +50,14 @@ After indexing, agents can read:
 
 Refresh index: `npx gitnexus analyze` from repo root.
 
-## Sync from wearelama/skills
-
-Requires GitHub access to the private repo `wearelama/skills`:
+## Refresh public upstreams
 
 ```bash
-./scripts/sync-from-wearelama-skills.sh
-./scripts/install-skills.sh
-```
-
-The sync script copies **resource skills only** — it skips WeAreAlma project context (app manifests, `CONTEXT.md`, staging docs, project-specific agent rules).
-
-## Refresh upstream (public repos)
-
-```bash
-# Caveman
 git clone --depth 1 https://github.com/JuliusBrussee/caveman.git /tmp/caveman-upstream
 for d in /tmp/caveman-upstream/skills/*/; do
   cp -a "$d" "skills/$(basename "$d")"
 done
 
-# Matt Pocock
 git clone --depth 1 https://github.com/mattpocock/skills.git /tmp/mattpocock-skills
 cp -a /tmp/mattpocock-skills/skills/productivity/handoff skills/handoff
 cp -a /tmp/mattpocock-skills/skills/engineering/tdd skills/tdd
