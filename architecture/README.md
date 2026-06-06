@@ -20,7 +20,8 @@ Then open:
 
 | What | URL |
 |------|-----|
-| **Diagram gallery (all 6)** | http://127.0.0.1:8765/gallery.html |
+| **Diagram gallery (all 6)** | http://127.0.0.1:5173/et2-gallery.html |
+| Fallback gallery | http://127.0.0.1:8765/gallery.html |
 | OpenFlowKit app (Home is empty) | http://127.0.0.1:5173/#/home |
 | System layers (single diagram) | http://127.0.0.1:5173/#/view?flow=… (from gallery) |
 

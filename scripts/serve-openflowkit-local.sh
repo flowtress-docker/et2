@@ -6,7 +6,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OFK_DIR="${OPENFLOWKIT_DIR:-$ROOT/.openflowkit}"
 OFK_PORT="${OPENFLOWKIT_PORT:-5173}"
 INDEX_PORT="${ARCHITECTURE_INDEX_PORT:-8765}"
-APP_URL="http://localhost:${OFK_PORT}"
+APP_URL="http://127.0.0.1:${OFK_PORT}"
 
 clone_if_needed() {
   if [[ -f "$OFK_DIR/package.json" ]]; then
@@ -25,14 +25,19 @@ install_if_needed() {
 }
 
 regen_index() {
-  echo "Generating architecture index for $APP_URL …"
+  echo "Generating architecture gallery for $APP_URL …"
   (cd "$ROOT/scripts" && npm install --silent 2>/dev/null || true)
-  node "$ROOT/scripts/generate-architecture-index.mjs" "$ROOT/architecture" "$APP_URL"
+  mkdir -p "$OFK_DIR/public"
+  node "$ROOT/scripts/generate-architecture-index.mjs" \
+    "$ROOT/architecture" \
+    "$APP_URL" \
+    "$OFK_DIR/public/et2-gallery.html"
 }
 
 start_openflowkit() {
   if curl -sf "http://127.0.0.1:${OFK_PORT}/" >/dev/null 2>&1; then
     echo "OpenFlowKit already listening on $APP_URL"
+    regen_index
     return 0
   fi
   echo "Starting OpenFlowKit dev server on $APP_URL …"
@@ -61,16 +66,21 @@ start_index() {
 main() {
   clone_if_needed
   install_if_needed
-  regen_index
   start_openflowkit
+  regen_index
   start_index
-  layers_url="$(node -e "const b='$APP_URL'; const u=JSON.parse(require('fs').readFileSync('$ROOT/architecture/viewer-urls.json','utf8'))['et2-system-layers'].viewerUrl; console.log(u.replace(/^https?:\\/\\/[^#]+/, b))")"
+  layers_url="$(node --input-type=module -e "
+    import { readFileSync } from 'node:fs';
+    import { rewriteViewerUrl } from '$ROOT/scripts/generate-architecture-index.mjs';
+    const u = JSON.parse(readFileSync('$ROOT/architecture/viewer-urls.json','utf8'))['et2-system-layers'].viewerUrl;
+    console.log(rewriteViewerUrl(u, '$APP_URL'));
+  ")"
   echo ""
   echo "=== et2 architecture (localhost) ==="
-  echo "Gallery:  http://127.0.0.1:${INDEX_PORT}/gallery.html  ← all 6 diagrams (use this)"
-  echo "Index:    http://127.0.0.1:${INDEX_PORT}/"
+  echo "Gallery:  ${APP_URL}/et2-gallery.html  ← use this (same-origin, fixed URLs)"
+  echo "Fallback: http://127.0.0.1:${INDEX_PORT}/gallery.html"
   echo ""
-  echo "OpenFlowKit Home (${APP_URL}/#/home) stays empty — et2 diagrams are not saved flows."
+  echo "OpenFlowKit Home (${APP_URL}/#/home) stays empty — et2 diagrams use #/view links."
   echo "Layers:   ${layers_url}"
   echo ""
   echo "Press Ctrl+C to stop background servers started from this script."
