@@ -6,6 +6,8 @@ Interactive diagrams for the **et2 v2 plugin** architecture. Canonical spec: [`s
 
 ## Quick start
 
+**Continuing as an agent?** Copy the prompt from [AGENT-CONTINUE.md](AGENT-CONTINUE.md).
+
 ### Local (fast — recommended)
 
 ```bash
