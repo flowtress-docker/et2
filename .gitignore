@@ -5,3 +5,5 @@ build/
 superpowers-integration/
 .gitnexus
 .gitnexus/
+.cursor/skills/
+.claude/skills/
