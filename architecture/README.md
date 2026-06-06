@@ -6,6 +6,39 @@ Interactive diagrams for the **et2 v2 plugin** architecture. Canonical spec: [`s
 
 ## Quick start
 
+**Continuing as an agent?** Copy the prompt from [AGENT-CONTINUE.md](AGENT-CONTINUE.md).
+
+### Local (fast — recommended)
+
+```bash
+./scripts/serve-architecture-local.sh
+```
+
+Open **http://127.0.0.1:8765/gallery-mermaid.html** — static Mermaid, instant load, edges render correctly.
+
+| What | URL |
+|------|-----|
+| **Diagram gallery (all 6)** | http://127.0.0.1:8765/gallery-mermaid.html |
+
+Generated from `architecture/*.ofk` via `scripts/ofk-to-mermaid.mjs`. No Node install beyond repo scripts.
+
+### Local OpenFlowKit editor (optional, slow)
+
+OpenFlowKit’s read-only `#/view` viewer has known edge-rendering bugs (nodes without React Flow handles). Use only if you need **Open in Editor**.
+
+```bash
+./scripts/serve-openflowkit-local.sh
+```
+
+| What | URL |
+|------|-----|
+| Same-origin iframe gallery | http://127.0.0.1:5173/et2-gallery.html |
+| OpenFlowKit Home (empty) | http://127.0.0.1:5173/#/home |
+
+First run clones [OpenFlowKit](https://github.com/Vrun-design/openflowkit) into `.openflowkit/` and runs `npm install` (~1–2 min). **Bun does not help** — rendering runs in the browser.
+
+### Cloud viewer
+
 **[Open system layers diagram →](https://app.openflowkit.com/#/view?flow=~eNptkj1rwzAQhnf9iiNrmw4ZBcmQFEqhIYGm7RAyyIoSHznrjCTbhNL_XtmOP0ozGN-H9HDvvToRVxJMmEE5gy0VZ7SgnE4xGB0KZ4DU1TgvjuhiAdlK2C2F2CeOK2_cATg3TgV2Eja3CL4BdX1w8hFPTB5BM9X9SUKFmcCP2OeOtfH-AGh9UESyC6Z5M8GTTwfIM1eWWB1HIE8qtCR_9cFkB1BnY4OEFR_RntsMHsBfkGggLTmMICUymfCHkulcwnq1hTh3aUZC3pv8_uVeTKkcKhu8hM82AmOjGDNgXjAsnbI6HZFUlkTyH1BgJp0qjFe2UemJXfa6iXIqvlQ41YQDcWdchlbRXWAny2PmXSnhjbWiOvunb80Wo3MjismimXRsOOP3cGinkPBV_8AXiQ_R9ZHIVV7c54juqcB8vmg9EjffYbqoly9a4-p2ncWvibvFii5oqv2W-nOtTtE3mmIzrmhbo8Iv9ycEGw)**
 
 Pan, zoom, and explore. Use **Open in Editor** in the viewer toolbar to edit the layout.

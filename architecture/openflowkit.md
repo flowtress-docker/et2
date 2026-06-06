@@ -4,6 +4,24 @@
 
 ## For humans
 
+### Localhost (fast)
+
+```bash
+./scripts/serve-architecture-local.sh
+```
+
+- Gallery: http://127.0.0.1:8765/gallery-mermaid.html (Mermaid, instant, edges OK)
+
+### Localhost (OpenFlowKit editor — optional)
+
+```bash
+./scripts/serve-openflowkit-local.sh
+```
+
+Read-only `#/view` has upstream edge bugs (nodes render, connectors fail). Prefer Mermaid gallery for reading architecture.
+
+### Cloud
+
 1. Open [`architecture/README.md`](README.md).
 2. Click **View** on **System layers** (or any diagram).
 3. Pan, zoom, and explore at [app.openflowkit.com](https://app.openflowkit.com) (use **Open in Editor** in the viewer toolbar to edit).
